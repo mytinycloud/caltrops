@@ -1,0 +1,3 @@
+/character-sheet/node_modules/*
+/character-sheet/dist/*
+*/package-lock.json
