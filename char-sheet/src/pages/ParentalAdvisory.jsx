@@ -24,7 +24,6 @@ function ParentalAdvisory() {
     ]
   })
 
-
   return (
     <div>
       <h1 className='text-center font-bold text-4xl mt-20'> {`${name} Character Sheet`} </h1>

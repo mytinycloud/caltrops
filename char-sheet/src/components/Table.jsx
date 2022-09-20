@@ -9,8 +9,12 @@ import {ImCross} from 'react-icons/im'
 
 function Table({title, data}) {
 
+  const handleAdd = () => {
+    console.log('adding')
+  }
+
   return (
-    <div className=''>
+    <div  className=''>
       <h2 className='text-2xl my-4'>{title}</h2>
       <table className="table table-compact">
         <thead>
@@ -24,7 +28,7 @@ function Table({title, data}) {
         <tbody>
           {data.content.map((items, index) => {
             return(
-              <tr className=''>
+              <tr className='hover'>
                 <td>{index+1}</td>
               {items.map((item, idx2) => {
                 return (
@@ -33,16 +37,20 @@ function Table({title, data}) {
               })}
               <td className='tooltip cursor-pointer border-none' data-tip="Remove" 
               >
-                  <ImCross 
-                    size={15} 
-                    color='#F00' 
-                     >
-                  </ImCross>
-                </td>
+                <ImCross 
+                  size={20}
+                  color='#F00' 
+                    >
+                </ImCross>
+              </td>
               </tr>
           )})}          
         </tbody>
       </table>
+      <div className='w-full flex my-4'>
+        <button className='text-center text-lg mx-auto px-8 btn' onClick={handleAdd}>Add</button>
+      </div>
+     
     </div>
   )
 }
