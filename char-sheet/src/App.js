@@ -1,10 +1,12 @@
 import React from 'react';
 import './app.css';
 
+import ParentalAdvisory from './pages/ParentalAdvisory';
+
 const App = (props) => {
   return (
     <div>
-      <button className="btn">Hello yo fuck</button>
+      <ParentalAdvisory></ParentalAdvisory>
     </div>
   );
 };
