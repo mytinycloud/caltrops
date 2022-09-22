@@ -10,9 +10,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: ./char-sheet
     steps:
       - uses: actions/checkout@v2
-      - run: cd ./char-sheet
       - uses: actions/setup-node@v2
         with:
           node-version: 16
