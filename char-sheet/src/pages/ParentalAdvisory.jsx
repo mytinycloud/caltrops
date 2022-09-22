@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { airlockRuleset } from '../data/airlocks'
 import Table from '../components/Table'
 import SkillTable from '../components/SkillTable'
-import { setTheme } from '../lib/util'
+import { setTheme, modifyObject } from '../lib/util'
 
 /* 
   - Top level parent component responsible for all state management
@@ -48,7 +48,7 @@ function ParentalAdvisory() {
         <SkillTable
           skills={rules.skills}
           scores={sheet.skills}
-          setScores={(scores) => {}}
+          setScores={(scores) => {setSheet(modifyObject(sheet, 'skills', scores))}}
         />
         <Table
           title={'Equipment'}
