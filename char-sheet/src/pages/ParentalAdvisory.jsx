@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { airlockRuleset } from '../data/airlocks'
 import Table from '../components/Table'
-
-import { setTheme } from '../util/util'
+import SkillTable from '../components/SkillTable'
+import { setTheme } from '../lib/util'
 
 /* 
   - Top level parent component responsible for all state management
@@ -45,9 +45,10 @@ function ParentalAdvisory() {
       <h2 className='text-center mt-4'> {`Spacer-Bard Gene Splicer`} </h2>
       {/* Character, attributes, status effects Info tables */}
       <section className='flex mx-4 justify-around basis-full mt-20'>
-        <Table
-          title={'Equipment'}
-          data={equipment}
+        <SkillTable
+          skills={rules.skills}
+          scores={sheet.skills}
+          setScores={(scores) => {}}
         />
         <Table
           title={'Equipment'}
