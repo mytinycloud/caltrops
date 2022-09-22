@@ -1,7 +1,7 @@
 
 export const airlockRuleset = {
     name: 'Airlocks',
-    theme: 'cyberpunk',
+    theme: 'business',
     skills: [
         {
             name: 'Observation',
@@ -60,7 +60,7 @@ export const airlockRuleset = {
             description: '',
         },
         {
-            name: 'Science',
+            name: 'Survival',
             description: '',
         },
     ],
