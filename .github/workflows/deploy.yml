@@ -12,6 +12,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
+      - run: cd ./char-sheet
       - uses: actions/setup-node@v2
         with:
           node-version: 16
