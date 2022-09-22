@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import { skillCost, totalSkillCost } from '../lib/caltrops'
+import React from 'react'
+import { totalSkillCost } from '../lib/caltrops'
 
 /* 
  * Skill table.
