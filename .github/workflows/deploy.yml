@@ -3,8 +3,7 @@ name: Deploy character sheets
 on:
   push:
     branches:
-      - main
-      - workflow
+      - deploy
 
 jobs:
   build:
