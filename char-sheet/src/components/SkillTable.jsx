@@ -15,7 +15,7 @@ function SkillTable({skills, scores, setScores}) {
   const [isEditing, setisEditing] = useState(false)
 
   return (
-    <div  className=''>
+    <div  className='px-8'>
       <h2 className='text-2xl my-4'>Skills</h2>
 
       <button className='btn btn-ghost btn-square btn-md' onClick={() => setisEditing(!isEditing)}>
@@ -36,8 +36,8 @@ function SkillTable({skills, scores, setScores}) {
           {skills.map(s => {
             return(
               <tr className='hover' >
-                <td>{s.name}</td>
-                <td>
+                <td className='py-4'>{s.name}</td>
+                <td className='text-center'>
                   <PointEntryBox
                     value={scores[s.name] ?? 0}
                     setValue={(v) => {setScores(modifyObject(scores, s.name, v))}}
@@ -48,7 +48,7 @@ function SkillTable({skills, scores, setScores}) {
           )})}
         </tbody>
         <thead>
-          <tr className='px-2'>
+          <tr className='px-2 text-center'>
             <th>Skill cost</th>
             <th>{totalCost}</th>
           </tr>

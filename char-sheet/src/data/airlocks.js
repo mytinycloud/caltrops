@@ -5,7 +5,7 @@ export const airlockRuleset = {
     skills: [
         {
             name: 'Observation',
-            description: 'The capacity to observe the details of ones surroundings',
+            description: "The capacity to observe the details of one's surroundings",
         },
         {
             name: 'Gunnary',
