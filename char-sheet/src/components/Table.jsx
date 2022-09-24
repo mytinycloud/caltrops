@@ -25,24 +25,27 @@ function Table({title, data}) {
             })}
           </tr>
         </thead>
-        <tbody>
+        <tbody className=''>
           {data.content.map((items, index) => {
             return(
               <tr className='hover'>
                 <td>{index+1}</td>
-              {items.map((item, idx2) => {
-                return (
-                  <td>{item}</td>
-                )
-              })}
-              <td className='tooltip cursor-pointer border-none' data-tip="Remove" 
-              >
-                <ImCross 
-                  size={20}
-                  color='#F00' 
-                    >
-                </ImCross>
-              </td>
+                {items.map((item, idx2) => {
+                  return (
+                    <td>{item}</td>
+                  )
+                })}
+                <td className='tooltip cursor-pointer border-none' data-tip="Remove">
+                  <ImCross 
+                    size={20}
+                    // This comes from the theme label 'error' in tailwind.config.js. 
+                    // Instead of now specifying class colours (e.g. text-red-400), we can use the labels from the theme
+                    // for consistent styling.
+                    // Details on all available variations https://daisyui.com/docs/colors/ under 'List of all daisyUI color names'
+                    className='text-error' 
+                      >
+                  </ImCross>
+                </td>
               </tr>
           )})}          
         </tbody>
