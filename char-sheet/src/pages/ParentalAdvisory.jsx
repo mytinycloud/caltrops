@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { airlockRuleset } from '../data/airlocks'
+import airlockRuleset from '../data/airlocks'
 import Table from '../components/Table'
 import SkillTable from '../components/SkillTable'
 import InfoTable from '../components/InfoTable'
