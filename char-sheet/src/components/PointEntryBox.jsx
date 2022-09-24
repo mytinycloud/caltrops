@@ -5,7 +5,11 @@ import React from 'react'
  * This displays and allows editing of a single value
  */
 /* TODO: Are points lockable? E.g. once a value has been set, 
-    it can currently be both incremented and decremented. Is this what you want? */
+ *  it can currently be both incremented and decremented. Is this what you want?
+ * 
+ * Ideally the points would not be decremented once locked - but i'll leave it to the outer state to update the min value if that happens.
+ * Its kindof a pain to actually lock things like this anyway, as users always make mistakes.  
+ */
 function PointEntryBox({value, setValue, isEditable=false, min=0, max=9}) {
 
   const isInvisible = isEditable ? "opacity-100" : 'opacity-0'
