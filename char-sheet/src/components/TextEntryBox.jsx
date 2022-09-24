@@ -5,7 +5,7 @@ import React from 'react'
  * Text entry box
  * This displays and allows editing of a string
  */
-function TextEntry({value, setValue, isEditable=false, placeholder='', limit=32}) {
+function TextEntryBox({value, setValue, isEditable=false, placeholder='', limit=32}) {
   if (isEditable)
   {
     return (
@@ -30,4 +30,4 @@ function TextEntry({value, setValue, isEditable=false, placeholder='', limit=32}
   }
 }
 
-export default TextEntry
+export default TextEntryBox

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { totalSkillCost } from '../lib/caltrops'
 import { modifyObject } from '../lib/util'
-import PointEntry from './PointEntry'
+import PointEntryBox from './PointEntryBox'
 
 import { ImPencil, ImLock } from 'react-icons/im'
 
@@ -29,7 +29,7 @@ function SkillTable({skills, scores, setScores, isEditable = false}) {
               <tr className='hover' >
                 <td>{s.name}</td>
                 <td>
-                  <PointEntry
+                  <PointEntryBox
                     value={scores[s.name] ?? 0}
                     setValue={(v) => {setScores(modifyObject(scores, s.name, v))}}
                     isEditable={isEditable}

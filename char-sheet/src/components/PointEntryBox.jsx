@@ -6,7 +6,7 @@ import React from 'react'
  * Point entry box
  * This displays and allows editing of a single value
  */
-function PointEntry({value, setValue, isEditable=false, min=0, max=9}) {
+function PointEntryBox({value, setValue, isEditable=false, min=0, max=9}) {
   if (isEditable)
   {
     return (
@@ -41,4 +41,4 @@ function PointEntry({value, setValue, isEditable=false, min=0, max=9}) {
   }
 }
 
-export default PointEntry
+export default PointEntryBox
