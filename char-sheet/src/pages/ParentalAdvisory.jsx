@@ -3,6 +3,8 @@ import { airlockRuleset } from '../data/airlocks'
 import Table from '../components/Table'
 import SkillTable from '../components/SkillTable'
 import InfoTable from '../components/InfoTable'
+import AttributeTable from '../components/AttributeTable'
+
 import { setTheme, modifyObject } from '../lib/util'
 
 import { ImPencil, ImLock } from 'react-icons/im'
@@ -26,15 +28,7 @@ function ParentalAdvisory() {
       },
       equipment: [],
       skills: {},
-      attributes: {
-        str: 1,
-        dex: 1,
-        int: 1,
-        will: 1,
-      },
-      aspects: {
-        
-      }
+      attributes: {},
   })
   const [isEditable, setIsEditable] = useState(false);
 
@@ -52,7 +46,6 @@ function ParentalAdvisory() {
 
   return (
     <div>
-
       <button className='btn btn-ghost btn-square btn-md' onClick={() => setIsEditable(!isEditable)}>
       { isEditable
         ? <ImLock size={20}/>
@@ -64,13 +57,21 @@ function ParentalAdvisory() {
       <section className='flex mx-4 justify-around basis-full mt-20'>
         <InfoTable
           info={sheet.info}
-          setInfo={(info) => {setSheet(modifyObject(sheet, 'info', info))}}
+          setInfo={info => {setSheet(modifyObject(sheet, 'info', info))}}
+          isEditable={isEditable}
+        />
+        <AttributeTable
+          attributes={rules.attributes}
+          scores={sheet.attributes}
+          setScores={scores => {setSheet(modifyObject(sheet, 'attributes', scores))}}
+          level={sheet.info.level}
           isEditable={isEditable}
         />
         <SkillTable
           skills={rules.skills}
           scores={sheet.skills}
-          setScores={(scores) => {setSheet(modifyObject(sheet, 'skills', scores))}}
+          setScores={scores => {setSheet(modifyObject(sheet, 'skills', scores))}}
+          level={sheet.info.level}
           isEditable={isEditable}
         />
         <Table

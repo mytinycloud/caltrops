@@ -12,7 +12,7 @@ import TextEntryBox from './TextEntryBox'
 function InfoTable({info, setInfo, isEditable=false}) {
 
   return (
-    <div  className=''>
+    <div className='px-8'>
       <h2 className='text-2xl my-4'>Info</h2>
       <table className="table table-compact">
         <thead>

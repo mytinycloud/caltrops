@@ -1,5 +1,8 @@
+import { DEFAULT_RULES, Rules } from '../lib/rules'
 
-export const airlockRuleset = {
+const airlockRuleset: Rules = {
+    ...DEFAULT_RULES,
+
     name: 'Airlocks',
     theme: 'atompunkmoderna',
     skills: [
@@ -99,3 +102,5 @@ export const airlockRuleset = {
         },
     ]
 }
+
+export default airlockRuleset;

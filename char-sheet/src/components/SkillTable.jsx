@@ -1,20 +1,19 @@
 import React, { useState } from 'react'
-import { totalSkillCost } from '../lib/caltrops'
 import { modifyObject } from '../lib/util'
 import PointEntryBox from './PointEntryBox'
-
-import { ImPencil, ImLock } from 'react-icons/im'
+import caltrops from '../lib/caltrops'
 
 /* 
  * Skill table.
  * This consumes the rules.skills for skill metadata, and sheets.skills for skill values.
  */
 
-function SkillTable({skills, scores, setScores, isEditable = false}) {
-  let totalCost = totalSkillCost(scores)
+function SkillTable({skills, scores, setScores, level, isEditable = false}) {
+  let totalCost = caltrops.totalSkillCost(scores)
+  let maxCost = caltrops.maxSkillCost(level)
 
   return (
-    <div  className='px-8'>
+    <div className='px-8'>
       <h2 className='text-2xl my-4'>Skills</h2>
       <table className="table table-compact">
         <thead>
@@ -41,7 +40,7 @@ function SkillTable({skills, scores, setScores, isEditable = false}) {
         <tfoot>
           <tr className='px-2 text-center'>
             <th>Skill cost</th>
-            <th>{totalCost}</th>
+            <th>{totalCost} / {maxCost}</th>
           </tr>
         </tfoot>
       </table>
