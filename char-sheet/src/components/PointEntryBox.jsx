@@ -14,14 +14,14 @@ function PointEntryBox({value, setValue, isEditable=false, min=0, max=9}) {
     <div className="flex justify-evenly items-center">
       <button
         className={`btn btn-accent btn-square btn-xs ${isInvisible} transition-all`}
-        disabled={value > min ? "" : "disabled"}
+        disabled={(isEditable && value > min) ? "" : "disabled"}
         onClick={()=>setValue(value-1)}>
         <p>-</p>
       </button>
       <p className='py-0 mx-2 text-center'> {value} </p>
       <button
         className={`btn btn-accent btn-square btn-xs ${isInvisible} transition-all`}
-        disabled={value < max ? "" : "disabled"}
+        disabled={(isEditable && value < max) ? "" : "disabled"}
         onClick={()=>setValue(value+1)}>
         <p>+</p>
       </button>
