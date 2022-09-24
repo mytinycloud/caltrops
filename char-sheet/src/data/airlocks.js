@@ -1,7 +1,7 @@
 
 export const airlockRuleset = {
     name: 'Airlocks',
-    theme: 'cupcake',
+    theme: 'light',
     skills: [
         {
             name: 'Observation',
