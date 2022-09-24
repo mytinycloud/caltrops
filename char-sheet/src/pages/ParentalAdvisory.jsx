@@ -47,7 +47,7 @@ function ParentalAdvisory() {
       </button>
 
       {/* Character, attributes, status effects Info tables */}
-      <section className='flex mx-4 justify-around basis-full mt-20'>
+      <section className='flex mx-4 justify-around basis-full mt-4'>
         <InfoTable
           info={sheet.info}
           setInfo={info => {setSheet(modifyObject(sheet, 'info', info))}}
