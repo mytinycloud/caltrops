@@ -6,8 +6,12 @@ import InfoTable from '../components/InfoTable'
 import AttributeTable from '../components/AttributeTable'
 
 import { setTheme, modifyObject } from '../lib/util'
+import caltrops from '../lib/caltrops'
 
 import { ImPencil, ImLock } from 'react-icons/im'
+
+
+let defaultSheet = caltrops.newSheet(airlockRuleset);
 
 /* 
   - Top level parent component responsible for all state management
@@ -17,19 +21,8 @@ import { ImPencil, ImLock } from 'react-icons/im'
   - Further lookup and controlling logic can be split out into modules if desired
 */
 function ParentalAdvisory() {
-
   const [rules, setRules] = useState(airlockRuleset)
-  const [sheet, setSheet] = useState({
-      rules: rules.name,
-      info: {
-        name: 'Mork Borgison',
-        level: 3,
-        background: '',
-      },
-      equipment: [],
-      skills: {},
-      attributes: {},
-  })
+  const [sheet, setSheet] = useState(defaultSheet)
   const [isEditable, setIsEditable] = useState(false);
 
   setTheme(rules.theme);

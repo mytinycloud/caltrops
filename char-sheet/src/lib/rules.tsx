@@ -35,6 +35,18 @@ export interface Rules {
     carrySlots: CarrySlot[],
 }
 
+export interface Sheet {
+    rules: string,
+    info: {
+        name: string,
+        level: number,
+        background: string,
+    },
+    equipment: any,
+    skills: {[key: string]: number},
+    attributes: {[key: string]: number},
+}
+
 export const DEFAULT_RULES: Rules = {
     name: 'default',
     theme: 'light',

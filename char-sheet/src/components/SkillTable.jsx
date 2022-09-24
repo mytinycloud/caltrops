@@ -9,8 +9,9 @@ import caltrops from '../lib/caltrops'
  */
 
 function SkillTable({skills, scores, setScores, level, isEditable = false}) {
-  let totalCost = caltrops.totalSkillCost(scores)
-  let maxCost = caltrops.maxSkillCost(level)
+  let totalCost = caltrops.skillCostTotal(scores)
+  let maxCost = caltrops.skillCostMax(level)
+  let sparePoints = maxCost - totalCost;
 
   return (
     <div className='px-8'>
@@ -24,14 +25,16 @@ function SkillTable({skills, scores, setScores, level, isEditable = false}) {
         </thead>
         <tbody>
           {skills.map(s => {
+            let value = scores[s.name] ?? 0
             return(
               <tr className='hover' >
                 <td className='py-4'>{s.name}</td>
                 <td className='text-center'>
                   <PointEntryBox
-                    value={scores[s.name] ?? 0}
+                    value={value}
                     setValue={(v) => {setScores(modifyObject(scores, s.name, v))}}
                     isEditable={isEditable}
+                    isCapped={caltrops.skillIncrementCost(value) > sparePoints}
                   />
                 </td>
               </tr>

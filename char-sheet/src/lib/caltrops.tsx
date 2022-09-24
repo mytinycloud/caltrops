@@ -1,4 +1,4 @@
-import { Attribute } from './rules'
+import { Attribute, Rules, Sheet } from './rules'
 
 const SKILL_COST = [
     0,
@@ -11,6 +11,11 @@ const SKILL_COST = [
 ]
 const SKILL_COST_ONGOING = 3
 
+const ATTRIBUTE_MIN = 1
+const ATTRIBUTE_MAX = 4
+const ASPECT_MAX = 9
+const ATTRIBUTE_TOTAL_MAX = 8
+
 function skillCost(score: number): number {
     if (score < SKILL_COST.length) {
         return SKILL_COST[score]
@@ -19,7 +24,12 @@ function skillCost(score: number): number {
     }
 }
 
-function totalSkillCost(scores: number[]): number {
+function skillIncrementCost(score: number): number {
+    // Todo. Make this less wasteful.
+    return skillCost(score+1) - skillCost(score)
+}
+
+function skillCostTotal(scores: number[]): number {
     let sum = 0;
     for (const s in scores) {
         sum += skillCost(scores[s])
@@ -27,19 +37,23 @@ function totalSkillCost(scores: number[]): number {
     return sum;
 }
 
-function maxSkillCost(level: number): number {
+function skillCostMax(level: number): number {
     return level * 3;
 }
 
-function maxAttributes(level: number): number {
-    return 8;
+function attributeTotal(attributes: Attribute[], scores: any): number {
+    let sum = 0;
+    for (const attr of attributes) {
+        sum += scores[attr.name] ?? 0
+    }
+    return sum;
 }
 
-function maxAspects(level: number): number {
+function aspectTotalMax(level: number): number {
     return level;
 }
 
-function totalAspects(attributes: Attribute[], scores: any): number {
+function aspectTotal(attributes: Attribute[], scores: any): number {
     let sum = 0;
     for (const attr of attributes) {
         const base = scores[attr.name] ?? 0
@@ -50,21 +64,55 @@ function totalAspects(attributes: Attribute[], scores: any): number {
     return sum;
 }
 
-function totalAttributes(attributes: Attribute[], scores: any): number {
-    let sum = 0;
-    for (const attr of attributes) {
-        sum += scores[attr.name] ?? 0
+/*
+  Modifies the given attribute - adjusting the child aspects
+*/
+function attributeModify(scores: any, attribute: Attribute, value: number): any {
+    let newScores = {...scores}
+    let delta = value - (scores[attribute.name] ?? 0)
+    newScores[attribute.name] = value
+    for (const aspect of attribute.aspects) {
+        let aspectScore = (scores[aspect.name] ?? 0) + delta
+        newScores[aspect.name] = aspectScore > ASPECT_MAX ? ASPECT_MAX : aspectScore;
     }
-    return sum;
+    return newScores
+}
+
+function newSheet(rules: Rules): Sheet {
+    console.log('Creating new sheet....')
+    let sheet: Sheet = {
+        rules: rules.name,
+        info: {
+            name: 'Mork Borginson',
+            level: 1,
+            background: '',
+        },
+        equipment: [],
+        skills: {},
+        attributes: {},
+    }
+    for (const attribute of rules.attributes) {
+        sheet.attributes[attribute.name] = ATTRIBUTE_MIN
+        for (const aspect of attribute.aspects) {
+            sheet.attributes[aspect.name] = ATTRIBUTE_MIN
+        }
+    }
+    return sheet;
 }
 
 const caltrops = {
     skillCost: skillCost,
-    totalSkillCost: totalSkillCost,
-    maxSkillCost: maxSkillCost,
-    maxAttributes: maxAttributes,
-    maxAspects: maxAspects,
-    totalAspects: totalAspects,
-    totalAttributes: totalAttributes
+    skillIncrementCost: skillIncrementCost,
+    skillCostTotal: skillCostTotal,
+    skillCostMax: skillCostMax,
+    attributeMin: ATTRIBUTE_MIN,
+    attributeMax: ATTRIBUTE_MAX,
+    attributeTotalMax: ATTRIBUTE_TOTAL_MAX,
+    aspectMax: ASPECT_MAX,
+    attributeTotal: attributeTotal,
+    attributeModify: attributeModify,
+    aspectTotal: aspectTotal,
+    aspectTotalMax: aspectTotalMax,
+    newSheet: newSheet,
 }
 export default caltrops;
