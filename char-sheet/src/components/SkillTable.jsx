@@ -14,8 +14,8 @@ function SkillTable({skills, scores, setScores, isEditable = false}) {
   let totalCost = totalSkillCost(scores)
 
   return (
-    <div  className=''>
-      <h2 className='text-2xl my-4'>Skills</h2>      
+    <div  className='px-8'>
+      <h2 className='text-2xl my-4'>Skills</h2>
       <table className="table table-compact">
         <thead>
           <tr className='px-2'>
@@ -27,8 +27,8 @@ function SkillTable({skills, scores, setScores, isEditable = false}) {
           {skills.map(s => {
             return(
               <tr className='hover' >
-                <td>{s.name}</td>
-                <td>
+                <td className='py-4'>{s.name}</td>
+                <td className='text-center'>
                   <PointEntryBox
                     value={scores[s.name] ?? 0}
                     setValue={(v) => {setScores(modifyObject(scores, s.name, v))}}
@@ -39,7 +39,7 @@ function SkillTable({skills, scores, setScores, isEditable = false}) {
           )})}
         </tbody>
         <tfoot>
-          <tr className='px-2'>
+          <tr className='px-2 text-center'>
             <th>Skill cost</th>
             <th>{totalCost}</th>
           </tr>

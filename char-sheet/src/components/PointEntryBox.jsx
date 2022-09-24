@@ -1,44 +1,36 @@
 import React from 'react'
 
-
-
 /* 
  * Point entry box
  * This displays and allows editing of a single value
  */
+/* TODO: Are points lockable? E.g. once a value has been set, 
+ *  it can currently be both incremented and decremented. Is this what you want?
+ * 
+ * Ideally the points would not be decremented once locked - but i'll leave it to the outer state to update the min value if that happens.
+ * Its kindof a pain to actually lock things like this anyway, as users always make mistakes.  
+ */
 function PointEntryBox({value, setValue, isEditable=false, min=0, max=9}) {
-  if (isEditable)
-  {
-    return (
-      <table>
-        <tr>
-          <td>
-            <button
-              className='btn btn-accent btn-square btn-xs'
-              disabled={value > min ? "" : "disabled"}
-              onClick={()=>setValue(value-1)}>
-              <b>-</b>
-            </button>
-          </td>
-          <td>
-            {value}
-          </td>
-          <td>
-            <button
-              className='btn btn-accent btn-square btn-xs'
-              disabled={value < max ? "" : "disabled"}
-              onClick={()=>setValue(value+1)}>
-              <b>+</b>
-            </button>
-          </td>
-        </tr>
-      </table>
-    )
-  }
-  else
-  {
-    return value;
-  }
+
+  const isInvisible = isEditable ? "opacity-100" : 'opacity-0'
+
+  return (
+    <div className="flex justify-evenly items-center">
+      <button
+        className={`btn btn-accent btn-square btn-xs ${isInvisible} transition-all`}
+        disabled={(isEditable && value > min) ? "" : "disabled"}
+        onClick={()=>setValue(value-1)}>
+        <p>-</p>
+      </button>
+      <p className='py-0 mx-2 text-center'> {value} </p>
+      <button
+        className={`btn btn-accent btn-square btn-xs ${isInvisible} transition-all`}
+        disabled={(isEditable && value < max) ? "" : "disabled"}
+        onClick={()=>setValue(value+1)}>
+        <p>+</p>
+      </button>
+    </div>
+  )
 }
 
 export default PointEntryBox
