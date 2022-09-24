@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { airlockRuleset } from '../data/airlocks'
+import airlockRuleset from '../data/airlocks'
 import Table from '../components/Table'
 import SkillTable from '../components/SkillTable'
+import InfoTable from '../components/InfoTable'
+import AttributeTable from '../components/AttributeTable'
+
 import { setTheme, modifyObject } from '../lib/util'
+import caltrops from '../lib/caltrops'
+
+import { ImPencil, ImLock } from 'react-icons/im'
+
+
+let defaultSheet = caltrops.newSheet(airlockRuleset);
 
 /* 
   - Top level parent component responsible for all state management
@@ -12,20 +21,9 @@ import { setTheme, modifyObject } from '../lib/util'
   - Further lookup and controlling logic can be split out into modules if desired
 */
 function ParentalAdvisory() {
-
   const [rules, setRules] = useState(airlockRuleset)
-  const [sheet, setSheet] = useState({
-      rules: rules.name,
-      info: {
-        name: 'Adam Smasher',
-        level: 3,
-        age: 25,
-        background: '',
-        description: '',
-      },
-      equipment: [],
-      skills: {}
-  })
+  const [sheet, setSheet] = useState(defaultSheet)
+  const [isEditable, setIsEditable] = useState(false);
 
   setTheme(rules.theme);
 
@@ -41,14 +39,33 @@ function ParentalAdvisory() {
 
   return (
     <div>
-      <h1 className='text-center font-bold text-4xl mt-20'> {`${sheet.info.name} Character Sheet`} </h1>
-      <h2 className='text-center mt-4'> {`Spacer-Bard Gene Splicer`} </h2>
+      <button className='btn btn-ghost btn-square btn-md' onClick={() => setIsEditable(!isEditable)}>
+      { isEditable
+        ? <ImLock size={20}/>
+        : <ImPencil size={20}/>
+      }
+      </button>
+
       {/* Character, attributes, status effects Info tables */}
       <section className='flex mx-4 justify-around basis-full mt-20'>
+        <InfoTable
+          info={sheet.info}
+          setInfo={info => {setSheet(modifyObject(sheet, 'info', info))}}
+          isEditable={isEditable}
+        />
+        <AttributeTable
+          attributes={rules.attributes}
+          scores={sheet.attributes}
+          setScores={scores => {setSheet(modifyObject(sheet, 'attributes', scores))}}
+          level={sheet.info.level}
+          isEditable={isEditable}
+        />
         <SkillTable
           skills={rules.skills}
           scores={sheet.skills}
-          setScores={(scores) => {setSheet(modifyObject(sheet, 'skills', scores))}}
+          setScores={scores => {setSheet(modifyObject(sheet, 'skills', scores))}}
+          level={sheet.info.level}
+          isEditable={isEditable}
         />
         <Table
           title={'Equipment'}

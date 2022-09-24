@@ -1,30 +1,21 @@
-import React, {useState} from 'react'
-import { totalSkillCost } from '../lib/caltrops'
+import React, { useState } from 'react'
 import { modifyObject } from '../lib/util'
 import PointEntryBox from './PointEntryBox'
-
-import {ImPencil, ImLock} from 'react-icons/im'
+import caltrops from '../lib/caltrops'
 
 /* 
  * Skill table.
  * This consumes the rules.skills for skill metadata, and sheets.skills for skill values.
  */
 
-function SkillTable({skills, scores, setScores}) {
-  let totalCost = totalSkillCost(scores)
-  const [isEditing, setisEditing] = useState(false)
+function SkillTable({skills, scores, setScores, level, isEditable = false}) {
+  let totalCost = caltrops.skillCostTotal(scores)
+  let maxCost = caltrops.skillCostMax(level)
+  let sparePoints = maxCost - totalCost;
 
   return (
-    <div  className='px-8'>
+    <div className='px-8'>
       <h2 className='text-2xl my-4'>Skills</h2>
-
-      <button className='btn btn-ghost btn-square btn-md' onClick={() => setisEditing(!isEditing)}>
-      { isEditing
-        ? <ImLock size={20} ></ImLock>
-        : <ImPencil size={20} ></ImPencil>
-      }
-      </button>
-      
       <table className="table table-compact">
         <thead>
           <tr className='px-2'>
@@ -34,25 +25,27 @@ function SkillTable({skills, scores, setScores}) {
         </thead>
         <tbody>
           {skills.map(s => {
+            let value = scores[s.name] ?? 0
             return(
               <tr className='hover' >
                 <td className='py-4'>{s.name}</td>
                 <td className='text-center'>
                   <PointEntryBox
-                    value={scores[s.name] ?? 0}
+                    value={value}
                     setValue={(v) => {setScores(modifyObject(scores, s.name, v))}}
-                    isEditable={isEditing}
-                  ></PointEntryBox>
+                    isEditable={isEditable}
+                    isCapped={caltrops.skillIncrementCost(value) > sparePoints}
+                  />
                 </td>
               </tr>
           )})}
         </tbody>
-        <thead>
+        <tfoot>
           <tr className='px-2 text-center'>
             <th>Skill cost</th>
-            <th>{totalCost}</th>
+            <th>{totalCost} / {maxCost}</th>
           </tr>
-        </thead>
+        </tfoot>
       </table>
     </div>
   )
