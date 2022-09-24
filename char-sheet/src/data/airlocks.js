@@ -1,7 +1,7 @@
 
 export const airlockRuleset = {
     name: 'Airlocks',
-    theme: 'light',
+    theme: 'atompunkmoderna',
     skills: [
         {
             name: 'Observation',

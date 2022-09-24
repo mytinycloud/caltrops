@@ -16,7 +16,7 @@ function InfoTable({info, setInfo, isEditable=false}) {
       <h2 className='text-2xl my-4'>Info</h2>
       <table className="table table-compact">
         <thead>
-        <tr className='hover' >
+        <tr>
             <th>Info</th>
             <th></th>
         </tr>

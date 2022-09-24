@@ -32,7 +32,7 @@ module.exports = {
       "coffee",
       "winter",        
       {
-        'muthur6k': {
+        "muthur6k": {
           "primary": "#D6FFC5",
           "secondary": "#FDFEC4",
           "accent": "#D2D53F",
