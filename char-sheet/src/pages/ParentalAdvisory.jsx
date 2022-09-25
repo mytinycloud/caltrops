@@ -9,7 +9,7 @@ import EquipmentTable from '../components/EquipmentTable'
 import IconButton from '../components/IconButton'
 
 
-import { setTheme, modifyObject } from '../lib/util'
+import { setTheme, modifyObject, downloadObject } from '../lib/util'
 import caltrops from '../lib/caltrops'
 
 
@@ -42,12 +42,23 @@ function ParentalAdvisory() {
 
   return (
     <div>
-      <IconButton
-        icon={isEditable ? 'check' : 'edit'}
-        styling={isEditable ? 'primary' : 'outline'}
-        size='md'
-        onClick={() => setIsEditable(!isEditable)}
-      />
+
+      <section className='flex'>
+        <IconButton
+          icon={isEditable ? 'check' : 'edit'}
+          styling={isEditable ? 'primary' : 'outline'}
+          size='md'
+          onClick={() => setIsEditable(!isEditable)}
+        />
+        <IconButton
+          icon='download'
+          size='md'
+          onClick={() => downloadObject(sheet,
+            `caltrops-${sheet.info.name.replace(' ', '-').toLowerCase()}.json`,
+            true
+            )}
+        />
+      </section>
 
       {/* Character, attributes, status effects Info tables */}
       <section className='flex mx-4 justify-around basis-full mt-4'>
