@@ -26,6 +26,16 @@ export interface CarrySlot {
     description: string,
 }
 
+export interface Power {
+    name: string,
+    description: string,
+    source: string, // name of skill to use as level source
+    dice: {
+        base: number, // dice at lvl 1
+        level: number, // dice per level.
+    }
+}
+
 export interface Rules {
     name: string,
     theme: string,
@@ -33,6 +43,7 @@ export interface Rules {
     attributes: Attribute[],
     equipment: Equipment[],
     carrySlots: CarrySlot[],
+    powers: Power[],
 }
 
 export interface Sheet {
@@ -41,10 +52,12 @@ export interface Sheet {
         name: string,
         level: number,
         background: string,
+        funds: string,
     },
     equipment: any,
     skills: {[key: string]: number},
     attributes: {[key: string]: number},
+    powers: {[key: string]: number},
 }
 
 export const DEFAULT_RULES: Rules = {
@@ -66,8 +79,19 @@ export const DEFAULT_RULES: Rules = {
     carrySlots: [
         {
             name: 'Default slot',
-            description: 'Carry clots should be overridden by the ruleset',
+            description: 'Carry slots should be overridden by the ruleset',
         },
+    ],
+    powers: [
+        {
+            name: 'Default power',
+            description: 'Powers should be overidden by the ruleset',
+            source: 'Default skill',
+            dice: {
+                base: 3,
+                level: 1,
+            }
+        }
     ],
     attributes: [
         {

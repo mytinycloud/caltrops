@@ -4,6 +4,7 @@ import Table from '../components/Table'
 import SkillTable from '../components/SkillTable'
 import InfoTable from '../components/InfoTable'
 import AttributeTable from '../components/AttributeTable'
+import PowerTable from '../components/PowerTable'
 
 import { setTheme, modifyObject } from '../lib/util'
 import caltrops from '../lib/caltrops'
@@ -66,6 +67,12 @@ function ParentalAdvisory() {
           setScores={scores => {setSheet(modifyObject(sheet, 'skills', scores))}}
           level={sheet.info.level}
           isEditable={isEditable}
+        />
+        <PowerTable
+          powers={rules.powers.filter(p => caltrops.powerIsAvailable(p, sheet.skills))}
+          powerDice={sheet.powers}
+          skillScores={sheet.skills}
+          setPowerDice={scores => {setSheet(modifyObject(sheet, 'powers', scores))}}
         />
         <Table
           title={'Equipment'}

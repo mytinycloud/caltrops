@@ -1,4 +1,4 @@
-import { Attribute, Rules, Sheet } from './rules'
+import { Attribute, Rules, Sheet, Power } from './rules'
 
 const SKILL_COST = [
     0,
@@ -65,8 +65,8 @@ function aspectTotal(attributes: Attribute[], scores: any): number {
 }
 
 /*
-  Modifies the given attribute - adjusting the child aspects
-*/
+ * Modifies the given attribute - adjusting the child aspects
+ */
 function attributeModify(scores: any, attribute: Attribute, value: number): any {
     let newScores = {...scores}
     let delta = value - (scores[attribute.name] ?? 0)
@@ -78,6 +78,15 @@ function attributeModify(scores: any, attribute: Attribute, value: number): any 
     return newScores
 }
 
+function powerDiceMax(power: Power, scores: any): number {
+    const score = scores[power.source] ?? 0
+    return power.dice.base + (power.dice.level * (score - 1));
+}
+
+function powerIsAvailable(power: Power, scores: any): boolean {
+    return (scores[power.source] ?? 0) > 0;
+}
+
 function newSheet(rules: Rules): Sheet {
     console.log('Creating new sheet....')
     let sheet: Sheet = {
@@ -85,11 +94,13 @@ function newSheet(rules: Rules): Sheet {
         info: {
             name: 'Mork Borginson',
             level: 1,
+            funds: '',
             background: '',
         },
         equipment: [],
         skills: {},
         attributes: {},
+        powers: {},
     }
     for (const attribute of rules.attributes) {
         sheet.attributes[attribute.name] = ATTRIBUTE_MIN
@@ -113,6 +124,8 @@ const caltrops = {
     attributeModify: attributeModify,
     aspectTotal: aspectTotal,
     aspectTotalMax: aspectTotalMax,
+    powerIsAvailable: powerIsAvailable,
+    powerDiceMax: powerDiceMax,
     newSheet: newSheet,
 }
 export default caltrops;

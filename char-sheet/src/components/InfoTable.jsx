@@ -1,5 +1,3 @@
-import React, { useState } from 'react'
-import { totalSkillCost } from '../lib/caltrops'
 import { modifyObject } from '../lib/util'
 import PointEntryBox from './PointEntryBox'
 import TextEntryBox from './TextEntryBox'
@@ -46,6 +44,15 @@ function InfoTable({info, setInfo, isEditable=false}) {
               value={info.background}
               setValue={v => { setInfo(modifyObject(info, 'background', v)) }}
               isEditable={isEditable}
+              />
+            </td>
+          </tr>
+          <tr className='hover'>
+            <td>Funds</td>
+            <td><TextEntryBox
+              value={info.funds}
+              setValue={v => { setInfo(modifyObject(info, 'funds', v)) }}
+              isEditable={true}
               />
             </td>
           </tr>

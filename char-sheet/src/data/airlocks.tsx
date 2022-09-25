@@ -66,6 +66,10 @@ const airlockRuleset: Rules = {
             name: 'Survival',
             description: '',
         },
+        {
+            name: 'Abyss',
+            description: '',
+        }
     ],
     equipment: [
         {
@@ -100,6 +104,17 @@ const airlockRuleset: Rules = {
             name: 'Belt #2',
             description: '',
         },
+    ],
+    powers: [
+        {
+            name: 'Abyss',
+            description: '',
+            source: 'Abyss',
+            dice: {
+                base: 3,
+                level: 1,
+            }
+        }
     ]
 }
 

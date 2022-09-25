@@ -19,7 +19,7 @@ function PointEntryBox({value, setValue, isEditable=false, min=0, max=9, isCappe
   return (
     <div className="flex justify-evenly items-center">
       <button
-        className={`btn btn-square btn-xs ${isInvisible} transition-all`}
+        className={`btn btn-outline btn-square btn-xs ${isInvisible} transition-all`}
         disabled={canDecrement ? "" : "disabled"}
         onClick={()=>setValue(value-1)}>
         <p>-</p>
