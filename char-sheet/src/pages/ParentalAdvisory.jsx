@@ -6,11 +6,12 @@ import InfoTable from '../components/InfoTable'
 import AttributeTable from '../components/AttributeTable'
 import PowerTable from '../components/PowerTable'
 import EquipmentTable from '../components/EquipmentTable'
+import IconButton from '../components/IconButton'
+
 
 import { setTheme, modifyObject } from '../lib/util'
 import caltrops from '../lib/caltrops'
 
-import { ImPencil, ImLock } from 'react-icons/im'
 
 
 let defaultSheet = caltrops.newSheet(airlockRuleset);
@@ -41,12 +42,12 @@ function ParentalAdvisory() {
 
   return (
     <div>
-      <button className='btn btn-ghost btn-square btn-md' onClick={() => setIsEditable(!isEditable)}>
-      { isEditable
-        ? <ImLock size={20}/>
-        : <ImPencil size={20}/>
-      }
-      </button>
+      <IconButton
+        icon={isEditable ? 'check' : 'edit'}
+        styling={isEditable ? 'primary' : 'outline'}
+        size='md'
+        onClick={() => setIsEditable(!isEditable)}
+      />
 
       {/* Character, attributes, status effects Info tables */}
       <section className='flex mx-4 justify-around basis-full mt-4'>

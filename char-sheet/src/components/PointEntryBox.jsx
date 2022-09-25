@@ -1,4 +1,4 @@
-import React from 'react'
+import IconButton from './IconButton'
 
 /* 
  * Point entry box
@@ -11,26 +11,22 @@ import React from 'react'
  * Its kindof a pain to actually lock things like this anyway, as users always make mistakes.  
  */
 function PointEntryBox({value, setValue, isEditable=true, min=0, max=9, isCapped=false}) {
-
-  const isInvisible = isEditable ? "opacity-100" : 'opacity-0'
-  const canDecrement = isEditable && value > min
-  const canIncrement = isEditable && !isCapped && value < max
-
   return (
     <div className="flex justify-evenly items-center">
-      <button
-        className={`btn btn-outline btn-square btn-xs ${isInvisible} transition-all`}
-        disabled={canDecrement ? "" : "disabled"}
-        onClick={()=>setValue(value-1)}>
-        <p>-</p>
-      </button>
+      <IconButton
+        icon='minus'
+        onClick={()=>setValue(value-1)}
+        enabled={value > min}
+        visible={isEditable}
+      />
       <p className='py-0 mx-2 text-center'> {value} </p>
-      <button
-        className={`btn btn-primary btn-square btn-xs ${isInvisible} transition-all`}
-        disabled={canIncrement ? "" : "disabled"}
-        onClick={()=>setValue(value+1)}>
-        <p>+</p>
-      </button>
+      <IconButton
+        icon='plus'
+        styling='primary'
+        onClick={()=>setValue(value+1)}
+        enabled={!isCapped && value < max}
+        visible={isEditable}
+      />
     </div>
   )
 }

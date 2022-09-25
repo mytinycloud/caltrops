@@ -3,7 +3,7 @@ import { modifyObject } from '../lib/util'
 import PointEntryBox from './PointEntryBox'
 import TextEntryBox from './TextEntryBox'
 
-import {ImCross} from 'react-icons/im'
+import IconButton from './IconButton'
 
 /* 
  * Equipment table.
@@ -53,25 +53,21 @@ function EquipmentTable({equipment, slots, items, setItems}) {
                   />
                 </td>
                 <td>
-                <td className='tooltip cursor-pointer border-none' data-tip="Remove">
-                  <button className='btn btn-square btn-outline'
-                    onClick={()=>{ setItems(modifyObject(items, slot.name, null)) }}
-                  >
-                  <ImCross 
-                    size={10}
-                    className='text-error'>
-                  </ImCross>
-                  </button>
-                </td>
+                  <IconButton
+                    icon='cross'
+                    onClick={() => {setItems(modifyObject(items, slot.name, null))}}
+                    isVisible={true}
+                  />
                 </td>
               </tr>
             } else {
               return <tr>
                 <td>{slot.name}</td>
                 <td>
-                  <button class='btn btn-outline btn-xs'
-                    onClick={()=>(addItem(slot.name))}
-                  >+</button>
+                  <IconButton
+                    icon='plus'
+                    onClick={() => addItem(slot.name)}
+                  />
                 </td>
                 <td></td>
               </tr>
