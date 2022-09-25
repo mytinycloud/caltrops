@@ -5,7 +5,7 @@ import React from 'react'
  * Text entry box
  * This displays and allows editing of a string
  */
-function TextEntryBox({value, setValue, isEditable=false, placeholder='', limit=32}) {
+function TextEntryBox({value, setValue, isEditable=true, placeholder='', limit=32}) {
   if (isEditable)
   {
     return (

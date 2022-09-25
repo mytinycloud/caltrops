@@ -10,7 +10,7 @@ import React from 'react'
  * Ideally the points would not be decremented once locked - but i'll leave it to the outer state to update the min value if that happens.
  * Its kindof a pain to actually lock things like this anyway, as users always make mistakes.  
  */
-function PointEntryBox({value, setValue, isEditable=false, min=0, max=9, isCapped=false}) {
+function PointEntryBox({value, setValue, isEditable=true, min=0, max=9, isCapped=false}) {
 
   const isInvisible = isEditable ? "opacity-100" : 'opacity-0'
   const canDecrement = isEditable && value > min

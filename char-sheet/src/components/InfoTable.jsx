@@ -4,14 +4,14 @@ import TextEntryBox from './TextEntryBox'
 
 /* 
  * Info table.
- * This consumes sheets.info for skill values.
+ *    in: info <- sheet.info
+ *    out: setInfo -> sheet.info
  */
 
 function InfoTable({info, setInfo, isEditable=false}) {
 
   return (
     <div className='px-8'>
-      <h2 className='text-2xl my-4'>Info</h2>
       <table className="table table-compact">
         <thead>
         <tr>
@@ -52,7 +52,6 @@ function InfoTable({info, setInfo, isEditable=false}) {
             <td><TextEntryBox
               value={info.funds}
               setValue={v => { setInfo(modifyObject(info, 'funds', v)) }}
-              isEditable={true}
               />
             </td>
           </tr>

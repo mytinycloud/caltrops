@@ -5,6 +5,7 @@ import SkillTable from '../components/SkillTable'
 import InfoTable from '../components/InfoTable'
 import AttributeTable from '../components/AttributeTable'
 import PowerTable from '../components/PowerTable'
+import EquipmentTable from '../components/EquipmentTable'
 
 import { setTheme, modifyObject } from '../lib/util'
 import caltrops from '../lib/caltrops'
@@ -61,33 +62,33 @@ function ParentalAdvisory() {
           level={sheet.info.level}
           isEditable={isEditable}
         />
-        <SkillTable
+      </section>
+
+      {/* Skills, spells, abilities, powers tables */}
+      <section className='flex mx-4 justify-around basis-full mt-4'>
+      <SkillTable
           skills={rules.skills}
           scores={sheet.skills}
           setScores={scores => {setSheet(modifyObject(sheet, 'skills', scores))}}
           level={sheet.info.level}
           isEditable={isEditable}
         />
-        <PowerTable
-          powers={rules.powers.filter(p => caltrops.powerIsAvailable(p, sheet.skills))}
-          powerDice={sheet.powers}
-          skillScores={sheet.skills}
-          setPowerDice={scores => {setSheet(modifyObject(sheet, 'powers', scores))}}
-        />
-        <Table
-          title={'Equipment'}
-          data={equipment}
-        />
-      </section>
-
-      {/* Skills, spells, abilities, powers tables */}
-      <section className=''>
-
-      </section>
-
-      {/* Equipment table */}
-      <section className=''>
-
+        {(() => {
+          // This feels like a crime
+          const availablePowers = rules.powers.filter(p => caltrops.powerIsAvailable(p, sheet.skills));
+          return availablePowers.length ? <PowerTable
+            powers={availablePowers}
+            powerDice={sheet.powers}
+            skillScores={sheet.skills}
+            setPowerDice={scores => {setSheet(modifyObject(sheet, 'powers', scores))}}
+          /> : null
+        })()}
+      <EquipmentTable
+        equipment={rules.equipment}
+        slots={rules.carrySlots}
+        items={sheet.equipment}
+        setItems={items => {setSheet(modifyObject(sheet, 'equipment', items))}}
+      />
       </section>
 
     </div>

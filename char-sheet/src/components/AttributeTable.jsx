@@ -4,7 +4,10 @@ import PointEntryBox from './PointEntryBox'
 
 /* 
  * Attributes table.
- * This consumes sheets.attributes for attribute values.
+ *    in: attriutes <- rules.attributes
+ *    in: scores <- sheet.attributes
+ *    out: setScores -> sheet.attributes
+ *    in: level <- sheet.info.level
  */
 function AttributeTable({attributes, scores, setScores, level, isEditable=false}) {
   const attributeTotal = caltrops.attributeTotal(attributes, scores)
@@ -14,7 +17,6 @@ function AttributeTable({attributes, scores, setScores, level, isEditable=false}
 
   return (
     <div className='px-8'>
-      <h2 className='text-2xl my-4'>Attributes</h2>
       <table className="table table-compact">
         {
           attributes.map( attribute => {

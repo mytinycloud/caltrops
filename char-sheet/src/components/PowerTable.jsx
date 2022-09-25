@@ -4,14 +4,16 @@ import PointEntryBox from './PointEntryBox'
 import TextEntryBox from './TextEntryBox'
 
 /* 
- * Info table.
- * This consumes sheets.info for skill values.
+ * Power table.
+ *   in: powers <- rules.powers for power metadata
+ *   in: skillScores <- sheet.skills
+ *   in: powerDice <- sheet.powers
+ *   out: setPowerDice -> sheet.powers
  */
 
 function PowerTable({powers, skillScores, powerDice, setPowerDice}) {
   return (
     <div className='px-8'>
-      <h2 className='text-2xl my-4'>Powers</h2>
       <table className="table table-compact">
         <thead>
           <tr>
@@ -23,7 +25,7 @@ function PowerTable({powers, skillScores, powerDice, setPowerDice}) {
         </thead>
         <tbody>
         {
-          powers.map((power) => {
+          powers.map(power => {
             let diceMax = caltrops.powerDiceMax(power, skillScores)
             return <tr>
               <td>{power.name}</td>
@@ -32,7 +34,6 @@ function PowerTable({powers, skillScores, powerDice, setPowerDice}) {
                 value={powerDice[power.name] ?? 0}
                 setValue={v => {setPowerDice(modifyObject(powerDice, power.name, v))}}
                 max={diceMax}
-                isEditable={true}
                 />
               </td>
               <td>/ {diceMax}</td>

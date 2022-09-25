@@ -5,7 +5,10 @@ import caltrops from '../lib/caltrops'
 
 /* 
  * Skill table.
- * This consumes the rules.skills for skill metadata, and sheets.skills for skill values.
+ *    in: skills <- rules.skills
+ *    in: scores <- sheet.skills
+ *    out: setScores -> sheet.skills
+ *    in: level <- sheet.level
  */
 
 function SkillTable({skills, scores, setScores, level, isEditable = false}) {
@@ -15,7 +18,6 @@ function SkillTable({skills, scores, setScores, level, isEditable = false}) {
 
   return (
     <div className='px-8'>
-      <h2 className='text-2xl my-4'>Skills</h2>
       <table className="table table-compact">
         <thead>
           <tr className='px-2'>
