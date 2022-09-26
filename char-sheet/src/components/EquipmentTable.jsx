@@ -56,7 +56,8 @@ function EquipmentTable({equipment, slots, items, setItems}) {
                   <IconButton
                     icon='cross'
                     onClick={() => {setItems(modifyObject(items, slot.name, null))}}
-                    isVisible={true}
+                    visible={true}
+                    btnStyle='btn-outline btn-error'
                   />
                 </td>
               </tr>

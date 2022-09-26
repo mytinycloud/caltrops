@@ -22,7 +22,7 @@ function PointEntryBox({value, setValue, isEditable=true, min=0, max=9, isCapped
       <p className='py-0 mx-2 text-center'> {value} </p>
       <IconButton
         icon='plus'
-        styling='primary'
+        btnStyle='btn-primary'
         onClick={()=>setValue(value+1)}
         enabled={!isCapped && value < max}
         visible={isEditable}

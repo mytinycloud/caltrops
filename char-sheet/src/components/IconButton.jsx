@@ -7,7 +7,7 @@ import {ImCross, ImPencil, ImBin, ImDownload3, ImPlus, ImMinus, ImCheckmark, ImL
  * A button with an icon in it.
  * Just to standardise styling
  */
-function IconButton({icon, onClick, styling='outline', size='xs', enabled=true, visible=true}) {
+function IconButton({icon, onClick, btnStyle='btn-outline', size='xs', enabled=true, visible=true}) {
 
   const IconClass = {
     "cross": ImCross,
@@ -27,8 +27,11 @@ function IconButton({icon, onClick, styling='outline', size='xs', enabled=true, 
     "lg": 32,
   }[size]
 
+  let btnSize = `btn-${size}`
+  let opacity = visible ? "opacity-100" : "opacity-0"
+
   return <button
-      className={`btn btn-square btn-${styling} btn-${size} opacity-${visible ? "100" : "0"} transition-all`}
+      className={`btn btn-square ${btnStyle} ${btnSize} ${opacity} transition-all`}
       disabled={(visible && enabled) ? "" : "disabled"}
       onClick={onClick}
       >
