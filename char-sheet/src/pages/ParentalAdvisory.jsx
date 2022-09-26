@@ -46,7 +46,7 @@ function ParentalAdvisory() {
       <section className='flex'>
         <IconButton
           icon={isEditable ? 'check' : 'edit'}
-          styling={isEditable ? 'primary' : 'outline'}
+          btnStyle={isEditable ? 'btn-primary' : 'btn-primary'}
           size='md'
           onClick={() => setIsEditable(!isEditable)}
         />

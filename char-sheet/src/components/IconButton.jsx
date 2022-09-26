@@ -31,7 +31,7 @@ function IconButton({icon, onClick, btnStyle='btn-outline', size='xs', enabled=t
   let opacity = visible ? "opacity-100" : "opacity-0"
 
   return <button
-      className={`btn btn-square ${btnStyle} ${btnSize} ${opacity} transition-all`}
+      className={`btn ${btnSize} btn-square ${btnStyle} ${opacity} transition-all`}
       disabled={(visible && enabled) ? "" : "disabled"}
       onClick={onClick}
       >
