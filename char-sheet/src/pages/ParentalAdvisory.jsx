@@ -47,12 +47,12 @@ function ParentalAdvisory() {
         <IconButton
           icon={isEditable ? 'check' : 'edit'}
           btnStyle={isEditable ? 'btn-primary' : 'btn-primary'}
-          size='md'
+          btnSize='btn-md'
           onClick={() => setIsEditable(!isEditable)}
         />
         <IconButton
           icon='download'
-          size='md'
+          btnSize='btn-md'
           onClick={() => downloadObject(sheet,
             `caltrops-${sheet.info.name.replace(' ', '-').toLowerCase()}.json`,
             true
