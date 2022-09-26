@@ -61,7 +61,7 @@ function ParentalAdvisory() {
       </section>
 
       {/* Character, attributes, status effects Info tables */}
-      <section className='flex mx-4 justify-around basis-full mt-4'>
+      <section className='flex flex-wrap justify-around gap-4 basis-full mt-4'>
         <InfoTable
           info={sheet.info}
           setInfo={info => {setSheet(modifyObject(sheet, 'info', info))}}
@@ -74,10 +74,6 @@ function ParentalAdvisory() {
           level={sheet.info.level}
           isEditable={isEditable}
         />
-      </section>
-
-      {/* Skills, spells, abilities, powers tables */}
-      <section className='flex mx-4 justify-around basis-full mt-4'>
       <SkillTable
           skills={rules.skills}
           scores={sheet.skills}

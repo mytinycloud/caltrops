@@ -11,7 +11,7 @@ import TextEntryBox from './TextEntryBox'
 function InfoTable({info, setInfo, isEditable=false}) {
 
   return (
-    <div className='px-8'>
+    <div>
       <table className="table table-compact">
         <thead>
         <tr>

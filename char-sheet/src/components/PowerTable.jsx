@@ -13,7 +13,7 @@ import TextEntryBox from './TextEntryBox'
 
 function PowerTable({powers, skillScores, powerDice, setPowerDice}) {
   return (
-    <div className='px-8'>
+    <div>
       <table className="table table-compact">
         <thead>
           <tr>

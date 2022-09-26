@@ -26,7 +26,7 @@ function EquipmentTable({equipment, slots, items, setItems}) {
   }
 
   return (
-    <div className='px-8'>
+    <div>
       <table className="table table-compact">
         <thead>
           <tr>

@@ -16,7 +16,7 @@ function AttributeTable({attributes, scores, setScores, level, isEditable=false}
   const aspectMax = caltrops.aspectTotalMax(level)
 
   return (
-    <div className='px-8'>
+    <div>
       <table className="table table-compact">
         {
           attributes.map( attribute => {

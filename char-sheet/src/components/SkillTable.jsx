@@ -17,7 +17,7 @@ function SkillTable({skills, scores, setScores, level, isEditable = false}) {
   let sparePoints = maxCost - totalCost;
 
   return (
-    <div className='px-8'>
+    <div>
       <table className="table table-compact">
         <thead>
           <tr className='px-2'>
@@ -30,7 +30,7 @@ function SkillTable({skills, scores, setScores, level, isEditable = false}) {
             let value = scores[s.name] ?? 0
             return(
               <tr className='hover' >
-                <td className='py-4'>{s.name}</td>
+                <td>{s.name}</td>
                 <td className='text-center'>
                   <PointEntryBox
                     value={value}

@@ -14,7 +14,7 @@ function Table({title, data}) {
   }
 
   return (
-    <div  className=''>
+    <div>
       <h2 className='text-2xl my-4'>{title}</h2>
       <table className="table table-compact">
         <thead>
@@ -25,7 +25,7 @@ function Table({title, data}) {
             })}
           </tr>
         </thead>
-        <tbody className=''>
+        <tbody>
           {data.content.map((items, index) => {
             return(
               <tr className='hover'>
@@ -53,7 +53,6 @@ function Table({title, data}) {
       <div className='w-full flex my-4'>
         <button className='text-center text-lg mx-auto px-8 btn' onClick={handleAdd}>Add</button>
       </div>
-     
     </div>
   )
 }
