@@ -7,6 +7,7 @@ import AttributeTable from '../components/AttributeTable'
 import PowerTable from '../components/PowerTable'
 import EquipmentTable from '../components/EquipmentTable'
 import IconButton from '../components/IconButton'
+import WoundTable from '../components/WoundTable'
 
 
 import { setTheme, modifyObject, downloadObject } from '../lib/util'
@@ -29,16 +30,6 @@ function ParentalAdvisory() {
   const [isEditable, setIsEditable] = useState(false);
 
   setTheme(rules.theme);
-
-  // Placeholder object to test with:
-  const [equipment, setEquipment] = useState({
-    heading: ['Slot', 'Equipment', 'Count', 'Max'],
-    content: [
-      ['Shoulder Strap', 'Pistol', 1, 1],
-      ['Vest Pocket #1', 'Pistol Ammunition', 2, 3],
-      ['Vest Pocket #2', 'Fruit Juice', 1, 9],
-    ]
-  })
 
   return (
     <div>
@@ -96,6 +87,11 @@ function ParentalAdvisory() {
         slots={rules.carrySlots}
         items={sheet.equipment}
         setItems={items => {setSheet(modifyObject(sheet, 'equipment', items))}}
+      />
+      <WoundTable
+        slots={rules.wounds}
+        wounds={sheet.wounds}
+        setWounds={wounds => {setSheet(modifyObject(sheet, 'wounds', wounds))}}
       />
       </section>
 

@@ -1,4 +1,4 @@
-import { Attribute, Rules, Sheet, Power } from './rules'
+import { Attribute, Rules, Sheet, Power, SheetWound } from './rules'
 
 const SKILL_COST = [
     0,
@@ -87,6 +87,22 @@ function powerIsAvailable(power: Power, scores: any): boolean {
     return (scores[power.source] ?? 0) > 0;
 }
 
+function woundCreate(size: number): SheetWound {
+    return {
+        name: "",
+        size: size,
+        locked: false,
+    }
+}
+
+function woundTotal(wounds: SheetWound[]) {
+    let total = 0;
+    for (let wound of wounds) {
+        total += wound.size
+    }
+    return total;
+}
+
 function newSheet(rules: Rules): Sheet {
     console.log('Creating new sheet....')
     let sheet: Sheet = {
@@ -97,10 +113,11 @@ function newSheet(rules: Rules): Sheet {
             funds: '',
             background: '',
         },
-        equipment: [],
+        equipment: {},
         skills: {},
         attributes: {},
         powers: {},
+        wounds: [],
     }
     for (const attribute of rules.attributes) {
         sheet.attributes[attribute.name] = ATTRIBUTE_MIN
@@ -127,5 +144,8 @@ const caltrops = {
     powerIsAvailable: powerIsAvailable,
     powerDiceMax: powerDiceMax,
     newSheet: newSheet,
+    woundCreate: woundCreate,
+    woundTotal: woundTotal,
+
 }
 export default caltrops;

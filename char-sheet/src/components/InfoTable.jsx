@@ -22,11 +22,11 @@ function InfoTable({info, setInfo, isEditable=false}) {
         <tbody>
           <tr className='hover' >
             <td>Name</td>
-            <td>
-            <TextEntryBox
+            <td className='py-0'><TextEntryBox
               value={info.name}
               setValue={v => { setInfo(modifyObject(info, 'name', v)) }}
               isEditable={isEditable}
+              placeholder='enter name'
               />
             </td>
           </tr>
@@ -40,18 +40,20 @@ function InfoTable({info, setInfo, isEditable=false}) {
           </tr>
           <tr className='hover'>
             <td>Background</td>
-            <td><TextEntryBox
+            <td className='py-0'><TextEntryBox
               value={info.background}
               setValue={v => { setInfo(modifyObject(info, 'background', v)) }}
               isEditable={isEditable}
+              placeholder='enter background'
               />
             </td>
           </tr>
           <tr className='hover'>
             <td>Funds</td>
-            <td><TextEntryBox
+            <td className='py-0'><TextEntryBox
               value={info.funds}
               setValue={v => { setInfo(modifyObject(info, 'funds', v)) }}
+              placeholder='0 coins'
               />
             </td>
           </tr>

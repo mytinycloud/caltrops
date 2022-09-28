@@ -44,6 +44,19 @@ export interface Rules {
     equipment: Equipment[],
     carrySlots: CarrySlot[],
     powers: Power[],
+    wounds: number,
+}
+
+export interface SheetEquipment {
+    name: string,
+    count: number,
+    stack: number
+}
+
+export interface SheetWound {
+    name: string,
+    size: number,
+    locked: boolean,
 }
 
 export interface Sheet {
@@ -54,15 +67,17 @@ export interface Sheet {
         background: string,
         funds: string,
     },
-    equipment: any,
+    equipment: {[key: string]: SheetEquipment},
     skills: {[key: string]: number},
     attributes: {[key: string]: number},
     powers: {[key: string]: number},
+    wounds: SheetWound[],
 }
 
 export const DEFAULT_RULES: Rules = {
     name: 'default',
     theme: 'light',
+    wounds: 5,
     skills: [
         {
             name: 'Default skill',

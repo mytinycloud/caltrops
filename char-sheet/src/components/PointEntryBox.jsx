@@ -12,14 +12,14 @@ import IconButton from './IconButton'
  */
 function PointEntryBox({value, setValue, isEditable=true, min=0, max=9, isCapped=false}) {
   return (
-    <div className="flex justify-evenly items-center">
+    <div className="flex justify-center items-center">
       <IconButton
         icon='minus'
         onClick={()=>setValue(value-1)}
         enabled={value > min}
         visible={isEditable}
       />
-      <p className='py-0 mx-2 text-center'> {value} </p>
+      <p className='py-0 mx-2 text-center width-3'> {value} </p>
       <IconButton
         icon='plus'
         btnStyle='btn-primary'
