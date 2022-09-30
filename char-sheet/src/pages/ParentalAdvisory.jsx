@@ -82,12 +82,16 @@ function ParentalAdvisory() {
             setPowerDice={scores => {setSheet(modifyObject(sheet, 'powers', scores))}}
           /> : null
         })()}
-      <EquipmentTable
-        equipment={rules.equipment}
-        slots={rules.carrySlots}
-        items={sheet.equipment}
-        setItems={items => {setSheet(modifyObject(sheet, 'equipment', items))}}
-      />
+        {
+          rules.containers.map( container => {
+            return <EquipmentTable
+              equipment={rules.equipment}
+              container={container}
+              items={sheet.equipment[container.name] ?? []}
+              setItems={items => {setSheet(modifyObject(sheet, 'equipment', modifyObject(sheet.equipment, container.name, items)))}}
+          />
+          } )
+        }
       <WoundTable
         slots={rules.wounds}
         wounds={sheet.wounds}

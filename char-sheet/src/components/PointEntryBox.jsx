@@ -10,22 +10,22 @@ import IconButton from './IconButton'
  * Ideally the points would not be decremented once locked - but i'll leave it to the outer state to update the min value if that happens.
  * Its kindof a pain to actually lock things like this anyway, as users always make mistakes.  
  */
-function PointEntryBox({value, setValue, isEditable=true, min=0, max=9, isCapped=false}) {
+function PointEntryBox({value, setValue, isEditable=true, min=0, max=9, isCapped=false, visible=true, encourageUp=false}) {
   return (
     <div className="flex justify-center items-center">
       <IconButton
         icon='minus'
         onClick={()=>setValue(value-1)}
         enabled={value > min}
-        visible={isEditable}
+        visible={visible && isEditable}
       />
-      <p className='py-0 mx-2 text-center width-3'> {value} </p>
+      <p className='py-0 mx-2 text-center width-3'> { visible ? value : ""} </p>
       <IconButton
         icon='plus'
-        btnStyle='btn-primary'
+        btnStyle={encourageUp ? 'btn-primary' : 'btn-outline'}
         onClick={()=>setValue(value+1)}
         enabled={!isCapped && value < max}
-        visible={isEditable}
+        visible={visible && isEditable}
       />
     </div>
   )

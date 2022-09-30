@@ -35,18 +35,18 @@ function WoundTable({slots, wounds, setWounds}) {
 
   return (
     <div>
-      <table className="table table-compact">
+      <table className="table table-compact w-64">
         <thead>
           <tr>
-            <th>Wound</th>
+            <th>Wounds</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
         {
           wounds.map((wound,n) => {
-            let padding = wound.size > 1 ? "py-0" : "py-6"
-            return <tr>
+            let padding = wound.size > 1 ? "py-6" : "py-0"
+            return <tr className='hover'>
               <td className={padding}>
                 <TextEntryBox
                   value={wound.name}
@@ -67,17 +67,13 @@ function WoundTable({slots, wounds, setWounds}) {
         </tbody>
         <tfoot>
           <tr>
-            <th>
+            <th colSpan='4'>
+              <div className='flex justify-center'>
               <IconButton
                 icon='plus'
                 onClick={() => insertWound(1)}
               />
-            </th>
-            <th>
-              <IconButton
-                icon='plus'
-                onClick={() => insertWound(2)}
-              />
+              </div>
             </th>
           </tr>
         </tfoot>

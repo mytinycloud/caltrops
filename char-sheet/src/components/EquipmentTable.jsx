@@ -1,82 +1,125 @@
+import { useState } from 'react'
 import caltrops from '../lib/caltrops'
 import { modifyObject } from '../lib/util'
 import PointEntryBox from './PointEntryBox'
 import TextEntryBox from './TextEntryBox'
 
 import IconButton from './IconButton'
+import {Modal, Table} from 'react-daisyui'
+
 
 /* 
  * Equipment table.
  *    in: equipment <- rules.equipment
- *    in: slots <- rules.carrySlots
- *    in: items <- sheet.equipment
- *    out: setItems -> sheet.equipment
+ *    in: container <- rules.containers[n]
+ *    in: items <- sheet.equipment[container.name]
+ *    out: setItems -> sheet.equipment[container.name]
  */
-function EquipmentTable({equipment, slots, items, setItems}) {
+function EquipmentTable({equipment, container, items, setItems}) {
 
-  function addItem(slot){
+  const freeCapacity = container.size - items.length
+  const [modalOpen, setModalOpen] = useState(false)
+
+  function addItem(equipment) {
     // TODO: select from equipment.
-    let type = equipment[0]
     let item = {
-      name: type.name,
+      name: equipment.name,
       count: 1,
-      stack: type.stack,
+      stack: equipment.stack,
     }
-    setItems(modifyObject( items, slot, item))
+    setItems([...items, item])
+  }
+
+  function editItem(index, item) {
+    let new_items = [...items]
+    new_items[index] = item
+    setItems(new_items)
+  }
+
+  function removeItem(index) {
+    let new_items = [...items]
+    new_items.splice(index, 1)
+    setItems(new_items)
   }
 
   return (
     <div>
-      <table className="table table-compact">
+      <table className="table table-compact w-64">
         <thead>
           <tr>
-            <th>Slot</th>
-            <th>Equipment</th>
-            <th>Count</th>
-            <th></th>
+            <th colSpan='4'>Items: {container.name}</th>
           </tr>
         </thead>
         <tbody>
         {
-          slots.map(slot => {
-            let item = items[slot.name]
-            if (item) {
-              // TODO: use hidden buttons instead
-              return <tr>
-                <td>{slot.name}</td>
-                <td>{item.name ?? '??'}</td>
-                <td>
-                  <PointEntryBox
-                    value={item.count ?? 0}
-                    setValue={ (v) => {} }
-                    max={item.max ?? 1}
-                  />
-                </td>
-                <td>
-                  <IconButton
-                    icon='cross'
-                    onClick={() => {setItems(modifyObject(items, slot.name, null))}}
-                    visible={true}
-                    btnStyle='btn-outline btn-error'
-                  />
-                </td>
-              </tr>
-            } else {
-              return <tr>
-                <td>{slot.name}</td>
-                <td>
-                  <IconButton
-                    icon='plus'
-                    onClick={() => addItem(slot.name)}
-                  />
-                </td>
-                <td></td>
-              </tr>
-            }
+          items.map((item, i) => {
+            return <tr className='hover'>
+              <td>
+                {item.name}
+              </td>
+              <td>
+                <PointEntryBox
+                  value={item.count ?? 0}
+                  setValue={ v => { editItem(i, modifyObject(item, 'count', v)) } }
+                  max={item.stack ?? 1}
+                  visible={item.stack > 1}
+                />
+              </td>
+              <td>
+                <IconButton
+                  icon='cross'
+                  onClick={() => { removeItem(i) }}
+                  btnStyle='btn-outline btn-error'
+                />
+              </td>
+            </tr>
           })
         }
         </tbody>
+        <tfoot>
+          <tr>
+            <th colSpan='4'>
+              <div className='flex justify-center'>
+              <IconButton
+                icon='plus'
+                enabled={freeCapacity > 0}
+                onClick={() => {setModalOpen(true)}}
+              />
+              </div>
+            </th>
+          </tr>
+        </tfoot>
       </table>
+
+      <Modal open={modalOpen} onClickBackdrop={() => {setModalOpen(false)}}>
+
+        <table className="table table-compact">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Equipment</th>
+              <th>Stack</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              equipment.map( item => {
+                return <tr className='hover'>
+                  <td><IconButton
+                    icon='plus'
+                    enabled={freeCapacity > 0}
+                    onClick={() => { addItem(item) } }
+                  /></td>
+                  <td>{item.name}</td>
+                  <td>{item.stack > 1 ? item.stack : ""}</td>
+                  <td>{item.description ?? ""}</td>
+                </tr>
+              })
+            }
+          </tbody>
+        </table>
+      </Modal>
     </div>
   )
 }

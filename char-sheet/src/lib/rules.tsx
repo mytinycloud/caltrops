@@ -1,29 +1,30 @@
 
 export interface Aspect {
     name: string,
-    description: string
+    description?: string
 }
 
 export interface Attribute {
     name: string,
-    description: string,
+    description?: string,
     aspects: Aspect[],
 }
 
 export interface Skill {
     name: string,
-    description: string,
+    description?: string,
 }
 
 export interface Equipment {
     name: string,
     stack: number,
-    description: string,
+    description?: string,
 }
 
-export interface CarrySlot {
+export interface Container {
     name: string,
-    description: string,
+    description?: string,
+    size: number,
 }
 
 export interface Power {
@@ -42,7 +43,7 @@ export interface Rules {
     skills: Skill[],
     attributes: Attribute[],
     equipment: Equipment[],
-    carrySlots: CarrySlot[],
+    containers: Container[],
     powers: Power[],
     wounds: number,
 }
@@ -91,10 +92,16 @@ export const DEFAULT_RULES: Rules = {
             description: "Equipment should be overidden by the ruleset",
         },
     ],
-    carrySlots: [
+    containers: [
         {
-            name: 'Default slot',
-            description: 'Carry slots should be overridden by the ruleset',
+            name: 'Personal',
+            description: 'Equipment carried on ones person',
+            size: 5,
+        },
+        {
+            name: 'Pack',
+            description: 'Equipment contained in a satchel or backpack',
+            size: 5,
         },
     ],
     powers: [

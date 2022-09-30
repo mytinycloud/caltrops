@@ -31,6 +31,7 @@ function AttributeTable({attributes, scores, setScores, level, isEditable=false}
                     min={caltrops.attributeMin}
                     max={caltrops.attributeMax}
                     isCapped={attributeTotal >= attributeMax}
+                    encourageUp='true'
                   />
                   </th>
               </tr>
@@ -45,6 +46,7 @@ function AttributeTable({attributes, scores, setScores, level, isEditable=false}
                           isEditable={isEditable}
                           min={base}
                           isCapped={aspectTotal >= aspectMax}
+                          encourageUp='true'
                         /></td>
                       </tr>
                 })}

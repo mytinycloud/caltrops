@@ -21,8 +21,8 @@ function SkillTable({skills, scores, setScores, level, isEditable = false}) {
       <table className="table table-compact">
         <thead>
           <tr className='px-2'>
-            <th>Skill</th>
-            <th>Score</th>
+            <th>Skills</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -37,6 +37,7 @@ function SkillTable({skills, scores, setScores, level, isEditable = false}) {
                     setValue={(v) => {setScores(modifyObject(scores, s.name, v))}}
                     isEditable={isEditable}
                     isCapped={caltrops.skillIncrementCost(value) > sparePoints}
+                    encourageUp='true'
                   />
                 </td>
               </tr>
