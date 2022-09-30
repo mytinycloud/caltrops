@@ -13,7 +13,7 @@ import IconButton from './IconButton'
  */
 function WoundTable({slots, wounds, setWounds}) {
 
-  function insertWound(size) {
+  function addWound(size) {
     let new_wounds = [...wounds]
     new_wounds.push(caltrops.woundCreate(size))
     setWounds(new_wounds)
@@ -71,7 +71,7 @@ function WoundTable({slots, wounds, setWounds}) {
               <div className='flex justify-center'>
               <IconButton
                 icon='plus'
-                onClick={() => insertWound(1)}
+                onClick={() => addWound(1)}
               />
               </div>
             </th>

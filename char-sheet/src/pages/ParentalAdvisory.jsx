@@ -8,7 +8,7 @@ import PowerTable from '../components/PowerTable'
 import EquipmentTable from '../components/EquipmentTable'
 import IconButton from '../components/IconButton'
 import WoundTable from '../components/WoundTable'
-
+import FileUploader from '../components/FileUploader'
 
 import { setTheme, modifyObject, downloadObject } from '../lib/util'
 import caltrops from '../lib/caltrops'
@@ -32,7 +32,7 @@ function ParentalAdvisory() {
   setTheme(rules.theme);
 
   return (
-    <div>
+    <FileUploader setFile={setSheet}>
 
       <section className='flex'>
         <IconButton
@@ -99,7 +99,7 @@ function ParentalAdvisory() {
       />
       </section>
 
-    </div>
+    </FileUploader>
   )
 }
 
