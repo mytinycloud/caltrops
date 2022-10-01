@@ -25,3 +25,15 @@ export function downloadObject(obj: any, filename: string, pretty: boolean = fal
     node.click();
     node.remove();
 }
+
+export function saveObject(name: string, obj: any,) {
+    localStorage.setItem(name, JSON.stringify(obj))
+}
+
+export function loadObject(name: string): any | null {
+    const text = localStorage.getItem(name)
+    if (text) {
+        return JSON.parse(text)
+    }
+    return null;
+}

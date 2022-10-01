@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import airlockRuleset from '../data/airlocks'
-import Table from '../components/Table'
+
 import SkillTable from '../components/SkillTable'
 import InfoTable from '../components/InfoTable'
 import AttributeTable from '../components/AttributeTable'
@@ -10,12 +9,8 @@ import IconButton from '../components/IconButton'
 import WoundTable from '../components/WoundTable'
 import FileUploader from '../components/FileUploader'
 
-import { setTheme, modifyObject, downloadObject } from '../lib/util'
+import { setTheme, modifyObject, downloadObject, saveObject } from '../lib/util'
 import caltrops from '../lib/caltrops'
-
-
-
-let defaultSheet = caltrops.newSheet(airlockRuleset);
 
 /* 
   - Top level parent component responsible for all state management
@@ -24,8 +19,8 @@ let defaultSheet = caltrops.newSheet(airlockRuleset);
     - (otherwise they'd end up being done in the children on an as-needed basis)
   - Further lookup and controlling logic can be split out into modules if desired
 */
-function ParentalAdvisory() {
-  const [rules, setRules] = useState(airlockRuleset)
+function ParentalAdvisory( { defaultSheet, defaultRules } ) {
+  const [rules, setRules] = useState(defaultRules)
   const [sheet, setSheet] = useState(defaultSheet)
   const [isEditable, setIsEditable] = useState(false);
 
@@ -48,6 +43,11 @@ function ParentalAdvisory() {
             `caltrops-${sheet.info.name.replace(' ', '-').toLowerCase()}.json`,
             true
             )}
+        />
+        <IconButton
+          icon='save'
+          btnSize='btn-md'
+          onClick={() => saveObject("sheet", sheet)}
         />
       </section>
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {ImCross, ImPencil, ImBin, ImDownload3, ImPlus, ImMinus, ImCheckmark, ImLock} from 'react-icons/im'
+import {ImCross, ImPencil, ImBin, ImDownload3, ImPlus, ImMinus, ImCheckmark, ImLock, ImFloppyDisk} from 'react-icons/im'
 
 
 /* 
@@ -18,6 +18,7 @@ function IconButton({icon, onClick, btnStyle='btn-outline', btnSize='btn-xs', en
     "plus": ImPlus,
     "minus": ImMinus,
     "check": ImCheckmark,
+    "save": ImFloppyDisk,
   }[icon]
 
   const iconSize = {
