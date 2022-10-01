@@ -5,6 +5,7 @@ import PointEntryBox from './PointEntryBox'
 
 import IconButton from './IconButton'
 import EquipmentSelectModal from './EquipmentSelectModal'
+import TextEntryBox from './TextEntryBox'
 
 /* 
  * Equipment table.
@@ -21,7 +22,11 @@ function EquipmentTable({equipment, container, items, setItems}) {
   function addItem(equipment) {
     // TODO: select from equipment.
     let item = {
-      name: equipment.name,
+      name: equipment.custom ? "" : equipment.name,
+    }
+
+    if (equipment.custom) {
+      item.custom = true
     }
 
     if (equipment.stack) {
@@ -56,7 +61,11 @@ function EquipmentTable({equipment, container, items, setItems}) {
           items.map((item, i) => {
             return <tr className='hover'>
               <td>
-                {item.name}
+                {
+                  item.custom ?
+                  <TextEntryBox placeholder='custom item' value={item.name} setValue={v => editItem(i, modifyObject(item, 'name', v))}/>
+                  : item.name
+                }
               </td>
               <td>
                 <PointEntryBox

@@ -132,6 +132,7 @@ const turnipRuleset: Rules = {
             name: 'Medals',
             stack: 8,
         },
+        ...DEFAULT_RULES.equipment,
     ],
     powers: [
         {

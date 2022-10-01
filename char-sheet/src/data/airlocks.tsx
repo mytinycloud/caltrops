@@ -158,6 +158,7 @@ const airlockRuleset: Rules = {
             name: 'Plutonium rod',
             description: 'An plutonium fuel rod for reactor for compact nuclear reactors.',
         },
+        ...DEFAULT_RULES.equipment,
     ],
     powers: [
         {

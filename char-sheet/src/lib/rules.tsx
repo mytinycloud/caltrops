@@ -19,6 +19,7 @@ export interface Equipment {
     name: string,
     stack?: number,
     description?: string,
+    custom?: boolean,
 }
 
 export interface Container {
@@ -87,9 +88,9 @@ export const DEFAULT_RULES: Rules = {
     ],
     equipment: [
         {
-            name: 'Default item',
-            stack: 1,
-            description: "Equipment should be overidden by the ruleset",
+            name: 'Custom item',
+            stack: 10,
+            custom: true,
         },
     ],
     containers: [
