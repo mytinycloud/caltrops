@@ -17,7 +17,7 @@ import {Modal, Table} from 'react-daisyui'
  */
 function EquipmentTable({equipment, container, items, setItems}) {
 
-  const freeCapacity = container.size - items.length
+  const freeCapacity = container.size ? (container.size - items.length) : 1
   const [modalOpen, setModalOpen] = useState(false)
 
   function addItem(equipment) {

@@ -24,7 +24,7 @@ export interface Equipment {
 export interface Container {
     name: string,
     description?: string,
-    size: number,
+    size?: number,
 }
 
 export interface Power {
