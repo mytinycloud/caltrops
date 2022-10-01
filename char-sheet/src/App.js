@@ -3,7 +3,7 @@ import './app.css';
 
 import ParentalAdvisory from './pages/ParentalAdvisory';
 import { loadObject } from './lib/util';
-import { loadRuleset } from './data/rulesets';
+import { loadRuleset, loadDefaultRuleset } from './data/rulesets';
 import caltrops from './lib/caltrops';
 
 const App = (props) => {
@@ -14,7 +14,7 @@ const App = (props) => {
     rules = loadRuleset(sheet.rules)
   }
   else {
-    rules = loadRuleset("Airlocks")
+    rules = loadDefaultRuleset()
     sheet = caltrops.newSheet(rules)
   }
 

@@ -1,4 +1,4 @@
-import { DEFAULT_RULES, Rules } from "../lib/rules";
+import { Rules } from "../lib/rules";
 
 import airlockRuleset from "./airlocks";
 import turnipRuleset from "./turnip28";
@@ -8,6 +8,8 @@ const RULESETS = [
     airlockRuleset,
     turnipRuleset,
 ]
+
+const DEFAULT_RULESET = airlockRuleset
 
 export function listRulesets(): string[] {
     return RULESETS.map( r => r.name )
@@ -19,5 +21,9 @@ export function loadRuleset(name: string): Rules {
             return r
         }
     }
-    return DEFAULT_RULES
+    return loadDefaultRuleset()
+}
+
+export function loadDefaultRuleset(): Rules {
+    return DEFAULT_RULESET
 }
