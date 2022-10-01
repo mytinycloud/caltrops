@@ -69,7 +69,7 @@ const turnipRuleset: Rules = {
             name: 'Blundershovel',
         },
         {
-            name: 'Zweilhander',
+            name: 'Zweihander',
         },
         {
             name: 'Saber',

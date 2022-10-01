@@ -11,6 +11,10 @@ function NewSheetModal({open, setOpen, setSheet}) {
   const [ruleset, setRuleset] = useState(rulesets[0])
   const [name, setName] = useState("")
 
+  if (!open) {
+    return []
+  }
+
   function closeModal() {
     setOpen(false)
     setName("")

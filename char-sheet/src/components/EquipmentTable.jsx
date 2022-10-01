@@ -2,11 +2,9 @@ import { useState } from 'react'
 import caltrops from '../lib/caltrops'
 import { modifyObject } from '../lib/util'
 import PointEntryBox from './PointEntryBox'
-import TextEntryBox from './TextEntryBox'
 
 import IconButton from './IconButton'
-import {Modal, Table} from 'react-daisyui'
-
+import EquipmentSelectModal from './EquipmentSelectModal'
 
 /* 
  * Equipment table.
@@ -94,35 +92,13 @@ function EquipmentTable({equipment, container, items, setItems}) {
         </tfoot>
       </table>
 
-      <Modal open={modalOpen} onClickBackdrop={() => {setModalOpen(false)}}>
-
-        <table className="table table-compact">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Equipment</th>
-              <th>Stack</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              equipment.map( item => {
-                return <tr className='hover'>
-                  <td><IconButton
-                    icon='plus'
-                    enabled={freeCapacity > 0}
-                    onClick={() => { addItem(item) } }
-                  /></td>
-                  <td>{item.name}</td>
-                  <td>{item.stack ?? ""}</td>
-                  <td>{item.description ?? ""}</td>
-                </tr>
-              })
-            }
-          </tbody>
-        </table>
-      </Modal>
+      <EquipmentSelectModal
+        open={modalOpen}
+        setOpen={setModalOpen}
+        enabled={freeCapacity > 0}
+        equipment={equipment}
+        addEquipment={addItem}
+      />
     </div>
   )
 }

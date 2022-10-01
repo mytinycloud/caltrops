@@ -28,8 +28,7 @@ function ParentalAdvisory( { defaultSheet, defaultRules } ) {
   const [isEditable, setIsEditable] = useState(false);
 
   const [isNewSheetOpen, setIsNewSheetOpen] = useState(false);
-
-
+  
   setTheme(rules.theme);
 
   function setSheetAndRules(sheet) {
