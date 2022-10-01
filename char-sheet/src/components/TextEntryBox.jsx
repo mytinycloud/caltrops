@@ -5,11 +5,11 @@ import React from 'react'
  * Text entry box
  * This displays and allows editing of a string
  */
-function TextEntryBox({value, setValue, isEditable=true, placeholder='', limit=32}) {
+function TextEntryBox({value, setValue, isEditable=true, placeholder='', limit=32, inputSize='input-sm'}) {
   return (
     <input
       type="text"
-      className="input input-sm w-full max-w-xs"
+      className={`input w-full max-w-xs input-bordered ${inputSize}`}
       placeholder={placeholder}
       value={value}
       onChange={e => {

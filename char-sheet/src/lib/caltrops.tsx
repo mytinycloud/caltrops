@@ -103,12 +103,12 @@ function woundTotal(wounds: SheetWound[]) {
     return total;
 }
 
-function newSheet(rules: Rules): Sheet {
+function newSheet(rules: Rules, name: string = 'Mork Borginson'): Sheet {
     console.log('Creating new sheet....')
     let sheet: Sheet = {
         rules: rules.name,
         info: {
-            name: 'Mork Borginson',
+            name: name,
             level: 1,
             funds: '',
             background: '',
