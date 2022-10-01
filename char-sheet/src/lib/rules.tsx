@@ -17,7 +17,7 @@ export interface Skill {
 
 export interface Equipment {
     name: string,
-    stack: number,
+    stack?: number,
     description?: string,
 }
 
@@ -29,7 +29,7 @@ export interface Container {
 
 export interface Power {
     name: string,
-    description: string,
+    description?: string,
     source: string, // name of skill to use as level source
     dice: {
         base: number, // dice at lvl 1
@@ -97,12 +97,7 @@ export const DEFAULT_RULES: Rules = {
             name: 'Personal',
             description: 'Equipment carried on ones person',
             size: 5,
-        },
-        {
-            name: 'Pack',
-            description: 'Equipment contained in a satchel or backpack',
-            size: 5,
-        },
+        }
     ],
     powers: [
         {

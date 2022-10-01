@@ -12,79 +12,61 @@ const airlockRuleset: Rules = {
         },
         {
             name: 'Gunnary',
-            description: '',
         },
         {
             name: 'Bludgeoning',
-            description: '',
         },
         {
             name: 'Explosives',
-            description: '',
         },
         {
             name: 'Piloting',
-            description: '',
         },
         {
             name: 'Sneak',
-            description: '',
         },
         {
             name: 'Deception',
-            description: '',
         },
         {
             name: 'Eloquence',
-            description: '',
         },
         {
             name: 'Athletics',
-            description: '',
         },
         {
             name: 'History',
-            description: '',
         },
         {
             name: 'Medicine',
-            description: '',
         },
         {
             name: 'Science',
-            description: '',
         },
         {
             name: 'Engineering',
-            description: '',
         },
         {
             name: 'Computing',
-            description: '',
         },
         {
             name: 'Survival',
-            description: '',
         },
         {
             name: 'Abyss',
-            description: '',
         }
     ],
     equipment: [
         {
             name: 'Pistol',
-            stack: 1,
             description: 'A common sidearm. Easily concealed and quickly drawn. Consumes a clip per encounter.',
         },
         {
             name: 'Rifle',
-            stack: 1,
             description: 'An assault rifle. For precision shooting at moderate range. Consumes a clip per encounter.',
         },
         {
             name: 'Submachine gun',
-            stack: 1,
             description: 'A short weapon, intended to send a withering quantity of lead downrange. Consumes a clip per encounter. May consume an clip per round to lay down supressing fire.',
         },
         {
@@ -109,17 +91,14 @@ const airlockRuleset: Rules = {
         },
         {
             name: 'Crowbar',
-            stack: 1,
             description: 'A long piece of metal with a hookey thing at the end.',
         },
         {
             name: 'Wrench',
-            stack: 1,
             description: 'A large adjustable wrench perfect for general shipboard maintenence.',
         },
         {
             name: 'Machete',
-            stack: 1,
             description: 'A broad cutting implement - as effective for intimidation as it is for agriculture.',
         },
         {
@@ -129,7 +108,6 @@ const airlockRuleset: Rules = {
         },
         {
             name: 'Torch',
-            stack: 1,
             description: 'A handheld torch for lighting your way. Consumes a battery after a days operation.',
         },
         {
@@ -139,17 +117,14 @@ const airlockRuleset: Rules = {
         },
         {
             name: 'Hand computer',
-            stack: 1,
             description: 'A compact tablet computer. Useful for data entry or interfacing with other computers. Comes with a range of standard industrial connectors.',
         },
         {
             name: 'Tether',
-            stack: 1,
             description: 'A 30m industrial cable complete with eyelets and hooks. Its rated capacity is 5 Ton. (1 Ton in impact conditions).',
         },
         {
             name: 'Rebreather',
-            stack: 1,
             description: 'A mask with an air filtration and oxygen enrichment unit. Can enable a days worth of operation in hostile atmospheres.',
         },
         {
@@ -164,12 +139,10 @@ const airlockRuleset: Rules = {
         },
         {
             name: 'Laser',
-            stack: 1,
             description: 'A man portable laser - its blinding orange beam is capable of cutting through doors as easily as humans. Consumes one battery per round.',
         },
         {
             name: 'Flame thrower',
-            stack: 1,
             description: 'This can project a jet of burning liquid fuel some 15 meters. With the addition of plasticiser sachets, any traditional heavy fuel can be used. Consumes one fuel canister per encounter.',
         },
         {
@@ -179,12 +152,10 @@ const airlockRuleset: Rules = {
         },
         {
             name: 'Spiderbot',
-            stack: 1,
             description: 'A hexapod robot with 30cm legspan. This can be remotely controlled to explore confined spaces, carry small tools, and even enact minor repairs.',
         },
         {
             name: 'Plutonium rod',
-            stack: 1,
             description: 'An plutonium fuel rod for reactor for compact nuclear reactors.',
         },
     ],

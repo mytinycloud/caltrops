@@ -24,8 +24,11 @@ function EquipmentTable({equipment, container, items, setItems}) {
     // TODO: select from equipment.
     let item = {
       name: equipment.name,
-      count: 1,
-      stack: equipment.stack,
+    }
+
+    if (equipment.stack) {
+      item.count = 1
+      item.stack = equipment.stack
     }
     setItems([...items, item])
   }
@@ -62,7 +65,7 @@ function EquipmentTable({equipment, container, items, setItems}) {
                   value={item.count ?? 0}
                   setValue={ v => { editItem(i, modifyObject(item, 'count', v)) } }
                   max={item.stack ?? 1}
-                  visible={item.stack > 1}
+                  visible={(item.stack ?? 1) > 1}
                 />
               </td>
               <td>
@@ -112,7 +115,7 @@ function EquipmentTable({equipment, container, items, setItems}) {
                     onClick={() => { addItem(item) } }
                   /></td>
                   <td>{item.name}</td>
-                  <td>{item.stack > 1 ? item.stack : ""}</td>
+                  <td>{item.stack ?? ""}</td>
                   <td>{item.description ?? ""}</td>
                 </tr>
               })
