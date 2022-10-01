@@ -9,8 +9,11 @@ import IconButton from '../components/IconButton'
 import WoundTable from '../components/WoundTable'
 import FileUploader from '../components/FileUploader'
 
+import NewSheetModal from '../components/NewSheetModal'
+
 import { setTheme, modifyObject, downloadObject, saveObject } from '../lib/util'
 import caltrops from '../lib/caltrops'
+import { loadRuleset } from '../data/rulesets'
 
 /* 
   - Top level parent component responsible for all state management
@@ -24,10 +27,23 @@ function ParentalAdvisory( { defaultSheet, defaultRules } ) {
   const [sheet, setSheet] = useState(defaultSheet)
   const [isEditable, setIsEditable] = useState(false);
 
+  const [isNewSheetOpen, setIsNewSheetOpen] = useState(false);
+
+
   setTheme(rules.theme);
 
+  function setSheetAndRules(sheet) {
+    // Check if sheet.rules were changed, and load the new rules if so.
+    if (sheet.rules !== rules.name) {
+      const newRules = loadRuleset(sheet.rules)
+      setRules(newRules)
+      sheet.rules = newRules.name
+    }
+    setSheet(sheet)
+  }
+
   return (
-    <FileUploader setFile={setSheet}>
+    <FileUploader setFile={setSheetAndRules}>
 
       <section className='flex'>
         <IconButton
@@ -49,6 +65,11 @@ function ParentalAdvisory( { defaultSheet, defaultRules } ) {
           btnSize='btn-md'
           onClick={() => saveObject("sheet", sheet)}
         />
+        <IconButton
+          icon='file'
+          btnSize='btn-md'
+          onClick={() => setIsNewSheetOpen(true)}
+        />
       </section>
 
       {/* Character, attributes, status effects Info tables */}
@@ -65,7 +86,7 @@ function ParentalAdvisory( { defaultSheet, defaultRules } ) {
           level={sheet.info.level}
           isEditable={isEditable}
         />
-      <SkillTable
+        <SkillTable
           skills={rules.skills}
           scores={sheet.skills}
           setScores={scores => {setSheet(modifyObject(sheet, 'skills', scores))}}
@@ -98,6 +119,12 @@ function ParentalAdvisory( { defaultSheet, defaultRules } ) {
         setWounds={wounds => {setSheet(modifyObject(sheet, 'wounds', wounds))}}
       />
       </section>
+
+    <NewSheetModal
+      open={isNewSheetOpen}
+      setOpen={setIsNewSheetOpen}
+      setSheet={setSheetAndRules}
+    />
 
     </FileUploader>
   )
