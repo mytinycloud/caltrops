@@ -4,7 +4,7 @@ const airlockRuleset: Rules = {
     ...DEFAULT_RULES,
 
     name: 'Airlocks',
-    theme: 'atompunkmoderna',
+    theme: 'duskers',
     skills: [
         {
             name: 'Observation',
