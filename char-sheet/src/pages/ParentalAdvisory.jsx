@@ -69,37 +69,31 @@ function ParentalAdvisory( { defaultSheet, defaultRules } ) {
         />
       </section>
 
-      {/* Character, attributes, status effects Info tables */}
-      <section className='flex flex-wrap justify-around gap-4 basis-full mt-4'>
-        <InfoTable
-          info={sheet.info}
-          setInfo={info => {setSheet(modifyObject(sheet, 'info', info))}}
-          isEditable={isEditable}
-        />
-        <AttributeTable
-          attributes={rules.attributes}
-          scores={sheet.attributes}
-          setScores={scores => {setSheet(modifyObject(sheet, 'attributes', scores))}}
-          level={sheet.info.level}
-          isEditable={isEditable}
-        />
-        <SkillTable
-          skills={rules.skills}
-          scores={sheet.skills}
-          setScores={scores => {setSheet(modifyObject(sheet, 'skills', scores))}}
-          level={sheet.info.level}
-          isEditable={isEditable}
-        />
-        {(() => {
-          // This feels like a crime
-          const availablePowers = rules.powers.filter(p => caltrops.powerIsAvailable(p, sheet.skills));
-          return availablePowers.length ? <PowerTable
-            powers={availablePowers}
-            powerDice={sheet.powers}
-            skillScores={sheet.skills}
-            setPowerDice={scores => {setSheet(modifyObject(sheet, 'powers', scores))}}
-          /> : null
-        })()}
+      <section className='flex flex-wrap flex-row gap-4 basis-full m-4'>
+        <section className='flex gap-4 flex-col'>
+          <InfoTable
+            info={sheet.info}
+            setInfo={info => {setSheet(modifyObject(sheet, 'info', info))}}
+            isEditable={isEditable}
+          />
+          <AttributeTable
+            attributes={rules.attributes}
+            scores={sheet.attributes}
+            setScores={scores => {setSheet(modifyObject(sheet, 'attributes', scores))}}
+            level={sheet.info.level}
+            isEditable={isEditable}
+          />
+        </section>
+        <section className='flex gap-4 flex-col'>
+          <SkillTable
+            skills={rules.skills}
+            scores={sheet.skills}
+            setScores={scores => {setSheet(modifyObject(sheet, 'skills', scores))}}
+            level={sheet.info.level}
+            isEditable={isEditable}
+          />
+        </section>
+        <section className='flex gap-4 flex-col'>
         {
           rules.containers.map( container => {
             return <EquipmentTable
@@ -110,11 +104,25 @@ function ParentalAdvisory( { defaultSheet, defaultRules } ) {
           />
           } )
         }
-      <WoundTable
-        slots={rules.wounds}
-        wounds={sheet.wounds}
-        setWounds={wounds => {setSheet(modifyObject(sheet, 'wounds', wounds))}}
-      />
+        </section>
+        <section className='flex gap-4 flex-col'>
+          {(() => {
+            // This feels like a crime
+            const availablePowers = rules.powers.filter(p => caltrops.powerIsAvailable(p, sheet.skills));
+            return availablePowers.length ? <PowerTable
+              powers={availablePowers}
+              powerDice={sheet.powers}
+              skillScores={sheet.skills}
+              setPowerDice={scores => {setSheet(modifyObject(sheet, 'powers', scores))}}
+            /> : null
+          })()}
+
+          <WoundTable
+            slots={rules.wounds}
+            wounds={sheet.wounds}
+            setWounds={wounds => {setSheet(modifyObject(sheet, 'wounds', wounds))}}
+          />
+        </section>
       </section>
 
     <NewSheetModal
