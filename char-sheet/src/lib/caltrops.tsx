@@ -1,4 +1,5 @@
 import { Attribute, Rules, Sheet, Power, SheetWound } from './rules'
+import RULESETS from '../data/rulesets'
 
 const SKILL_COST = [
     0,
@@ -128,6 +129,19 @@ function newSheet(rules: Rules, name: string = 'Mork Borginson'): Sheet {
     return sheet;
 }
 
+function loadRules(name: string = ""): Rules {
+    for (let r of RULESETS) {
+        if (r.name === name) {
+            return r;
+        }
+    }
+    return RULESETS[0]; // Default
+}
+
+function listRules(): string[] {
+    return RULESETS.map( r => r.name )
+}
+
 const caltrops = {
     skillCost: skillCost,
     skillIncrementCost: skillIncrementCost,
@@ -146,6 +160,7 @@ const caltrops = {
     newSheet: newSheet,
     woundCreate: woundCreate,
     woundTotal: woundTotal,
-
+    loadRules: loadRules,
+    listRules: listRules,
 }
 export default caltrops;

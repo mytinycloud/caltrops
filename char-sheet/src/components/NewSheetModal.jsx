@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Modal } from 'react-daisyui'
 
-import {listRulesets, loadRuleset} from '../data/rulesets'
 import caltrops from '../lib/caltrops'
 import TextEntryBox from './TextEntryBox'
 
 function NewSheetModal({open, setOpen, setSheet}) {
 
-  const rulesets = listRulesets()
+  const rulesets = caltrops.listRules()
   const [ruleset, setRuleset] = useState(rulesets[0])
   const [name, setName] = useState("")
 
@@ -21,7 +20,7 @@ function NewSheetModal({open, setOpen, setSheet}) {
   }
 
   function createSheet() {
-    const rules = loadRuleset(ruleset)
+    const rules = caltrops.loadRules(ruleset)
     const sheet = caltrops.newSheet(rules, name)
 
     closeModal()

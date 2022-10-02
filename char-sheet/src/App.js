@@ -1,9 +1,7 @@
-import React from 'react';
 import './app.css';
 
 import ParentalAdvisory from './pages/ParentalAdvisory';
 import { loadObject } from './lib/util';
-import { loadRuleset, loadDefaultRuleset } from './data/rulesets';
 import caltrops from './lib/caltrops';
 
 const App = (props) => {
@@ -11,10 +9,10 @@ const App = (props) => {
   let sheet = loadObject("sheet")
   let rules = null;
   if (sheet) {
-    rules = loadRuleset(sheet.rules)
+    rules = caltrops.loadRules(sheet.rules)
   }
   else {
-    rules = loadDefaultRuleset()
+    rules = caltrops.loadRules()
     sheet = caltrops.newSheet(rules)
   }
 

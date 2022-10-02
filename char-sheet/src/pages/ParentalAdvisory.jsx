@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 import SkillTable from '../components/SkillTable'
 import InfoTable from '../components/InfoTable'
@@ -8,12 +8,10 @@ import EquipmentTable from '../components/EquipmentTable'
 import IconButton from '../components/IconButton'
 import WoundTable from '../components/WoundTable'
 import FileUploader from '../components/FileUploader'
-
 import NewSheetModal from '../components/NewSheetModal'
 
 import { setTheme, modifyObject, downloadObject, saveObject } from '../lib/util'
 import caltrops from '../lib/caltrops'
-import { loadRuleset } from '../data/rulesets'
 
 /* 
   - Top level parent component responsible for all state management
@@ -34,7 +32,7 @@ function ParentalAdvisory( { defaultSheet, defaultRules } ) {
   function setSheetAndRules(sheet) {
     // Check if sheet.rules were changed, and load the new rules if so.
     if (sheet.rules !== rules.name) {
-      const newRules = loadRuleset(sheet.rules)
+      const newRules = caltrops.loadRules(sheet.rules)
       setRules(newRules)
       sheet.rules = newRules.name
     }
