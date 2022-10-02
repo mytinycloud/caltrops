@@ -160,6 +160,16 @@ const airlockRuleset: Rules = {
         },
         ...DEFAULT_RULES.equipment,
     ],
+    containers: [
+        {
+            name: "Personal",
+            size: 5,
+        },
+        {
+            name: "Pack",
+            size: 5,
+        }
+    ],
     powers: [
         {
             name: 'Abyss',

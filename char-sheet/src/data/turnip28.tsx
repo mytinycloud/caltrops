@@ -134,6 +134,11 @@ const turnipRuleset: Rules = {
         },
         ...DEFAULT_RULES.equipment,
     ],
+    containers: [
+        {
+            name: "Personal",
+        }
+    ],
     powers: [
         {
             name: 'Snuff',
