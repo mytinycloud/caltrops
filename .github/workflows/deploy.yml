@@ -34,3 +34,7 @@ jobs:
           aws-region: ap-southeast-2
       - name: Sync to S3
         run: aws s3 sync ./build s3://caltrops-bucket --delete
+      - name: Invalidate cloudfront cache
+        run: export AWS_PAGER=""; aws cloudfront create-invalidation --distribution-id E1DB54COCE13CS --paths '/*';
+        
+
