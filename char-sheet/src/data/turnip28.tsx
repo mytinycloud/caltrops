@@ -16,6 +16,9 @@ const turnipRuleset: Rules = {
             name: 'Beastie Handling',
         },
         {
+            name: 'Sneaky Beakie',
+        },
+        {
             name: 'Lies',
         },
         {
