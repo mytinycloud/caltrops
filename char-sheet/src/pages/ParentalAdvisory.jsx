@@ -69,7 +69,7 @@ function ParentalAdvisory( { defaultSheet, defaultRules } ) {
         />
       </section>
 
-      <section className='flex flex-wrap flex-row gap-4 basis-full m-4'>
+      <section className='flex flex-wrap justify-center flex-row gap-4 basis-full m-4'>
         <section className='flex gap-4 flex-col'>
           <InfoTable
             info={sheet.info}
