@@ -60,7 +60,7 @@ function EquipmentTable({equipment, container, items, setItems}) {
         {
           items.map((item, i) => {
             return <tr className='hover'>
-              <td>
+              <td className='w-full'>
                 {
                   item.custom ?
                   <TextEntryBox placeholder='custom item' value={item.name} setValue={v => editItem(i, modifyObject(item, 'name', v))}/>

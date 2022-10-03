@@ -38,8 +38,7 @@ function WoundTable({slots, wounds, setWounds}) {
       <table className="table table-compact w-64">
         <thead>
           <tr>
-            <th>Wounds</th>
-            <th></th>
+            <th colSpan={4}>Wounds</th>
           </tr>
         </thead>
         <tbody>

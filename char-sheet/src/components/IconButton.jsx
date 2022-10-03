@@ -1,6 +1,10 @@
 import React from 'react'
 
-import {ImCross, ImPencil, ImBin, ImDownload3, ImPlus, ImMinus, ImCheckmark, ImLock, ImFloppyDisk, ImFileEmpty, ImDice} from 'react-icons/im'
+import {
+  ImCross, ImPencil, ImBin, ImDownload3,
+  ImPlus, ImMinus, ImCheckmark, ImLock,
+  ImFloppyDisk, ImFileEmpty, ImDice, ImUnlocked,
+} from 'react-icons/im'
 
 
 /* 
@@ -13,6 +17,7 @@ function IconButton({icon, onClick, btnStyle='btn-outline', btnSize='btn-xs', en
     "cross": ImCross,
     "edit": ImPencil,
     "lock": ImLock, // ImLock is not centered.
+    "unlock": ImUnlocked,
     "download": ImDownload3,
     "delete": ImBin,
     "plus": ImPlus,
@@ -20,14 +25,14 @@ function IconButton({icon, onClick, btnStyle='btn-outline', btnSize='btn-xs', en
     "check": ImCheckmark,
     "save": ImFloppyDisk,
     "dice": ImDice,
-    "file": ImFileEmpty
+    "file": ImFileEmpty,
   }[icon]
 
   const iconSize = {
-    "btn-xs": 8,
-    "btn-sm": 12,
-    "btn-md": 20,
-    "btn-lg": 32,
+    "btn-xs": 10,
+    "btn-sm": 14,
+    "btn-md": 22,
+    "btn-lg": 34,
   }[btnSize]
 
   let opacity = visible ? "opacity-100" : "opacity-0"
