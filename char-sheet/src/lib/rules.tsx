@@ -46,7 +46,8 @@ export interface Rules {
     equipment: Equipment[],
     containers: Container[],
     powers: Power[],
-    wounds: number,
+    woundCount: number,
+    woundSizeLimit: number,
 }
 
 export interface SheetEquipment {
@@ -79,7 +80,8 @@ export interface Sheet {
 export const DEFAULT_RULES: Rules = {
     name: 'default',
     theme: 'light',
-    wounds: 5,
+    woundCount: 5,
+    woundSizeLimit: 2,
     skills: [
         {
             name: 'Default skill',
@@ -168,6 +170,6 @@ export const DEFAULT_RULES: Rules = {
                 },
             ]
         },
-    ]
+    ],
 }
 
