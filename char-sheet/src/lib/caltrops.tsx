@@ -88,9 +88,9 @@ function powerIsAvailable(power: Power, scores: any): boolean {
     return (scores[power.source] ?? 0) > 0;
 }
 
-function woundCreate(size: number): SheetWound {
+function woundCreate(size: number, name: string = ""): SheetWound {
     return {
-        name: "",
+        name: name,
         size: size,
         locked: false,
     }
@@ -102,6 +102,23 @@ function woundTotal(wounds: SheetWound[]) {
         total += wound.size
     }
     return total;
+}
+
+function woundTreat(wound: SheetWound, success: boolean): SheetWound | null {
+    if (success) {
+        if (wound.size <= 1) {
+            return null;
+        }
+        return {
+            ...wound,
+            size: wound.size - 1,
+            locked: true,
+        }
+    }
+    return {
+        ...wound,
+        locked: true,
+    }
 }
 
 function newSheet(rules: Rules, name: string = 'Mork Borginson'): Sheet {
@@ -160,6 +177,7 @@ const caltrops = {
     newSheet: newSheet,
     woundCreate: woundCreate,
     woundTotal: woundTotal,
+    woundTreat: woundTreat,
     loadRules: loadRules,
     listRules: listRules,
 }

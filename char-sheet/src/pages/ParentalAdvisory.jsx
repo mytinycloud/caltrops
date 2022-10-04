@@ -118,9 +118,11 @@ function ParentalAdvisory( { defaultSheet, defaultRules } ) {
           })()}
 
           <WoundTable
-            slots={rules.wounds}
             wounds={sheet.wounds}
             setWounds={wounds => {setSheet(modifyObject(sheet, 'wounds', wounds))}}
+            woundCount={rules.woundCount}
+            woundSizeLimit={rules.woundSizeLimit}
+            editable={isEditable}
           />
         </section>
       </section>
