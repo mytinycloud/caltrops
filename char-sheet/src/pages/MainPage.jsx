@@ -1,11 +1,10 @@
 import { useState } from 'react'
 
-import IconButton from '../components/IconButton'
 import FileUploader from '../components/FileUploader'
-import NewSheetModal from '../components/NewSheetModal'
+import MenuRibbon from '../components/MenuRibbon'
 import SheetView from '../components/SheetView'
 
-import { setTheme, downloadObject, saveObject } from '../lib/util'
+import { setTheme } from '../lib/util'
 import caltrops from '../lib/caltrops'
 
 /* 
@@ -15,12 +14,10 @@ import caltrops from '../lib/caltrops'
     - (otherwise they'd end up being done in the children on an as-needed basis)
   - Further lookup and controlling logic can be split out into modules if desired
 */
-function ParentalAdvisory( { defaultSheet, defaultRules } ) {
+function MainPage( { defaultSheet, defaultRules } ) {
   const [rules, setRules] = useState(defaultRules)
   const [sheet, setSheet] = useState(defaultSheet)
   const [editable, setEditable] = useState(false);
-
-  const [isNewSheetOpen, setIsNewSheetOpen] = useState(false);
   
   setTheme(rules.theme);
 
@@ -37,32 +34,12 @@ function ParentalAdvisory( { defaultSheet, defaultRules } ) {
   return (
     <FileUploader setFile={setSheetAndRules}>
 
-      <section className='flex'>
-        <IconButton
-          icon={editable ? 'check' : 'edit'}
-          btnStyle={editable ? 'btn-primary' : 'btn-primary'}
-          btnSize='btn-md'
-          onClick={() => setEditable(!editable)}
-        />
-        <IconButton
-          icon='download'
-          btnSize='btn-md'
-          onClick={() => downloadObject(sheet,
-            `caltrops-${sheet.info.name.replace(' ', '-').toLowerCase()}.json`,
-            true
-            )}
-        />
-        <IconButton
-          icon='save'
-          btnSize='btn-md'
-          onClick={() => saveObject("sheet", sheet)}
-        />
-        <IconButton
-          icon='file'
-          btnSize='btn-md'
-          onClick={() => setIsNewSheetOpen(true)}
-        />
-      </section>
+      <MenuRibbon
+        editable={editable}
+        setEditable={setEditable}
+        sheet={sheet}
+        setSheet={setSheetAndRules}
+      >
 
       <SheetView
         rules={rules}
@@ -70,15 +47,10 @@ function ParentalAdvisory( { defaultSheet, defaultRules } ) {
         setSheet={setSheet}
         editable={editable}
       />
-
-      <NewSheetModal
-        open={isNewSheetOpen}
-        setOpen={setIsNewSheetOpen}
-        setSheet={setSheetAndRules}
-      />
+      </MenuRibbon>
 
     </FileUploader>
   )
 }
 
-export default ParentalAdvisory
+export default MainPage

@@ -58,9 +58,9 @@ function NewWoundModal({open, setOpen, addWound, maxSize=2}) {
       {
         WoundSizeNames(maxSize).map( (sizeName, i) => {
         return <button
-          className={ 'btn btn-primary' }
-          onClick={ () => createWound(i+1) }
-          disabled={name.length <= 0}
+            className={ 'btn' }
+            onClick={ () => createWound(i+1) }
+            disabled={name.length <= 0}
           >
           { sizeName }
         </button>
