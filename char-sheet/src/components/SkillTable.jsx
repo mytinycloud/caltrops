@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import { modifyObject } from '../lib/util'
 import PointEntryBox from './PointEntryBox'
 import caltrops from '../lib/caltrops'
@@ -11,7 +10,7 @@ import caltrops from '../lib/caltrops'
  *    in: level <- sheet.level
  */
 
-function SkillTable({skills, scores, setScores, level, isEditable = false}) {
+function SkillTable({skills, scores, setScores, level, editable = false}) {
   let totalCost = caltrops.skillCostTotal(scores)
   let maxCost = caltrops.skillCostMax(level)
   let sparePoints = maxCost - totalCost;
@@ -35,7 +34,7 @@ function SkillTable({skills, scores, setScores, level, isEditable = false}) {
                   <PointEntryBox
                     value={value}
                     setValue={(v) => {setScores(modifyObject(scores, s.name, v))}}
-                    isEditable={isEditable}
+                    isEditable={editable}
                     isCapped={caltrops.skillIncrementCost(value) > sparePoints}
                     encourageUp='true'
                   />

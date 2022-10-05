@@ -1,13 +1,12 @@
-import caltrops from '../lib/caltrops'
-import { modifyObject } from '../lib/util'
-import TextEntryBox from './TextEntryBox'
-import NewWoundModal from './NewWoundModal'
+import { useState } from 'react'
 
 import { ImHeartBroken } from 'react-icons/im'
 
 import IconButton from './IconButton'
-import { useState } from 'react'
+import NewWoundModal from './NewWoundModal'
 import TreatWoundModal from './TreatWoundModal'
+
+import caltrops from '../lib/caltrops'
 
 
 /* 
@@ -68,9 +67,7 @@ function WoundTable({slots, wounds, setWounds, woundCount=5, woundSizeLimit=2, e
                 <div>
                   {
                     Array(wound.size).fill(
-                    
                     <ImHeartBroken size={40} color='hsl(var(--er))' className='p-3'/>
-
                     )
                   }
                 </div>

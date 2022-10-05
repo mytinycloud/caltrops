@@ -29,7 +29,7 @@ function TreatWoundModal({open, setOpen, treatWound}) {
         className='btn btn-primary'
         onClick={ () => onTreatWound(false) }
         >
-        botch
+        Botch
       </button>
     </div>
   </Modal>

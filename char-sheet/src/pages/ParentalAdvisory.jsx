@@ -1,16 +1,11 @@
 import { useState } from 'react'
 
-import SkillTable from '../components/SkillTable'
-import InfoTable from '../components/InfoTable'
-import AttributeTable from '../components/AttributeTable'
-import PowerTable from '../components/PowerTable'
-import EquipmentTable from '../components/EquipmentTable'
 import IconButton from '../components/IconButton'
-import WoundTable from '../components/WoundTable'
 import FileUploader from '../components/FileUploader'
 import NewSheetModal from '../components/NewSheetModal'
+import SheetView from '../components/SheetView'
 
-import { setTheme, modifyObject, downloadObject, saveObject } from '../lib/util'
+import { setTheme, downloadObject, saveObject } from '../lib/util'
 import caltrops from '../lib/caltrops'
 
 /* 
@@ -23,7 +18,7 @@ import caltrops from '../lib/caltrops'
 function ParentalAdvisory( { defaultSheet, defaultRules } ) {
   const [rules, setRules] = useState(defaultRules)
   const [sheet, setSheet] = useState(defaultSheet)
-  const [isEditable, setIsEditable] = useState(false);
+  const [editable, setEditable] = useState(false);
 
   const [isNewSheetOpen, setIsNewSheetOpen] = useState(false);
   
@@ -44,10 +39,10 @@ function ParentalAdvisory( { defaultSheet, defaultRules } ) {
 
       <section className='flex'>
         <IconButton
-          icon={isEditable ? 'check' : 'edit'}
-          btnStyle={isEditable ? 'btn-primary' : 'btn-primary'}
+          icon={editable ? 'check' : 'edit'}
+          btnStyle={editable ? 'btn-primary' : 'btn-primary'}
           btnSize='btn-md'
-          onClick={() => setIsEditable(!isEditable)}
+          onClick={() => setEditable(!editable)}
         />
         <IconButton
           icon='download'
@@ -69,69 +64,18 @@ function ParentalAdvisory( { defaultSheet, defaultRules } ) {
         />
       </section>
 
-      <section className='flex flex-wrap justify-center flex-row gap-4 basis-full m-4'>
-        <section className='flex gap-4 flex-col'>
-          <InfoTable
-            info={sheet.info}
-            setInfo={info => {setSheet(modifyObject(sheet, 'info', info))}}
-            isEditable={isEditable}
-          />
-          <AttributeTable
-            attributes={rules.attributes}
-            scores={sheet.attributes}
-            setScores={scores => {setSheet(modifyObject(sheet, 'attributes', scores))}}
-            level={sheet.info.level}
-            isEditable={isEditable}
-          />
-        </section>
-        <section className='flex gap-4 flex-col'>
-          <SkillTable
-            skills={rules.skills}
-            scores={sheet.skills}
-            setScores={scores => {setSheet(modifyObject(sheet, 'skills', scores))}}
-            level={sheet.info.level}
-            isEditable={isEditable}
-          />
-        </section>
-        <section className='flex gap-4 flex-col'>
-        {
-          rules.containers.map( container => {
-            return <EquipmentTable
-              equipment={rules.equipment}
-              container={container}
-              items={sheet.equipment[container.name] ?? []}
-              setItems={items => {setSheet(modifyObject(sheet, 'equipment', modifyObject(sheet.equipment, container.name, items)))}}
-          />
-          } )
-        }
-        </section>
-        <section className='flex gap-4 flex-col'>
-          {(() => {
-            // This feels like a crime
-            const availablePowers = rules.powers.filter(p => caltrops.powerIsAvailable(p, sheet.skills));
-            return availablePowers.length ? <PowerTable
-              powers={availablePowers}
-              powerDice={sheet.powers}
-              skillScores={sheet.skills}
-              setPowerDice={scores => {setSheet(modifyObject(sheet, 'powers', scores))}}
-            /> : null
-          })()}
+      <SheetView
+        rules={rules}
+        sheet={sheet}
+        setSheet={setSheet}
+        editable={editable}
+      />
 
-          <WoundTable
-            wounds={sheet.wounds}
-            setWounds={wounds => {setSheet(modifyObject(sheet, 'wounds', wounds))}}
-            woundCount={rules.woundCount}
-            woundSizeLimit={rules.woundSizeLimit}
-            editable={isEditable}
-          />
-        </section>
-      </section>
-
-    <NewSheetModal
-      open={isNewSheetOpen}
-      setOpen={setIsNewSheetOpen}
-      setSheet={setSheetAndRules}
-    />
+      <NewSheetModal
+        open={isNewSheetOpen}
+        setOpen={setIsNewSheetOpen}
+        setSheet={setSheetAndRules}
+      />
 
     </FileUploader>
   )

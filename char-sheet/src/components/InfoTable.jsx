@@ -8,7 +8,7 @@ import TextEntryBox from './TextEntryBox'
  *    out: setInfo -> sheet.info
  */
 
-function InfoTable({info, setInfo, isEditable=false}) {
+function InfoTable({info, setInfo, editable=false}) {
 
   return (
     <div>
@@ -25,7 +25,7 @@ function InfoTable({info, setInfo, isEditable=false}) {
             <td className='py-0'><TextEntryBox
               value={info.name}
               setValue={v => { setInfo(modifyObject(info, 'name', v)) }}
-              isEditable={isEditable}
+              isEditable={editable}
               placeholder='enter name'
               />
             </td>
@@ -35,7 +35,7 @@ function InfoTable({info, setInfo, isEditable=false}) {
             <td><PointEntryBox
               value={info.level}
               setValue={v => { setInfo(modifyObject(info, 'level', v)) }}
-              isEditable={isEditable}
+              isEditable={editable}
             /></td>
           </tr>
           <tr className='hover'>
@@ -43,7 +43,7 @@ function InfoTable({info, setInfo, isEditable=false}) {
             <td className='py-0'><TextEntryBox
               value={info.background}
               setValue={v => { setInfo(modifyObject(info, 'background', v)) }}
-              isEditable={isEditable}
+              isEditable={editable}
               placeholder='enter background'
               />
             </td>
