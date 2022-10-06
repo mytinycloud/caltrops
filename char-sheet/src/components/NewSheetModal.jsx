@@ -57,7 +57,7 @@ function NewSheetModal({open, setOpen, setSheet}) {
       <button
         className='btn m-4'
         onClick={createSheet}
-        disabled={name.length == 0}
+        disabled={name.length === 0}
       >
         Create
       </button>
