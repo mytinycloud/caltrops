@@ -15,7 +15,7 @@ import caltrops from '../lib/caltrops'
 
 function SheetView( { rules, sheet, setSheet, editable=false } ) {
   return (
-    <div className='flex flex-wrap justify-center flex-row gap-4 basis-full m-4'>
+    <div className='flex flex-wrap justify-center flex-row gap-4 basis-full p-4 scrollbar scrollbar-neutral'>
 
         {/* Info & Attributes */}
         <section className='flex gap-4 flex-col'>
