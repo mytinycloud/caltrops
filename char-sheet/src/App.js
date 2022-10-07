@@ -1,6 +1,6 @@
 import './app.css';
 
-import ParentalAdvisory from './pages/ParentalAdvisory';
+import MainPage from './pages/MainPage';
 import { loadObject } from './lib/util';
 import caltrops from './lib/caltrops';
 
@@ -17,9 +17,7 @@ const App = (props) => {
   }
 
   return (
-    <div>
-      <ParentalAdvisory defaultSheet={sheet} defaultRules={rules}></ParentalAdvisory>
-    </div>
+    <MainPage defaultSheet={sheet} defaultRules={rules}></MainPage>
   );
 };
 export default App;

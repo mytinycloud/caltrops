@@ -1,9 +1,9 @@
-import React from 'react'
 
 import {
   ImCross, ImPencil, ImBin, ImDownload3,
   ImPlus, ImMinus, ImCheckmark, ImLock,
   ImFloppyDisk, ImFileEmpty, ImDice, ImUnlocked,
+  ImMenu,
 } from 'react-icons/im'
 
 
@@ -26,6 +26,7 @@ function IconButton({icon, onClick, btnStyle='btn-outline', btnSize='btn-xs', en
     "save": ImFloppyDisk,
     "dice": ImDice,
     "file": ImFileEmpty,
+    "menu": ImMenu,
   }[icon]
 
   const iconSize = {

@@ -1,4 +1,3 @@
-import { Artboard } from 'react-daisyui'
 import caltrops from '../lib/caltrops'
 import { modifyObject } from '../lib/util'
 import PointEntryBox from './PointEntryBox'
@@ -10,7 +9,7 @@ import PointEntryBox from './PointEntryBox'
  *    out: setScores -> sheet.attributes
  *    in: level <- sheet.info.level
  */
-function AttributeTable({attributes, scores, setScores, level, isEditable=false}) {
+function AttributeTable({attributes, scores, setScores, level, editable=false}) {
   const attributeTotal = caltrops.attributeTotal(attributes, scores)
   const attributeMax = caltrops.attributeTotalMax
   const aspectTotal = caltrops.aspectTotal(attributes, scores)
@@ -38,7 +37,7 @@ function AttributeTable({attributes, scores, setScores, level, isEditable=false}
                   <PointEntryBox
                     value={base}
                     setValue={v => { setScores(caltrops.attributeModify(scores, attribute, v)) }}
-                    isEditable={isEditable}
+                    isEditable={editable}
                     min={caltrops.attributeMin}
                     max={caltrops.attributeMax}
                     isCapped={attributeTotal >= attributeMax}
@@ -57,7 +56,7 @@ function AttributeTable({attributes, scores, setScores, level, isEditable=false}
                         <td><PointEntryBox
                           value={scores[aspect.name] ?? 0}
                           setValue={v => setScores(modifyObject(scores, aspect.name, v))}
-                          isEditable={isEditable}
+                          isEditable={editable}
                           min={base}
                           isCapped={aspectTotal >= aspectMax}
                           encourageUp='true'

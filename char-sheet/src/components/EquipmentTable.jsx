@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import caltrops from '../lib/caltrops'
 import { modifyObject } from '../lib/util'
 import PointEntryBox from './PointEntryBox'
 

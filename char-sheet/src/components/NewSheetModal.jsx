@@ -54,7 +54,11 @@ function NewSheetModal({open, setOpen, setSheet}) {
     </div>
 
     <div className='flex justify-center'>
-      <button className='btn btn-primary m-4' onClick={createSheet}>
+      <button
+        className='btn m-4'
+        onClick={createSheet}
+        disabled={name.length === 0}
+      >
         Create
       </button>
     </div>

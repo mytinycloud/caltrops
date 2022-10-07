@@ -18,18 +18,18 @@ function TreatWoundModal({open, setOpen, treatWound}) {
   return <Modal open={open} onClickBackdrop={closeModal}>
     <h1 className='font-bold text-2xl'>Treat wound</h1>
     
-    <div className='flex gap-8 justify-center'>
+    <div className='flex gap-8 justify-center mt-4'>
       <button
-        className='btn btn-primary'
+        className='btn'
         onClick={ () => onTreatWound(true) }
         >
         Treat
       </button>
       <button
-        className='btn btn-primary'
+        className='btn'
         onClick={ () => onTreatWound(false) }
         >
-        botch
+        Botch
       </button>
     </div>
   </Modal>
