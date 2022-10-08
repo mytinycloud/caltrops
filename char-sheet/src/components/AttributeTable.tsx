@@ -4,7 +4,7 @@ import PointEntryBox from './PointEntryBox'
 // Internal imports
 import caltrops from '../lib/caltrops'
 import { modifyObject } from '../lib/util'
-import { Attribute } from '../lib/rules'
+import { Attribute, Dictionary } from '../lib/rules'
 
 /* 
  * Attributes table.
@@ -15,8 +15,8 @@ import { Attribute } from '../lib/rules'
  */
 function AttributeTable({attributes, scores, setScores, level, editable=false}: {
     attributes: Attribute[],
-    scores: {[key: string]: number},
-    setScores(scores: {[key: string]: number}): void,
+    scores: Dictionary<number>,
+    setScores(scores: Dictionary<number>): void,
     level: number,
     editable?: boolean,
   }): JSX.Element {

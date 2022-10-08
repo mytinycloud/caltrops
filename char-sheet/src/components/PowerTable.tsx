@@ -4,7 +4,7 @@ import PointEntryBox from './PointEntryBox'
 // Internal imports
 import { modifyObject } from '../lib/util'
 import caltrops from '../lib/caltrops'
-import { Power } from '../lib/rules'
+import { Power, Dictionary } from '../lib/rules'
 
 /* 
  * Power table.
@@ -16,9 +16,9 @@ import { Power } from '../lib/rules'
 
 function PowerTable({powers, skillScores, powerDice, setPowerDice}: {
     powers: Power[],
-    skillScores: {[key: string]: number},
-    powerDice: {[key: string]: number},
-    setPowerDice(dice: {[key: string]: number}): void
+    skillScores: Dictionary<number>,
+    powerDice: Dictionary<number>,
+    setPowerDice(dice: Dictionary<number>): void
   }): JSX.Element {
   return (
     <div>

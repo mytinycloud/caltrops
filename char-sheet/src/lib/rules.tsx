@@ -70,13 +70,15 @@ export interface SheetInfo {
     funds: string,
 }
 
+export type Dictionary<t> = {[key: string]: t};
+
 export interface Sheet {
     rules: string,
     info: SheetInfo,
-    equipment: {[key: string]: SheetEquipment[]},
-    skills: {[key: string]: number},
-    attributes: {[key: string]: number},
-    powers: {[key: string]: number},
+    equipment: Dictionary<SheetEquipment[]>,
+    skills: Dictionary<number>,
+    attributes: Dictionary<number>,
+    powers: Dictionary<number>,
     wounds: SheetWound[],
 }
 

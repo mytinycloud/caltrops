@@ -1,4 +1,4 @@
-import { Attribute, Rules, Sheet, Power, SheetWound } from './rules'
+import { Attribute, Rules, Sheet, Power, SheetWound, Dictionary } from './rules'
 import RULESETS from '../data/rulesets'
 
 const SKILL_COST = [
@@ -30,7 +30,7 @@ function skillIncrementCost(score: number): number {
     return skillCost(score+1) - skillCost(score)
 }
 
-function skillCostTotal(scores: {[key: string]: number}): number {
+function skillCostTotal(scores: Dictionary<number>): number {
     let sum = 0;
     for (const s in scores) {
         sum += skillCost(scores[s])

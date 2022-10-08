@@ -4,7 +4,7 @@ import PointEntryBox from './PointEntryBox'
 // Internal imports
 import { modifyObject } from '../lib/util'
 import caltrops from '../lib/caltrops'
-import { Skill } from '../lib/rules'
+import { Skill, Dictionary } from '../lib/rules'
 
 /* 
  * Skill table.
@@ -16,8 +16,8 @@ import { Skill } from '../lib/rules'
 
 function SkillTable({skills, scores, setScores, level, editable = false}: {
     skills: Skill[],
-    scores: {[key: string]: number},
-    setScores(scores: {[key: string]: number}): void,
+    scores: Dictionary<number>,
+    setScores(scores: Dictionary<number>): void,
     level: number,
     editable?: boolean
   }): JSX.Element {
