@@ -1,15 +1,25 @@
+// External imports
 import { useState } from 'react'
 
+// Components
 import IconButton from './IconButton'
 import { Modal } from 'react-daisyui'
 
+// Interal imports
+import { Equipment, SheetEquipment } from '../lib/rules'
 
-function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=true}) {
+function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=true}: {
+    equipment: Equipment[],
+    addEquipment(item: SheetEquipment): void,
+    open: boolean,
+    setOpen(open: boolean): void,
+    enabled?: boolean,
+  }): JSX.Element | null {
 
   const [filter, setFilter] = useState("")
 
   if (!open) {
-    return []
+    return null
   }
 
   function closeModal() {

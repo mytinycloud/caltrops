@@ -1,12 +1,15 @@
+// External imports
 import { useState } from 'react'
 
-import { ImHeartBroken } from 'react-icons/im'
-
+// Components
 import IconButton from './IconButton'
 import NewWoundModal from './NewWoundModal'
 import TreatWoundModal from './TreatWoundModal'
+import { ImHeartBroken } from 'react-icons/im'
 
+// Internal imports
 import caltrops from '../lib/caltrops'
+import { SheetWound } from '../lib/rules'
 
 
 /* 
@@ -16,29 +19,35 @@ import caltrops from '../lib/caltrops'
  *    in: woundMaxSize <- sheet.wounds.
  *    out: setWounds -> sheet.wounds
  */
-function WoundTable({slots, wounds, setWounds, woundCount=5, woundSizeLimit=2, editable=false}) {
+function WoundTable( {wounds, setWounds, woundCount=5, woundSizeLimit=2, editable=false}: {
+    wounds: SheetWound[],
+    setWounds(wounds: SheetWound[]): void,
+    woundCount?: number,
+    woundSizeLimit?: number,
+    editable?: boolean
+  }): JSX.Element | null {
 
   const [newWoundOpen, setNewWoundOpen] = useState(false)
-  const [selected, setSelected] = useState(null)
+  const [selected, setSelected] = useState(-1)
 
-  function addWound(wound) {
+  function addWound(wound: SheetWound) {
     let new_wounds = [...wounds, wound]
     setWounds(new_wounds)
   }
 
-  function removeWound(index) {
+  function removeWound(index: number) {
     let new_wounds = [...wounds]
     new_wounds.splice(index, 1)
     setWounds(new_wounds)
   }
 
-  function editWound(index, wound) {
+  function editWound(index: number, wound: SheetWound) {
     let new_wounds = [...wounds]
     new_wounds[index] = wound
     setWounds(new_wounds)
   }
 
-  function treatWound(success) {
+  function treatWound(success: boolean) {
     let index = selected
     let wound = caltrops.woundTreat(wounds[index], success)
     if (wound == null) {
@@ -98,7 +107,7 @@ function WoundTable({slots, wounds, setWounds, woundCount=5, woundSizeLimit=2, e
         </tbody>
         <tfoot>
           <tr>
-            <th colSpan='4'>
+            <th colSpan={4}>
               <div className='flex justify-center'>
               <IconButton
                 icon='plus'
@@ -117,8 +126,8 @@ function WoundTable({slots, wounds, setWounds, woundCount=5, woundSizeLimit=2, e
         maxSize={woundSizeLimit}
       />
       <TreatWoundModal
-        open={selected != null}
-        setOpen={() => setSelected(null)}
+        open={selected > -1}
+        setOpen={() => setSelected(-1)}
         treatWound={treatWound}
       />
     </div>

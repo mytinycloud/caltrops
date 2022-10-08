@@ -1,6 +1,10 @@
+// Components
+import PointEntryBox from './PointEntryBox'
+
+// Internal imports
 import caltrops from '../lib/caltrops'
 import { modifyObject } from '../lib/util'
-import PointEntryBox from './PointEntryBox'
+import { Attribute, Dictionary } from '../lib/rules'
 
 /* 
  * Attributes table.
@@ -9,7 +13,13 @@ import PointEntryBox from './PointEntryBox'
  *    out: setScores -> sheet.attributes
  *    in: level <- sheet.info.level
  */
-function AttributeTable({attributes, scores, setScores, level, editable=false}) {
+function AttributeTable({attributes, scores, setScores, level, editable=false}: {
+    attributes: Attribute[],
+    scores: Dictionary<number>,
+    setScores(scores: Dictionary<number>): void,
+    level: number,
+    editable?: boolean,
+  }): JSX.Element {
   const attributeTotal = caltrops.attributeTotal(attributes, scores)
   const attributeMax = caltrops.attributeTotalMax
   const aspectTotal = caltrops.aspectTotal(attributes, scores)
@@ -37,11 +47,11 @@ function AttributeTable({attributes, scores, setScores, level, editable=false}) 
                   <PointEntryBox
                     value={base}
                     setValue={v => { setScores(caltrops.attributeModify(scores, attribute, v)) }}
-                    isEditable={editable}
+                    editable={editable}
                     min={caltrops.attributeMin}
                     max={caltrops.attributeMax}
                     isCapped={attributeTotal >= attributeMax}
-                    encourageUp='true'
+                    encourageUp={true}
                   />
                 </div>
                 </div>
@@ -56,10 +66,10 @@ function AttributeTable({attributes, scores, setScores, level, editable=false}) 
                         <td><PointEntryBox
                           value={scores[aspect.name] ?? 0}
                           setValue={v => setScores(modifyObject(scores, aspect.name, v))}
-                          isEditable={editable}
+                          editable={editable}
                           min={base}
                           isCapped={aspectTotal >= aspectMax}
-                          encourageUp='true'
+                          encourageUp={true}
                         /></td>
                       </tr>
                     })

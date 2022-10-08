@@ -1,13 +1,23 @@
-import { useState } from 'react'
+// External imports
+import React, { useState } from 'react'
 
+// Components
 import IconButton from './IconButton';
 import NewSheetModal from './NewSheetModal';
-import { downloadObject, saveObject } from '../lib/util'
-
 import { ImDownload3, ImFileEmpty, ImFloppyDisk } from 'react-icons/im'
 
+// Internal imports
+import { downloadObject, saveObject } from '../lib/util'
+import { Sheet } from '../lib/rules'
 
-function MenuRibbon( {editable, setEditable, sheet, setSheet, children} ) {
+
+function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
+    editable: boolean,
+    setEditable(editable: boolean): void,
+    sheet: Sheet,
+    setSheet(sheet: Sheet): void,
+    children?: React.ReactNode,
+  }): JSX.Element {
   const [isNewSheetOpen, setIsNewSheetOpen] = useState(false);
 
   const menuItems = [
@@ -84,53 +94,6 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children} ) {
       />
   </div>
   )
-
-  /*
-  return [
-  <div className='flex p-2 gap-2 fixed z-20'>
-
-    <IconButton
-      icon='menu'
-      btnSize='btn-md'
-      btnStyle=''
-      onClick={() => setEditable(!editable)}
-    />
-
-    <IconButton
-      icon={editable ? 'check' : 'edit'}
-      btnStyle={editable ? 'btn-primary' : ''}
-      btnSize='btn-md'
-      onClick={() => setEditable(!editable)}
-    />
-
-    
-
-      <IconButton
-      icon='download'
-      btnSize='btn-md'
-      onClick={() => downloadObject(sheet,
-      `caltrops-${sheet.info.name.replace(' ', '-').toLowerCase()}.json`,
-      true
-      )}
-      />
-
-      <IconButton
-      icon='save'
-      btnSize='btn-md'
-      onClick={() => saveObject("sheet", sheet)}
-      />
-      <IconButton
-      icon='file'
-      btnSize='btn-md'
-      onClick={() => setIsNewSheetOpen(true)}
-      />
-
-      
-    </div>,
-    <div className='h-16'>
-    </div>
-  ]
-  */
 }
 
 export default MenuRibbon

@@ -1,6 +1,10 @@
-import caltrops from '../lib/caltrops'
-import { modifyObject } from '../lib/util'
+// Components
 import PointEntryBox from './PointEntryBox'
+
+// Internal imports
+import { modifyObject } from '../lib/util'
+import caltrops from '../lib/caltrops'
+import { Power, Dictionary } from '../lib/rules'
 
 /* 
  * Power table.
@@ -10,7 +14,12 @@ import PointEntryBox from './PointEntryBox'
  *   out: setPowerDice -> sheet.powers
  */
 
-function PowerTable({powers, skillScores, powerDice, setPowerDice}) {
+function PowerTable({powers, skillScores, powerDice, setPowerDice}: {
+    powers: Power[],
+    skillScores: Dictionary<number>,
+    powerDice: Dictionary<number>,
+    setPowerDice(dice: Dictionary<number>): void
+  }): JSX.Element {
   return (
     <div>
       <table className="table table-compact">

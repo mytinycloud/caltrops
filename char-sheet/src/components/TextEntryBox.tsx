@@ -1,9 +1,15 @@
-
 /* 
  * Text entry box
  * This displays and allows editing of a string
  */
-function TextEntryBox({value, setValue, isEditable=true, placeholder='', limit=32, inputSize='input-sm'}) {
+function TextEntryBox({value, setValue, editable=true, placeholder='', limit=32, inputSize='input-sm'}: {
+    value: string,
+    setValue(value: string): void,
+    editable?: boolean,
+    placeholder?: string,
+    limit?: number,
+    inputSize?: string
+  }): JSX.Element {
   return (
     <input
       type="text"
@@ -17,7 +23,7 @@ function TextEntryBox({value, setValue, isEditable=true, placeholder='', limit=3
         }
         setValue(v)
       }}
-      disabled={!isEditable}
+      disabled={!editable}
       />
   )
 }

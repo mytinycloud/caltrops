@@ -8,7 +8,7 @@ export function setTheme(theme: string) {
 /*
  * Returns a new object by cloning the source object and then inserting the specified key
  */
-export function modifyObject(obj: any, key: string, value: any): any {
+export function modifyObject<t>(obj: t, key: string, value: any): t {
     return { ...obj, [key]: value }
 }
 

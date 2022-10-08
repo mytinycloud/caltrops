@@ -1,7 +1,10 @@
 
-function FileUploader({setFile, children}) {
+function FileUploader({setFile, children}: {
+    setFile(obj: any): void,
+    children?: React.ReactNode,
+  }): JSX.Element {
 
-  async function onDrop(e) {
+  async function onDrop(e: any) {
     e.preventDefault()
 
     let files = []
