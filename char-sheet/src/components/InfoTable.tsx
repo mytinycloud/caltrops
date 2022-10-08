@@ -1,14 +1,21 @@
-import { modifyObject } from '../lib/util'
+// Components
 import PointEntryBox from './PointEntryBox'
 import TextEntryBox from './TextEntryBox'
+
+// Internal imports
+import { modifyObject } from '../lib/util'
+import { SheetInfo } from '../lib/rules'
 
 /* 
  * Info table.
  *    in: info <- sheet.info
  *    out: setInfo -> sheet.info
  */
-
-function InfoTable({info, setInfo, editable=false}) {
+function InfoTable({info, setInfo, editable=false}: {
+    info: SheetInfo,
+    setInfo(info: SheetInfo): void,
+    editable?:boolean
+  }): JSX.Element {
 
   return (
     <div>
@@ -25,7 +32,7 @@ function InfoTable({info, setInfo, editable=false}) {
             <td className='py-0'><TextEntryBox
               value={info.name}
               setValue={v => { setInfo(modifyObject(info, 'name', v)) }}
-              isEditable={editable}
+              editable={editable}
               placeholder='enter name'
               />
             </td>
@@ -35,7 +42,7 @@ function InfoTable({info, setInfo, editable=false}) {
             <td><PointEntryBox
               value={info.level}
               setValue={v => { setInfo(modifyObject(info, 'level', v)) }}
-              isEditable={editable}
+              editable={editable}
             /></td>
           </tr>
           <tr className='hover'>
@@ -43,7 +50,7 @@ function InfoTable({info, setInfo, editable=false}) {
             <td className='py-0'><TextEntryBox
               value={info.background}
               setValue={v => { setInfo(modifyObject(info, 'background', v)) }}
-              isEditable={editable}
+              editable={editable}
               placeholder='enter background'
               />
             </td>

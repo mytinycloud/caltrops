@@ -1,10 +1,15 @@
+// External imports
 import { useState } from 'react'
 import { modifyObject } from '../lib/util'
-import PointEntryBox from './PointEntryBox'
 
+// Components
+import PointEntryBox from './PointEntryBox'
 import IconButton from './IconButton'
 import EquipmentSelectModal from './EquipmentSelectModal'
 import TextEntryBox from './TextEntryBox'
+
+// Internal imports
+import { Equipment, Container, SheetEquipment, Sheet } from '../lib/rules'
 
 /* 
  * Equipment table.
@@ -13,14 +18,19 @@ import TextEntryBox from './TextEntryBox'
  *    in: items <- sheet.equipment[container.name]
  *    out: setItems -> sheet.equipment[container.name]
  */
-function EquipmentTable({equipment, container, items, setItems}) {
+function EquipmentTable({equipment, container, items, setItems}: {
+    equipment: Equipment[],
+    container: Container,
+    items: SheetEquipment[],
+    setItems(items: SheetEquipment[]): void,
+  }): JSX.Element {
 
   const freeCapacity = container.size ? (container.size - items.length) : 1
   const [modalOpen, setModalOpen] = useState(false)
 
-  function addItem(equipment) {
+  function addItem(equipment: Equipment) {
     // TODO: select from equipment.
-    let item = {
+    let item: SheetEquipment = {
       name: equipment.custom ? "" : equipment.name,
     }
 
@@ -35,13 +45,13 @@ function EquipmentTable({equipment, container, items, setItems}) {
     setItems([...items, item])
   }
 
-  function editItem(index, item) {
+  function editItem(index: number, item: SheetEquipment) {
     let new_items = [...items]
     new_items[index] = item
     setItems(new_items)
   }
 
-  function removeItem(index) {
+  function removeItem(index: number) {
     let new_items = [...items]
     new_items.splice(index, 1)
     setItems(new_items)
@@ -52,7 +62,7 @@ function EquipmentTable({equipment, container, items, setItems}) {
       <table className="table table-compact w-64">
         <thead>
           <tr>
-            <th colSpan='4'>Items: {container.name}</th>
+            <th colSpan={4}>Items: {container.name}</th>
           </tr>
         </thead>
         <tbody>
@@ -87,7 +97,7 @@ function EquipmentTable({equipment, container, items, setItems}) {
         </tbody>
         <tfoot>
           <tr>
-            <th colSpan='4'>
+            <th colSpan={4}>
               <div className='flex justify-center'>
               <IconButton
                 icon='plus'

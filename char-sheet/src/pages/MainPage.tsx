@@ -1,11 +1,15 @@
+// External imports
 import { useState } from 'react'
 
+// Components
 import FileUploader from '../components/FileUploader'
 import MenuRibbon from '../components/MenuRibbon'
 import SheetView from '../components/SheetView'
 
+// Internal imports
 import { setTheme } from '../lib/util'
 import caltrops from '../lib/caltrops'
+import { Sheet, Rules } from '../lib/rules'
 
 /* 
   - Top level parent component responsible for all state management
@@ -14,14 +18,17 @@ import caltrops from '../lib/caltrops'
     - (otherwise they'd end up being done in the children on an as-needed basis)
   - Further lookup and controlling logic can be split out into modules if desired
 */
-function MainPage( { defaultSheet, defaultRules } ) {
+function MainPage( { defaultSheet, defaultRules }: {
+    defaultSheet: Sheet,
+    defaultRules: Rules,
+  }): JSX.Element {
   const [rules, setRules] = useState(defaultRules)
   const [sheet, setSheet] = useState(defaultSheet)
   const [editable, setEditable] = useState(false);
   
   setTheme(rules.theme);
 
-  function setSheetAndRules(sheet) {
+  function setSheetAndRules(sheet: Sheet) {
     // Check if sheet.rules were changed, and load the new rules if so.
     if (sheet.rules !== rules.name) {
       const newRules = caltrops.loadRules(sheet.rules)
@@ -41,12 +48,12 @@ function MainPage( { defaultSheet, defaultRules } ) {
         setSheet={setSheetAndRules}
       >
 
-      <SheetView
-        rules={rules}
-        sheet={sheet}
-        setSheet={setSheet}
-        editable={editable}
-      />
+        <SheetView
+          rules={rules}
+          sheet={sheet}
+          setSheet={setSheet}
+          editable={editable}
+        />
       </MenuRibbon>
 
     </FileUploader>

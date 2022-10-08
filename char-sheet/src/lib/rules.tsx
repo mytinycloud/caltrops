@@ -52,8 +52,9 @@ export interface Rules {
 
 export interface SheetEquipment {
     name: string,
-    count: number,
-    stack: number
+    count?: number,
+    stack?: number,
+    custom?: boolean,
 }
 
 export interface SheetWound {
@@ -62,15 +63,17 @@ export interface SheetWound {
     locked: boolean,
 }
 
+export interface SheetInfo {
+    name: string,
+    level: number,
+    background: string,
+    funds: string,
+}
+
 export interface Sheet {
     rules: string,
-    info: {
-        name: string,
-        level: number,
-        background: string,
-        funds: string,
-    },
-    equipment: {[key: string]: SheetEquipment},
+    info: SheetInfo,
+    equipment: {[key: string]: SheetEquipment[]},
     skills: {[key: string]: number},
     attributes: {[key: string]: number},
     powers: {[key: string]: number},

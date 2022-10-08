@@ -1,17 +1,27 @@
+// External imports
 import { useState } from 'react'
-import { Modal } from 'react-daisyui'
 
-import caltrops from '../lib/caltrops'
+// Components
+import { Modal } from 'react-daisyui'
 import TextEntryBox from './TextEntryBox'
 
-function NewSheetModal({open, setOpen, setSheet}) {
+// Internal imports
+import caltrops from '../lib/caltrops'
+import { Sheet } from '../lib/rules'
+
+
+function NewSheetModal({open, setOpen, setSheet}:{
+    open: boolean,
+    setOpen(open: boolean): void,
+    setSheet(sheet: Sheet): void,
+  }): JSX.Element | null {
 
   const rulesets = caltrops.listRules()
   const [ruleset, setRuleset] = useState(rulesets[0])
   const [name, setName] = useState("")
 
   if (!open) {
-    return []
+    return null
   }
 
   function closeModal() {

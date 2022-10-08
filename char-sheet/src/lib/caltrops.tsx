@@ -30,7 +30,7 @@ function skillIncrementCost(score: number): number {
     return skillCost(score+1) - skillCost(score)
 }
 
-function skillCostTotal(scores: number[]): number {
+function skillCostTotal(scores: {[key: string]: number}): number {
     let sum = 0;
     for (const s in scores) {
         sum += skillCost(scores[s])
@@ -146,6 +146,14 @@ function newSheet(rules: Rules, name: string = 'Mork Borginson'): Sheet {
     return sheet;
 }
 
+/*
+    Cleans up an arbitrary object, converting it into a sheet
+*/
+function loadSheet(obj: any): Sheet {
+    // TODO. lol.
+    return obj;
+}
+
 function loadRules(name: string = ""): Rules {
     for (let r of RULESETS) {
         if (r.name === name) {
@@ -180,5 +188,6 @@ const caltrops = {
     woundTreat: woundTreat,
     loadRules: loadRules,
     listRules: listRules,
+    loadSheet: loadSheet,
 }
 export default caltrops;

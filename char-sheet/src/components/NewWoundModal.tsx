@@ -1,10 +1,16 @@
+// External imports
 import { useState } from 'react'
-import { Modal } from 'react-daisyui'
 
-import caltrops from '../lib/caltrops'
+// Components
+import { Modal } from 'react-daisyui'
 import TextEntryBox from './TextEntryBox'
 
-function WoundSizeNames(maxSize) {
+// Internal imports
+import caltrops from '../lib/caltrops'
+import { SheetWound } from '../lib/rules'
+
+
+function WoundSizeNames(maxSize: number): string[] {
   if (maxSize <= 1) {
     return [ "Create" ]
   }
@@ -17,12 +23,17 @@ function WoundSizeNames(maxSize) {
   }
 }
 
-function NewWoundModal({open, setOpen, addWound, maxSize=2}) {
+function NewWoundModal({open, setOpen, addWound, maxSize=2}: {
+    open: boolean,
+    setOpen(open: boolean): void,
+    addWound(wound: SheetWound): void,
+    maxSize?: number,
+  }): JSX.Element | null {
 
   const [name, setName] = useState("")
 
   if (!open) {
-    return []
+    return null
   }
 
   function closeModal() {
@@ -30,7 +41,7 @@ function NewWoundModal({open, setOpen, addWound, maxSize=2}) {
     setName("")
   }
 
-  function createWound(size) {
+  function createWound(size: number) {
     closeModal()
     addWound(caltrops.woundCreate(size, name))
   }

@@ -1,16 +1,21 @@
+// External imports
 import { Modal } from 'react-daisyui'
 
-function TreatWoundModal({open, setOpen, treatWound}) {
+function TreatWoundModal( {open, setOpen, treatWound}: {
+    open: boolean,
+    setOpen(open: boolean):void,
+    treatWound(success: boolean): void
+  }): JSX.Element | null {
 
   if (!open) {
-    return []
+    return null
   }
 
   function closeModal() {
     setOpen(false)
   }
 
-  function onTreatWound(success) {
+  function onTreatWound(success: boolean) {
     treatWound(success)
     closeModal()
   }

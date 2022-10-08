@@ -1,6 +1,10 @@
-import { modifyObject } from '../lib/util'
+// Components
 import PointEntryBox from './PointEntryBox'
+
+// Internal imports
+import { modifyObject } from '../lib/util'
 import caltrops from '../lib/caltrops'
+import { Skill } from '../lib/rules'
 
 /* 
  * Skill table.
@@ -10,7 +14,13 @@ import caltrops from '../lib/caltrops'
  *    in: level <- sheet.level
  */
 
-function SkillTable({skills, scores, setScores, level, editable = false}) {
+function SkillTable({skills, scores, setScores, level, editable = false}: {
+    skills: Skill[],
+    scores: {[key: string]: number},
+    setScores(scores: {[key: string]: number}): void,
+    level: number,
+    editable?: boolean
+  }): JSX.Element {
   let totalCost = caltrops.skillCostTotal(scores)
   let maxCost = caltrops.skillCostMax(level)
   let sparePoints = maxCost - totalCost;
@@ -34,9 +44,9 @@ function SkillTable({skills, scores, setScores, level, editable = false}) {
                   <PointEntryBox
                     value={value}
                     setValue={(v) => {setScores(modifyObject(scores, s.name, v))}}
-                    isEditable={editable}
+                    editable={editable}
                     isCapped={caltrops.skillIncrementCost(value) > sparePoints}
-                    encourageUp='true'
+                    encourageUp={true}
                   />
                 </td>
               </tr>

@@ -1,9 +1,9 @@
-
+// Components
 import {
   ImCross, ImPencil, ImBin, ImDownload3,
   ImPlus, ImMinus, ImCheckmark, ImLock,
   ImFloppyDisk, ImFileEmpty, ImDice, ImUnlocked,
-  ImMenu,
+  ImMenu
 } from 'react-icons/im'
 
 
@@ -11,9 +11,16 @@ import {
  * A button with an icon in it.
  * Just to standardise styling
  */
-function IconButton({icon, onClick, btnStyle='btn-outline', btnSize='btn-xs', enabled=true, visible=true}) {
+function IconButton({icon, onClick, btnStyle='btn-outline', btnSize='btn-xs', enabled=true, visible=true}: {
+    icon: string,
+    onClick(): void,
+    btnStyle?: string,
+    btnSize?: string,
+    enabled?: boolean,
+    visible?: boolean,
+  }): JSX.Element {
 
-  const IconClass = {
+  const IconClass: any = {
     "cross": ImCross,
     "edit": ImPencil,
     "lock": ImLock, // ImLock is not centered.
@@ -40,7 +47,7 @@ function IconButton({icon, onClick, btnStyle='btn-outline', btnSize='btn-xs', en
 
   return <button
       className={`btn btn-square ${btnStyle} ${btnSize} ${opacity} transition-all`}
-      disabled={(visible && enabled) ? "" : "disabled"}
+      disabled={!(visible && enabled)}
       onClick={onClick}
       >
     <IconClass size={iconSize}></IconClass>
