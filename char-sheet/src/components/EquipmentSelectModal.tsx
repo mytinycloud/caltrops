@@ -38,35 +38,37 @@ function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=t
           placeholder="filter equipment"
           />
       </div>
-      <table className="table table-compact">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Equipment</th>
-            <th>Stack</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            equipment.filter( item => item.name
-                      .toLowerCase()
-                      .includes(filter))
-                      .map( item => {
-              return <tr className='hover'>
-                <td><IconButton
-                  icon='plus'
-                  enabled={enabled}
-                  onClick={() => { addEquipment(item) } }
-                /></td>
-                <td>{item.name}</td>
-                <td>{item.stack ?? ""}</td>
-                <td>{item.description ?? ""}</td>
-              </tr>
-            })
-          }
-        </tbody>
-      </table>
+      <div className='scrollbar scrollbar-neutral'>
+        <table className="table table-compact">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Equipment</th>
+              <th>Stack</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              equipment.filter( item => item.name
+                        .toLowerCase()
+                        .includes(filter))
+                        .map( item => {
+                return <tr className='hover'>
+                  <td><IconButton
+                    icon='plus'
+                    enabled={enabled}
+                    onClick={() => { addEquipment(item) } }
+                  /></td>
+                  <td>{item.name}</td>
+                  <td>{item.stack ?? ""}</td>
+                  <td>{item.description ?? ""}</td>
+                </tr>
+              })
+            }
+          </tbody>
+        </table>
+      </div>
     </Modal>
   )
 }
