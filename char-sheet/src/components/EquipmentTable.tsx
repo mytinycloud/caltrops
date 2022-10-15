@@ -10,6 +10,7 @@ import TextEntryBox from './TextEntryBox'
 
 // Internal imports
 import { Equipment, Container, SheetEquipment, Sheet } from '../lib/rules'
+import caltrops from '../lib/caltrops'
 
 /* 
  * Equipment table.
@@ -114,7 +115,7 @@ function EquipmentTable({equipment, container, items, setItems}: {
         open={modalOpen}
         setOpen={setModalOpen}
         enabled={freeCapacity > 0}
-        equipment={equipment}
+        equipment={modalOpen ? caltrops.equipmentFilter(equipment, container.tags) : []}
         addEquipment={addItem}
       />
     </div>

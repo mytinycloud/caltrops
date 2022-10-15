@@ -1,4 +1,4 @@
-import { Attribute, Rules, Sheet, Power, SheetWound, Dictionary } from './rules'
+import { Attribute, Rules, Sheet, Power, SheetWound, Dictionary, Equipment } from './rules'
 import RULESETS from '../data/rulesets'
 
 const SKILL_COST = [
@@ -167,6 +167,19 @@ function listRules(): string[] {
     return RULESETS.map( r => r.name )
 }
 
+function equipmentFilter(equipment: Equipment[], tags?: string[]): Equipment[] {
+    if (tags) {
+        return equipment.filter( e => {
+            if (e.tag) {
+                return tags.includes(e.tag)
+            }
+            return tags.includes('.')
+        })
+    }
+    // No tags. Return all.
+    return equipment;
+}
+
 const caltrops = {
     skillCost: skillCost,
     skillIncrementCost: skillIncrementCost,
@@ -182,6 +195,7 @@ const caltrops = {
     aspectTotalMax: aspectTotalMax,
     powerIsAvailable: powerIsAvailable,
     powerDiceMax: powerDiceMax,
+    equipmentFilter: equipmentFilter,
     newSheet: newSheet,
     woundCreate: woundCreate,
     woundTotal: woundTotal,
