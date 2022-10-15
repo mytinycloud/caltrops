@@ -169,12 +169,8 @@ function listRules(): string[] {
 
 function equipmentFilter(equipment: Equipment[], tags?: string[]): Equipment[] {
     if (tags) {
-        return equipment.filter( e => {
-            if (e.tag) {
-                return tags.includes(e.tag)
-            }
-            return tags.includes('.')
-        })
+        let resolved = tags.map( t => t === '.' ? undefined : t )
+        return equipment.filter( e => resolved.includes(e.tag) )
     }
     // No tags. Return all.
     return equipment;
