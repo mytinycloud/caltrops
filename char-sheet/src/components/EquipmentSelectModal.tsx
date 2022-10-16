@@ -28,7 +28,7 @@ function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=t
   }
 
   return (
-    <Modal open={open} onClickBackdrop={closeModal}>
+    <Modal open={open} onClickBackdrop={closeModal} className='flex flex-col max-w-5xl'>
       <div className='m-2 flex justify-center'>
         <input
           className='input-sm input w-full max-w-xs input-bordered'
@@ -38,7 +38,7 @@ function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=t
           placeholder="filter equipment"
           />
       </div>
-      <div className='scrollbar scrollbar-neutral'>
+      <div className='scrollbar scrollbar-neutral pr-2'>
         <table className="table table-compact">
           <thead>
             <tr>
@@ -62,7 +62,7 @@ function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=t
                   /></td>
                   <td>{item.name}</td>
                   <td>{item.stack ?? ""}</td>
-                  <td>{item.description ?? ""}</td>
+                  <td className='break-normal whitespace-normal'>{item.description ?? ""}</td>
                 </tr>
               })
             }
