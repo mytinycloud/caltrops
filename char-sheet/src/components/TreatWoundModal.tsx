@@ -25,13 +25,13 @@ function TreatWoundModal( {open, setOpen, treatWound}: {
     
     <div className='flex gap-8 justify-center mt-4'>
       <button
-        className='btn'
+        className='btn btn-primary'
         onClick={ () => onTreatWound(true) }
         >
         Treat
       </button>
       <button
-        className='btn'
+        className='btn btn-error'
         onClick={ () => onTreatWound(false) }
         >
         Botch
