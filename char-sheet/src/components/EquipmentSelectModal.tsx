@@ -7,6 +7,7 @@ import { Modal } from 'react-daisyui'
 
 // Interal imports
 import { Equipment, SheetEquipment } from '../lib/rules'
+import EquipmentCreateModal from './EquipmentCreateModal'
 
 function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=true}: {
     equipment: Equipment[],
@@ -17,6 +18,7 @@ function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=t
   }): JSX.Element | null {
 
   const [filter, setFilter] = useState("")
+  const [customEquipment, setCustomEquipment] = useState(null as Equipment | null)
 
   const hasDescriptions = !equipment.every(e => e.description == null)
 
@@ -60,7 +62,7 @@ function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=t
                   <td><IconButton
                     icon='plus'
                     enabled={enabled}
-                    onClick={() => { addEquipment(item) } }
+                    onClick={() => { item.custom ? setCustomEquipment(item) : addEquipment(item) } }
                   /></td>
                   <td>{item.name}</td>
                   <td>{item.stack ?? ""}</td>
@@ -71,6 +73,12 @@ function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=t
           </tbody>
         </table>
       </div>
+      <EquipmentCreateModal
+        equipment={customEquipment as Equipment}
+        open={customEquipment != null}
+        setOpen={open => setCustomEquipment(null)}
+        addEquipment={addEquipment}
+      />
     </Modal>
   )
 }

@@ -30,15 +30,12 @@ function EquipmentTable({equipment, container, items, setItems}: {
   const [modalOpen, setModalOpen] = useState(false)
 
   function addItem(equipment: Equipment) {
-    // TODO: select from equipment.
     let item: SheetEquipment = {
-      name: equipment.custom ? "" : equipment.name,
+      name: equipment.name,
     }
-
     if (equipment.custom) {
       item.custom = true
     }
-
     if (equipment.stack) {
       item.count = 1
       item.stack = equipment.stack
@@ -71,11 +68,7 @@ function EquipmentTable({equipment, container, items, setItems}: {
           items.map((item, i) => {
             return <tr className='hover'>
               <td className='w-full'>
-                {
-                  item.custom ?
-                  <TextEntryBox placeholder='custom item' value={item.name} setValue={v => editItem(i, modifyObject(item, 'name', v))}/>
-                  : item.name
-                }
+                { item.name }
               </td>
               <td>
                 <PointEntryBox
