@@ -48,6 +48,8 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
             setScores={scores => {setSheet(modifyObject(sheet, 'skills', scores))}}
             level={sheet.info.level}
             editable={editable}
+            attributes={rules.attributes}
+            attributeScores={sheet.attributes}
           />
         </section>
         

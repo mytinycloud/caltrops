@@ -87,6 +87,18 @@ export interface Sheet {
     wounds: SheetWound[],
 }
 
+export interface RollInfo {
+    skill?: {
+        name: string,
+        score: number,
+    },
+    aspect?: {
+        name: string,
+        score: number,
+    }
+    bonus?: number,
+}
+
 export const DEFAULT_RULES: Rules = {
     name: 'default',
     theme: 'light',
