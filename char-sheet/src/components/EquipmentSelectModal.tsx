@@ -18,6 +18,8 @@ function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=t
 
   const [filter, setFilter] = useState("")
 
+  const hasDescriptions = !equipment.every(e => e.description == null)
+
   if (!open) {
     return null
   }
@@ -28,7 +30,7 @@ function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=t
   }
 
   return (
-    <Modal open={open} onClickBackdrop={closeModal} className='flex flex-col max-w-5xl'>
+    <Modal open={open} onClickBackdrop={closeModal} className='flex flex-col m-4 h-full' style={{ width: "auto", maxWidth: "50rem"}}>
       <div className='m-2 flex justify-center'>
         <input
           className='input-sm input w-full max-w-xs input-bordered'
@@ -38,14 +40,14 @@ function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=t
           placeholder="filter equipment"
           />
       </div>
-      <div className='scrollbar scrollbar-neutral pr-2'>
+      <div className='scrollbar scrollbar-neutral pr-4'>
         <table className="table table-compact">
           <thead>
             <tr>
               <th></th>
-              <th>Equipment</th>
+              <th className='w-32' >Equipment</th>
               <th>Stack</th>
-              <th>Description</th>
+              { hasDescriptions ? <th>Description</th> : null }
             </tr>
           </thead>
           <tbody>
@@ -62,7 +64,7 @@ function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=t
                   /></td>
                   <td>{item.name}</td>
                   <td>{item.stack ?? ""}</td>
-                  <td className='break-normal whitespace-normal'>{item.description ?? ""}</td>
+                  { hasDescriptions ? <td className='break-normal whitespace-normal'>{item.description ?? ""}</td> : null }
                 </tr>
               })
             }
