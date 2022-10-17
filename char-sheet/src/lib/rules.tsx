@@ -20,12 +20,17 @@ export interface Equipment {
     stack?: number,
     description?: string,
     custom?: boolean,
+    tag?: string,
 }
 
 export interface Container {
     name: string,
     description?: string,
     size?: number,
+    // Tags define what equipment can be entered into this container.
+    // Special tag '.' can be used to select untagged items.
+    // No tags will select all.
+    tags?: string[]
 }
 
 export interface Power {
