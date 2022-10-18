@@ -1,4 +1,4 @@
-import { Attribute, Rules, Sheet, Power, SheetWound, Dictionary, Equipment } from './rules'
+import { Attribute, Rules, Sheet, Power, SheetWound, Dictionary, Equipment, RollInfo } from './rules'
 import RULESETS from '../data/rulesets'
 
 const SKILL_COST = [
@@ -176,6 +176,23 @@ function equipmentFilter(equipment: Equipment[], tags?: string[]): Equipment[] {
     return equipment;
 }
 
+function rollDiceCount(info: RollInfo): number {
+    return (info.skill?.score ?? 0) + (info.aspect?.score ?? 0) + (info.bonus ?? 0);
+}
+
+function rollD4(): number {
+    return Math.floor(Math.random() * 4) + 1;
+}
+
+function rollDice(info: RollInfo): number[] {
+    const dice = rollDiceCount(info)
+    let result: number[] = []
+    for (let i = 0; i < dice; i++) {
+        result.push( rollD4() )
+    }
+    return result
+}
+
 const caltrops = {
     skillCost: skillCost,
     skillIncrementCost: skillIncrementCost,
@@ -199,5 +216,7 @@ const caltrops = {
     loadRules: loadRules,
     listRules: listRules,
     loadSheet: loadSheet,
+    rollDice: rollDice,
+    rollDiceCount: rollDiceCount,
 }
 export default caltrops;

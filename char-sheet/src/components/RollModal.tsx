@@ -8,6 +8,8 @@ import { Modal } from 'react-daisyui'
 // Interal imports
 import { Attribute, Aspect, RollInfo, Dictionary } from '../lib/rules'
 import PointEntryBox from './PointEntryBox';
+import caltrops from '../lib/caltrops';
+import RollResultModal from './RollResultModal';
 
 
 function RollCreateModal({attributes, scores, roll, close}: {
@@ -19,24 +21,33 @@ function RollCreateModal({attributes, scores, roll, close}: {
 
   const [aspect, setAspect] = useState(null as Aspect | null)
   const [bonus, setBonus] = useState(0)
+  const [result, setResult] = useState(null as number[] | null)
 
   if (roll == null || !roll.skill) {
     return null
   }
 
-  let dice = roll.skill.score + bonus
-  if (aspect) {
-    dice += scores[aspect.name] ?? 0
-  }
-
   function closeModal() {
     //setAspect(null)
     setBonus(0)
+    setResult(null)
     close()
   }
 
+  let info: RollInfo = {
+    skill: roll.skill,
+    bonus: bonus,
+  }
+  if (aspect) {
+    info.aspect = {
+      name: aspect.name,
+      score: scores[aspect.name] ?? 0
+    }
+  }
+
   function rollDice() {
-    closeModal()
+    const result = caltrops.rollDice(info)
+    setResult(result);
   }
 
   return <Modal open={true} onClickBackdrop={closeModal}>
@@ -46,7 +57,7 @@ function RollCreateModal({attributes, scores, roll, close}: {
         <span className="label-text">Select aspect</span>
     </label>
     <div className='flex justify-center'>
-      <div className='grid grid-cols-2 gap-2'>
+      <div className='grid grid-cols-1 gap-2'>
         {
           attributes.map( attr => 
             <div className="btn-group">
@@ -82,9 +93,15 @@ function RollCreateModal({attributes, scores, roll, close}: {
         onClick={() => {rollDice()}}
         disabled={aspect === null}
       >
-        Roll {dice} Dice
+        Roll { caltrops.rollDiceCount(info) } Dice
       </button>
     </div>
+
+    <RollResultModal
+      results={result}
+      close={() => { closeModal(); }}
+    />
+
   </Modal>
 }
 
