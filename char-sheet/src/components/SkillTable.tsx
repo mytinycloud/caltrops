@@ -4,7 +4,8 @@ import PointEntryBox from './PointEntryBox'
 // Internal imports
 import { modifyObject } from '../lib/util'
 import caltrops from '../lib/caltrops'
-import { Skill, Dictionary } from '../lib/rules'
+import { Skill, Dictionary, RollInfo } from '../lib/rules'
+import IconButton from './IconButton'
 
 /* 
  * Skill table.
@@ -14,16 +15,22 @@ import { Skill, Dictionary } from '../lib/rules'
  *    in: level <- sheet.level
  */
 
-function SkillTable({skills, scores, setScores, level, editable = false}: {
+function SkillTable({skills, scores, setScores, level, editable = false, roll}: {
     skills: Skill[],
     scores: Dictionary<number>,
     setScores(scores: Dictionary<number>): void,
     level: number,
-    editable?: boolean
+    editable?: boolean,
+    roll(info: RollInfo): void,
   }): JSX.Element {
   let totalCost = caltrops.skillCostTotal(scores)
   let maxCost = caltrops.skillCostMax(level)
   let sparePoints = maxCost - totalCost;
+
+
+  function startRoll(skill: string): void {
+    roll({ skill: { name: skill, score: scores[skill] ?? 0 }, bonus: 0 })
+  }
 
   return (
     <div>
@@ -38,7 +45,7 @@ function SkillTable({skills, scores, setScores, level, editable = false}: {
           {skills.map(s => {
             let value = scores[s.name] ?? 0
             return(
-              <tr className='hover' >
+              <tr className='hover cursor-pointer' onClick={editable ? undefined : () => startRoll(s.name)} >
                 <td>{s.name}</td>
                 <td className='text-center'>
                   <PointEntryBox

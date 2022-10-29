@@ -1,3 +1,6 @@
+// External imports
+import { useState } from 'react'
+
 // Components
 import SkillTable from './SkillTable'
 import InfoTable from './InfoTable'
@@ -5,11 +8,12 @@ import AttributeTable from './AttributeTable'
 import PowerTable from './PowerTable'
 import EquipmentTable from './EquipmentTable'
 import WoundTable from './WoundTable'
+import RollCreateModal from './RollModal'
 
 // Internal imports
 import { modifyObject } from '../lib/util'
 import caltrops from '../lib/caltrops'
-import { Rules, Sheet } from '../lib/rules'
+import { RollInfo, Rules, Sheet } from '../lib/rules'
 
 /* 
  * Sheet view. Contains all other sheet displaying components.
@@ -21,6 +25,9 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
     setSheet(sheet: Sheet): void,
     editable?: boolean
   }): JSX.Element {
+
+  const [roll, setRoll] = useState(null as RollInfo | null)
+
   return (
     <div className='flex flex-wrap justify-center flex-row gap-4 basis-full p-4 scrollbar scrollbar-neutral'>
 
@@ -48,6 +55,7 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
             setScores={scores => {setSheet(modifyObject(sheet, 'skills', scores))}}
             level={sheet.info.level}
             editable={editable}
+            roll={setRoll}
           />
         </section>
         
@@ -88,6 +96,13 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
             editable={editable}
           />
         </section>
+
+        <RollCreateModal
+          roll={roll}
+          setRoll={setRoll}
+          attributes={rules.attributes}
+          scores={sheet.attributes}
+        />
     </div>
   )
 }
