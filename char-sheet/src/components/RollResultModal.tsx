@@ -25,7 +25,7 @@ function RollResultModal({results, close}: {
         return <div
         ><svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-12 w-12"
+          className="h-12 w-12 animate-ping"
           style={{
             animation: "ping 0.5s cubic-bezier(.49,.01,.83,.45)",
             animationDirection: "reverse",
