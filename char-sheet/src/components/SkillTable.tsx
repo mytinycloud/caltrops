@@ -27,6 +27,11 @@ function SkillTable({skills, scores, setScores, level, editable = false, roll}: 
   let maxCost = caltrops.skillCostMax(level)
   let sparePoints = maxCost - totalCost;
 
+
+  function startRoll(skill: string): void {
+    roll({ skill: { name: skill, score: scores[skill] ?? 0 }, bonus: 0 })
+  }
+
   return (
     <div>
       <table className="table table-compact">
@@ -34,14 +39,13 @@ function SkillTable({skills, scores, setScores, level, editable = false, roll}: 
           <tr className='px-2'>
             <th>Skills</th>
             <th></th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
           {skills.map(s => {
             let value = scores[s.name] ?? 0
             return(
-              <tr className='hover' >
+              <tr className='hover cursor-pointer' onClick={editable ? undefined : () => startRoll(s.name)} >
                 <td>{s.name}</td>
                 <td className='text-center'>
                   <PointEntryBox
@@ -52,13 +56,6 @@ function SkillTable({skills, scores, setScores, level, editable = false, roll}: 
                     encourageUp={true}
                   />
                 </td>
-                <td>
-                  <IconButton
-                    icon="dice"
-                    onClick={() => roll({ skill: { name: s.name, score: scores[s.name] ?? 0 }, bonus: 0 })}
-                    enabled={!editable}
-                  />
-                </td>
               </tr>
           )})}
         </tbody>
@@ -66,7 +63,6 @@ function SkillTable({skills, scores, setScores, level, editable = false, roll}: 
           <tr className='px-2 text-center'>
             <th>Skill cost</th>
             <th>{totalCost} / {maxCost}</th>
-            <th></th>
           </tr>
         </tfoot>
       </table>

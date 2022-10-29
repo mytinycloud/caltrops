@@ -29,7 +29,7 @@ function RollResultModal({results, info, close}: {
   }
 
   return <Modal open={true} onClickBackdrop={closeModal}>
-    <h1 className='font-bold text-2xl mb-4'>{info.aspect?.name} {info.skill?.name} {bonusText(info.bonus ?? 0)}</h1>
+    <h1 className='font-bold text-2xl mb-4'>{info.skill?.name}: {info.aspect?.name} {bonusText(info.bonus ?? 0)}</h1>
     <div className='flex gap-4 flex-row flex-wrap justify-center'>
       {
       results.map( (r, i) => {
