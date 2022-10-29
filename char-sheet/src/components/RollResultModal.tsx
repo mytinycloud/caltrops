@@ -2,9 +2,11 @@
 import { Modal } from 'react-daisyui'
 
 // Interal imports
+import { RollInfo } from '../lib/rules'
 
-function RollResultModal({results, close}: {
+function RollResultModal({results, info, close}: {
     results: number[] | null,
+    info: RollInfo,
     close(): void,
   }): JSX.Element | null {
 
@@ -16,8 +18,18 @@ function RollResultModal({results, close}: {
     close()
   }
 
+  function bonusText(bonus: number): string {
+    if (bonus > 0) {
+      return `+${bonus}`;
+    }
+    if (bonus < 0) {
+      return bonus.toString();
+    }
+    return "";
+  }
+
   return <Modal open={true} onClickBackdrop={closeModal}>
-    <h1 className='font-bold text-2xl mb-4'>Roll result</h1>
+    <h1 className='font-bold text-2xl mb-4'>{info.aspect?.name} {info.skill?.name} {bonusText(info.bonus ?? 0)}</h1>
     <div className='flex gap-4 flex-row flex-wrap justify-center'>
       {
       results.map( (r, i) => {

@@ -2,25 +2,23 @@
 import { useState } from 'react'
 
 // Components
-import TextEntryBox from './TextEntryBox';
 import { Modal } from 'react-daisyui'
 
 // Interal imports
-import { Attribute, Aspect, RollInfo, Dictionary } from '../lib/rules'
+import { Attribute, RollInfo, Dictionary } from '../lib/rules'
 import PointEntryBox from './PointEntryBox';
 import caltrops from '../lib/caltrops';
 import RollResultModal from './RollResultModal';
+import { modifyObject } from '../lib/util';
 
 
-function RollCreateModal({attributes, scores, roll, close}: {
+function RollCreateModal({attributes, scores, roll, setRoll}: {
     attributes: Attribute[],
     scores: Dictionary<number>,
     roll: RollInfo | null,
-    close(): void,
+    setRoll(roll: RollInfo | null): void,
   }): JSX.Element | null {
 
-  const [aspect, setAspect] = useState(null as Aspect | null)
-  const [bonus, setBonus] = useState(0)
   const [result, setResult] = useState(null as number[] | null)
 
   if (roll == null || !roll.skill) {
@@ -28,26 +26,26 @@ function RollCreateModal({attributes, scores, roll, close}: {
   }
 
   function closeModal() {
-    //setAspect(null)
-    setBonus(0)
     setResult(null)
-    close()
+    setRoll(null)
   }
 
-  let info: RollInfo = {
-    skill: roll.skill,
-    bonus: bonus,
+  function setBonus(bonus: number): void {
+    setRoll(modifyObject(roll, 'bonus', bonus))
   }
-  if (aspect) {
-    info.aspect = {
-      name: aspect.name,
-      score: scores[aspect.name] ?? 0
-    }
+
+  function setAspect(name: string, score: number): void {
+    setRoll(modifyObject(roll, 'aspect', {
+      name: name,
+      score: score,
+    }))
   }
 
   function rollDice() {
-    const result = caltrops.rollDice(info)
-    setResult(result);
+    if (roll != null) {
+      const result = caltrops.rollDice(roll)
+      setResult(result);
+    }
   }
 
   return <Modal open={true} onClickBackdrop={closeModal}>
@@ -63,10 +61,10 @@ function RollCreateModal({attributes, scores, roll, close}: {
             <div className="btn-group">
             {
               attr.aspects.map( a => {
-                let selected = aspect?.name === a.name
+                let selected = roll.aspect?.name === a.name
                 return <button
                   className={ `btn btn-sm w-24 ${ selected ? 'btn-active' : '' }`}
-                  onClick={() => {setAspect(a)}}
+                  onClick={() => {setAspect(a.name, scores[a.name] ?? 0)}}
                 >{a.name}</button>
                 }
               )
@@ -81,7 +79,7 @@ function RollCreateModal({attributes, scores, roll, close}: {
         <span className="label-text">Roll bonus</span>
     </label>
     <PointEntryBox
-      value={bonus}
+      value={roll.bonus}
       setValue={setBonus}
       min={-9}
       max={9}
@@ -91,14 +89,15 @@ function RollCreateModal({attributes, scores, roll, close}: {
       <button
         className='btn m-4 btn-primary'
         onClick={() => {rollDice()}}
-        disabled={aspect === null}
+        disabled={roll.aspect === null}
       >
-        Roll { caltrops.rollDiceCount(info) } Dice
+        Roll { caltrops.rollDiceCount(roll) } Dice
       </button>
     </div>
 
     <RollResultModal
       results={result}
+      info={roll}
       close={() => { closeModal(); }}
     />
 

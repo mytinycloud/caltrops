@@ -1,15 +1,11 @@
-// External imports
-import { useState } from 'react'
-
 // Components
 import PointEntryBox from './PointEntryBox'
 
 // Internal imports
 import { modifyObject } from '../lib/util'
 import caltrops from '../lib/caltrops'
-import { Skill, Dictionary, RollInfo, Attribute } from '../lib/rules'
+import { Skill, Dictionary, RollInfo } from '../lib/rules'
 import IconButton from './IconButton'
-import RollCreateModal from './RollModal'
 
 /* 
  * Skill table.
@@ -19,20 +15,17 @@ import RollCreateModal from './RollModal'
  *    in: level <- sheet.level
  */
 
-function SkillTable({skills, scores, setScores, level, editable = false, attributes, attributeScores}: {
+function SkillTable({skills, scores, setScores, level, editable = false, roll}: {
     skills: Skill[],
     scores: Dictionary<number>,
     setScores(scores: Dictionary<number>): void,
     level: number,
     editable?: boolean,
-    attributes: Attribute[],
-    attributeScores: Dictionary<number>,
+    roll(info: RollInfo): void,
   }): JSX.Element {
   let totalCost = caltrops.skillCostTotal(scores)
   let maxCost = caltrops.skillCostMax(level)
   let sparePoints = maxCost - totalCost;
-
-  const [rollInfo, setRollInfo] = useState(null as RollInfo | null)
 
   return (
     <div>
@@ -62,7 +55,7 @@ function SkillTable({skills, scores, setScores, level, editable = false, attribu
                 <td>
                   <IconButton
                     icon="dice"
-                    onClick={() => setRollInfo({ skill: { name: s.name, score: scores[s.name] ?? 0 } })}
+                    onClick={() => roll({ skill: { name: s.name, score: scores[s.name] ?? 0 }, bonus: 0 })}
                     enabled={!editable}
                   />
                 </td>
@@ -77,13 +70,6 @@ function SkillTable({skills, scores, setScores, level, editable = false, attribu
           </tr>
         </tfoot>
       </table>
-
-      <RollCreateModal
-        roll={rollInfo}
-        close={() => setRollInfo(null)}
-        attributes={attributes}
-        scores={attributeScores}
-      />
     </div>
   )
 }
