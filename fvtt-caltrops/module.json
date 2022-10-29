@@ -1,0 +1,18 @@
+{
+    "id": "fvtt-caltrops",
+    "title": "Caltrops - Chat integration",
+    "description": "A module to add dice rolling support for the caltrops character sheet.",
+    "authors": [
+        {
+            "name": "Lambosaurus"
+        }
+        ],
+    "version": "1.0.0",
+    "compatibility": {
+        "minimum": "9",
+        "verified": "9"
+    },
+    "scripts": [
+        "scripts/index.js"
+    ]
+}
