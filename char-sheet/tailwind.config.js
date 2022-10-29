@@ -36,29 +36,6 @@ module.exports = {
       "coffee",
       "winter",        
       {
-        "muthur6k": {
-          "primary": "#D6FFC5",
-          "secondary": "#FDFEC4",
-          "accent": "#D2D53F",
-          "neutral": "#5D7753",
-          "base-100": "#231F20",
-          'base-300': '#293723', // Use for table hover
-          "info": "#D3FEC2",
-          "success": "#8BDD6F",
-          "warning": "#D2D53F",
-          "error": "#AC4F4F",
-        },
-        "atompunkmoderna": {
-          "primary": "#bc0954",
-          "secondary": "#ecf29b",
-          "accent": "#4679af",
-          "neutral": "#23283E",
-          "base-100": "#323135",
-          "info": "#73A6F7",
-          "success": "#249E7D",
-          "warning": "#F8C53A",
-          "error": "#FB6D60",
-        },
         "duskers": {
           primary: "#c5e838",
           secondary: "#2653a6",
@@ -74,6 +51,17 @@ module.exports = {
           "--rounded-btn": "0",
           "--rounded-badge": "0",
           "--tab-radius": "0",
+        },
+        "soil": {
+          primary: "#2f8029",
+          secondary: "#335fa6",
+          accent: "#dedc52",
+          neutral: "#8a674a",
+          "neutral-content": "#d9be9a",
+          "base-content": "#c2b5a3",
+          "base-100": "#302827",
+          "base-200": "#423332",
+          "base-300": "#5e4440",
         },
       }
     ],

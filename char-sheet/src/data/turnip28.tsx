@@ -4,7 +4,7 @@ const turnipRuleset: Rules = {
     ...DEFAULT_RULES,
 
     name: 'Turnip28',
-    theme: 'retro',
+    theme: 'soil',
     skills: [
         {
             name: 'Observation',
