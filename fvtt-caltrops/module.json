@@ -7,6 +7,9 @@
             "name": "Lambosaurus"
         }
         ],
+    "url":		"https://github.com/Lambosaurus/caltrops/tree/feature/fvtt/fvtt-caltrops",
+    "manifest":	"https://raw.githubusercontent.com/Lambosaurus/caltrops/feature/fvtt/fvtt-caltrops/module.json",
+    "download":	"https://github.com/Lambosaurus/caltrops/releases/download/fvtt-v1.0/fvtt-caltrops.zip",
     "version": "1.0.0",
     "compatibility": {
         "minimum": "9",
