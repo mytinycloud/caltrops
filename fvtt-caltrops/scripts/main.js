@@ -4,8 +4,16 @@ function caltrops_launch() {
   window.open(CALTROPS_URI)
 }
 
-function caltrops_recieve(data) {
-  console.warn(data)
+async function caltrops_recieve(data) {
+  // data.text: string
+  // data.dice: number
+  
+  let rollstring = `${data.dice}d4cs`
+
+  let roll = await new Roll(rollstring).evaluate({async: true});
+  game.dice3d?.showForRoll(roll);
+
+  await roll.toMessage( { flavor: data.text } )
 }
 
 Hooks.once('ready', () => {
