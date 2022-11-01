@@ -39,6 +39,12 @@ The manifest URL for foundry installation is:
 https://github.com/Lambosaurus/caltrops/releases/download/fvtt-latest/module.json
 ```
 
+## Manual installation
+
+If manual install is required, download the [module.zip](https://github.com/Lambosaurus/caltrops/releases/download/fvtt-latest/module.zip). This should be unzipped into your foundry modules directory and renamed to `fvtt-caltrops`.
+
+> Ie, the manifest.json will be located at `/data/modules/fvtt-caltrops/manifest.json`
+
 ## Deployment
 
 On push to the `deploy/fvtt` branch, module source is zipped and uploaded to the tag `fvtt-latest`.
