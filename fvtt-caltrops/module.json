@@ -1,21 +1,41 @@
 {
     "id": "fvtt-caltrops",
-    "title": "Caltrops - Chat integration",
-    "description": "A module to add dice rolling support for the caltrops character sheet.",
+    "title": "Caltrops integration",
+    "description": "Add dice rolling support for the caltrops character sheet",
+    "version": "0.0.1",
+    "library": "false",
+    "manifestPlusVersion": "1.2.0",
+    "compatibility": {
+        "minimum": 9,
+        "verified": 10,
+        "maximum": 10
+    },
     "authors": [
         {
-            "name": "Lambosaurus"
+            "name": "Lambosaurus",
+            "url": "https://github.com/Lambosaurus"
         }
-        ],
-    "url":		"https://github.com/Lambosaurus/caltrops/tree/feature/fvtt/fvtt-caltrops",
-    "manifest":	"https://raw.githubusercontent.com/Lambosaurus/caltrops/feature/fvtt/fvtt-caltrops/module.json",
-    "download":	"https://github.com/Lambosaurus/caltrops/releases/download/fvtt-v1.0/fvtt-caltrops.zip",
-    "version": "1.0.0",
-    "compatibility": {
-        "minimum": "9",
-        "verified": "9"
+    ],
+    "relationships": {
+        "systems": [],
+        "requires": []
     },
+    "esmodules": [],
     "scripts": [
-        "scripts/index.js"
-    ]
+        "scripts/main.js"
+    ],
+    "styles": [],
+    "languages": [
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "lang/en.json"
+        }
+    ],
+    "packs": [],
+    "url": "https://github.com/Lambosaurus/caltrops",
+    "manifest": "https://github.com/Lambosaurus/caltrops/releases/download/fvtt-v1.0/module.json",
+    "download": "https://github.com/Lambosaurus/caltrops/releases/download/fvtt-v1.0/module.zip",
+    "license": "LICENSE",
+    "readme": "README.md"
 }

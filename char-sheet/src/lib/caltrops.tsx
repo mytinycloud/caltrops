@@ -193,6 +193,19 @@ function rollDice(info: RollInfo): number[] {
     return result
 }
 
+function rollDescribe(info: RollInfo): string {
+    let text = `${info.skill?.name}: ${info.aspect?.name}`
+    if (info.bonus) {
+        if (info.bonus > 0) {
+            text = `${text} +${info.bonus}`
+        }
+        else {
+            text = `${text} ${info.bonus}`
+        }
+    }
+    return text;
+}
+
 const caltrops = {
     skillCost: skillCost,
     skillIncrementCost: skillIncrementCost,
@@ -218,5 +231,6 @@ const caltrops = {
     loadSheet: loadSheet,
     rollDice: rollDice,
     rollDiceCount: rollDiceCount,
+    rollDescribe: rollDescribe,
 }
 export default caltrops;
