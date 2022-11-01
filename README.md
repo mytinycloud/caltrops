@@ -34,7 +34,10 @@ Foundry support it not well known, and has only been tested on `v10+`.
 
 ## Installation
 
-The manifest URL for foundry installation is: https://github.com/Lambosaurus/caltrops/releases/download/fvtt-latest/module.json
+The manifest URL for foundry installation is:
+```
+https://github.com/Lambosaurus/caltrops/releases/download/fvtt-latest/module.json
+```
 
 ## Deployment
 
