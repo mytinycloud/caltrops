@@ -43,7 +43,7 @@ https://github.com/Lambosaurus/caltrops/releases/download/fvtt-latest/module.jso
 
 If manual install is required, download the [module.zip](https://github.com/Lambosaurus/caltrops/releases/download/fvtt-latest/module.zip). This should be unzipped into your foundry modules directory and renamed to `fvtt-caltrops`.
 
-> Ie, the manifest.json will be located at `/data/modules/fvtt-caltrops/manifest.json`
+> Ie, the module.json will be located at `/data/modules/fvtt-caltrops/module.json`
 
 ## Deployment
 
