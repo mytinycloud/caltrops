@@ -1,0 +1,28 @@
+name: Release VFTT Module
+
+on:
+  push:
+    branches:
+      - deploy/fvtt
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: ./fvtt
+    steps:
+    - uses: actions/checkout@v2
+    - run: zip -r ./module.zip ./
+    - name: Create Release
+      id: create_versioned_release
+      uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        name: Release fvtt-latest
+        draft: false
+        prerelease: false
+        token: ${{ secrets.GITHUB_TOKEN }}
+        artifacts: './fvtt/module.json,./fvtt/module.zip'
+        tag: fvtt-latest
