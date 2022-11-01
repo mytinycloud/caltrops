@@ -1,5 +1,6 @@
 // Components
 import { Modal } from 'react-daisyui'
+import caltrops from '../lib/caltrops';
 
 // Interal imports
 import { RollInfo } from '../lib/rules'
@@ -17,19 +18,9 @@ function RollResultModal({results, info, close}: {
   function closeModal() {
     close()
   }
-
-  function bonusText(bonus: number): string {
-    if (bonus > 0) {
-      return `+${bonus}`;
-    }
-    if (bonus < 0) {
-      return bonus.toString();
-    }
-    return "";
-  }
-
+  
   return <Modal open={true} onClickBackdrop={closeModal}>
-    <h1 className='font-bold text-2xl mb-4'>{info.skill?.name}: {info.aspect?.name} {bonusText(info.bonus ?? 0)}</h1>
+    <h1 className='font-bold text-2xl mb-4'>{caltrops.rollDescribe(info)}</h1>
     <div className='flex gap-4 flex-row flex-wrap justify-center'>
       {
       results.map( (r, i) => {

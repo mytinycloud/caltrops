@@ -10,6 +10,7 @@ import PointEntryBox from './PointEntryBox';
 import caltrops from '../lib/caltrops';
 import RollResultModal from './RollResultModal';
 import { modifyObject } from '../lib/util';
+import foundry from '../lib/foundry';
 
 
 function RollCreateModal({attributes, scores, roll, setRoll}: {
@@ -41,12 +42,21 @@ function RollCreateModal({attributes, scores, roll, setRoll}: {
     }))
   }
 
-  function rollDice() {
+  function rollDiceLocal() {
     if (roll != null) {
       const result = caltrops.rollDice(roll)
-      setResult(result);
+      setResult(result)
     }
   }
+
+  function rollDiceFoundry() {
+    if (roll != null) {
+      foundry.submitRoll(roll)
+      closeModal()
+    }
+  }
+
+  const isFoundryPresent = foundry.isPresent()
 
   return <Modal open={true} onClickBackdrop={closeModal}>
     <h1 className='font-bold text-2xl mb-4'>Roll {roll.skill.name}</h1>
@@ -87,12 +97,25 @@ function RollCreateModal({attributes, scores, roll, setRoll}: {
 
     <div className='flex justify-center'>
       <button
-        className='btn m-4 btn-primary'
-        onClick={() => {rollDice()}}
-        disabled={roll.aspect === null}
+        className={`btn m-4 ${isFoundryPresent ? '' : 'btn-primary'}`}
+        onClick={() => {rollDiceLocal()}}
+        disabled={!roll.aspect}
       >
         Roll { caltrops.rollDiceCount(roll) } Dice
       </button>
+
+      {
+        isFoundryPresent ? 
+        <button
+          className='btn m-4 btn-primary'
+          onClick={() => {rollDiceFoundry()}}
+          disabled={!roll.aspect}
+        >
+          Send to VTT
+        </button>
+        : null
+      }
+
     </div>
 
     <RollResultModal
