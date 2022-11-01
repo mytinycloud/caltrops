@@ -1,0 +1,32 @@
+name: Release VFTT Module
+
+on:
+  push:
+    branches:
+      - deploy/fvtt
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: ./fvtt
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get Version
+      shell: bash
+      id: get-version
+      run: echo "::set-output name=version::$(node ./../.github/workflows/get-version.js)"
+    - run: zip -r ./module.zip .*
+    - name: Create Release
+      id: create_versioned_release
+      uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        name: Release ${{ steps.get-version.outputs.version }}
+        draft: false
+        prerelease: false
+        token: ${{ secrets.GITHUB_TOKEN }}
+        artifacts: './module.json,./my-module.zip'
+        tag: ${{ steps.get-version.outputs.version }}
