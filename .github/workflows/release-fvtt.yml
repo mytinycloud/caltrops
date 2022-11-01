@@ -28,5 +28,5 @@ jobs:
         draft: false
         prerelease: false
         token: ${{ secrets.GITHUB_TOKEN }}
-        artifacts: './module.json,./my-module.zip'
+        artifacts: './fvtt/module.json,./fvtt/module.zip'
         tag: ${{ steps.get-version.outputs.version }}
