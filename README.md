@@ -18,7 +18,7 @@ Run `npm run build` for a production compilation.
 
 ## Deployment
 
-On push to the `deploy/char-sheet` branch, the app within `char-sheet` will be published to [caltrops.tlembedded.com](caltrops.tlembedded.com).
+On push to the `deploy/char-sheet` branch, the app within `char-sheet` will be published to [caltrops.tlembedded.com](https://caltrops.tlembedded.com).
 
 1. The app is synced to a [S3 bucket](http://caltrops-bucket.s3-website-ap-southeast-2.amazonaws.com/)
 2. The bucket is delivered via [cloudfront distribution](https://d1k7birsgcogal.cloudfront.net)
