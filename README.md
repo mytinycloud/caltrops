@@ -26,28 +26,6 @@ On push to the `deploy/char-sheet` branch, the app within `char-sheet` will be p
 
 # FVTT module
 
-The FVTT module is in the working directory [fvtt](./fvtt/)
+This is a module for the Foundry Virtual Table Top system. The working directory is [fvtt](./fvtt/).
 
-This is a module for the Foundry Virtual Table Top system.
-
-Foundry support it not well known, and has only been tested on `v10+`.
-
-## Installation
-
-The manifest URL for foundry installation is:
-```
-https://github.com/Lambosaurus/caltrops/releases/download/fvtt-latest/module.json
-```
-
-## Manual installation
-
-If manual install is required, download the [module.zip](https://github.com/Lambosaurus/caltrops/releases/download/fvtt-latest/module.zip). This should be unzipped into your foundry modules directory and renamed to `fvtt-caltrops`.
-
-> Ie, the module.json will be located at `/data/modules/fvtt-caltrops/module.json`
-
-## Deployment
-
-On push to the `deploy/fvtt` branch, module source is zipped and uploaded to the tag `fvtt-latest`.
-
-This is the permanent home of the fvtt module, and serves as a download source.
-
+The readme for this component is in [/fvtt/README.md](./fvtt/README.md)
