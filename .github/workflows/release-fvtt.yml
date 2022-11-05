@@ -14,7 +14,7 @@ jobs:
         working-directory: ./fvtt
     steps:
     - uses: actions/checkout@v2
-    - run: zip -r ./module.zip ./
+    - run: zip -r ./fvtt-caltrops.zip ./
     - name: Create Release
       id: create_versioned_release
       uses: ncipollo/release-action@v1
@@ -24,5 +24,5 @@ jobs:
         draft: false
         prerelease: false
         token: ${{ secrets.GITHUB_TOKEN }}
-        artifacts: './fvtt/module.json,./fvtt/module.zip'
+        artifacts: './fvtt/module.json,./fvtt/fvtt-caltrops.zip'
         tag: fvtt-latest

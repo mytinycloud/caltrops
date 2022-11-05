@@ -2,7 +2,7 @@
     "id": "fvtt-caltrops",
     "title": "Caltrops integration",
     "description": "Add dice rolling support for the caltrops character sheet",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "library": "false",
     "manifestPlusVersion": "1.2.0",
     "compatibility": {
@@ -34,7 +34,7 @@
     "packs": [],
     "url": "https://github.com/Lambosaurus/caltrops",
     "manifest": "https://github.com/Lambosaurus/caltrops/releases/download/fvtt-latest/module.json",
-    "download": "https://github.com/Lambosaurus/caltrops/releases/download/fvtt-latest/module.zip",
+    "download": "https://github.com/Lambosaurus/caltrops/releases/download/fvtt-latest/fvtt-caltrops.zip",
     "license": "LICENSE",
     "readme": "README.md"
 }
