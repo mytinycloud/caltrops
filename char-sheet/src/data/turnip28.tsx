@@ -11,6 +11,7 @@ const turnipRuleset: Rules = {
         },
         {
             name: 'Snuff',
+            trained: true,
         },
         {
             name: 'Beastie Handling',

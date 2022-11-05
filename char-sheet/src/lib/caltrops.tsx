@@ -1,4 +1,4 @@
-import { Attribute, Rules, Sheet, Power, SheetWound, Dictionary, Equipment, RollInfo } from './rules'
+import { Attribute, Rules, Sheet, Power, SheetWound, Dictionary, Equipment, RollInfo, Skill } from './rules'
 import RULESETS from '../data/rulesets'
 
 const SKILL_COST = [
@@ -42,7 +42,11 @@ function skillCostMax(level: number): number {
     return level * 3;
 }
 
-function attributeTotal(attributes: Attribute[], scores: any): number {
+function skillIsRollable(skill: Skill, scores: Dictionary<number>): boolean {
+    return scores[skill.name] > 0 || !skill.trained;
+}
+
+function attributeTotal(attributes: Attribute[], scores: Dictionary<number>): number {
     let sum = 0;
     for (const attr of attributes) {
         sum += scores[attr.name] ?? 0
@@ -54,7 +58,7 @@ function aspectTotalMax(level: number): number {
     return level;
 }
 
-function aspectTotal(attributes: Attribute[], scores: any): number {
+function aspectTotal(attributes: Attribute[], scores: Dictionary<number>): number {
     let sum = 0;
     for (const attr of attributes) {
         const base = scores[attr.name] ?? 0
@@ -68,7 +72,7 @@ function aspectTotal(attributes: Attribute[], scores: any): number {
 /*
  * Modifies the given attribute - adjusting the child aspects
  */
-function attributeModify(scores: any, attribute: Attribute, value: number): any {
+function attributeModify(scores: Dictionary<number>, attribute: Attribute, value: number): Dictionary<number> {
     let newScores = {...scores}
     let delta = value - (scores[attribute.name] ?? 0)
     newScores[attribute.name] = value
@@ -79,12 +83,12 @@ function attributeModify(scores: any, attribute: Attribute, value: number): any 
     return newScores
 }
 
-function powerDiceMax(power: Power, scores: any): number {
+function powerDiceMax(power: Power, scores: Dictionary<number>): number {
     const score = scores[power.source] ?? 0
     return power.dice.base + (power.dice.level * (score - 1));
 }
 
-function powerIsAvailable(power: Power, scores: any): boolean {
+function powerIsAvailable(power: Power, scores: Dictionary<number>): boolean {
     return (scores[power.source] ?? 0) > 0;
 }
 
@@ -211,6 +215,7 @@ const caltrops = {
     skillIncrementCost: skillIncrementCost,
     skillCostTotal: skillCostTotal,
     skillCostMax: skillCostMax,
+    skillIsRollable: skillIsRollable,
     attributeMin: ATTRIBUTE_MIN,
     attributeMax: ATTRIBUTE_MAX,
     attributeTotalMax: ATTRIBUTE_TOTAL_MAX,
