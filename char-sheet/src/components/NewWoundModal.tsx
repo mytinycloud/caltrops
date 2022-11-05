@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 // Components
-import { Modal } from 'react-daisyui'
+import ModalFrame from './ModalFrame'
 import TextEntryBox from './TextEntryBox'
 
 // Internal imports
@@ -46,7 +46,7 @@ function NewWoundModal({open, setOpen, addWound, maxSize=2}: {
     addWound(caltrops.woundCreate(size, name))
   }
 
-  return <Modal open={open} onClickBackdrop={closeModal}>
+  return <ModalFrame open={open} close={closeModal}>
     <h1 className='font-bold text-2xl'>New wound</h1>
     
     <div className="form-control w-full max-w-xs">
@@ -78,7 +78,7 @@ function NewWoundModal({open, setOpen, addWound, maxSize=2}: {
         })
       }
     </div>
-  </Modal>
+  </ModalFrame>
 }
 
 

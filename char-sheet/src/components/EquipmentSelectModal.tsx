@@ -4,6 +4,7 @@ import { useState } from 'react'
 // Components
 import IconButton from './IconButton'
 import { Modal } from 'react-daisyui'
+import { ImCross } from 'react-icons/im'
 
 // Interal imports
 import { Equipment, SheetEquipment } from '../lib/rules'
@@ -33,6 +34,14 @@ function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=t
 
   return (
     <Modal open={open} onClickBackdrop={closeModal} className='flex flex-col m-4 h-full' style={{ width: "auto", maxWidth: "50rem"}}>
+      
+      <button
+        className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+        onClick={closeModal}
+        >
+        <ImCross size={14}/>
+      </button>
+      
       <div className='m-2 flex justify-center'>
         <input
           className='input-sm input w-full max-w-xs input-bordered'

@@ -1,5 +1,5 @@
 // Components
-import { Modal } from 'react-daisyui'
+import ModalFrame from './ModalFrame'
 import caltrops from '../lib/caltrops';
 
 // Interal imports
@@ -19,7 +19,7 @@ function RollResultModal({results, info, close}: {
     close()
   }
   
-  return <Modal open={true} onClickBackdrop={closeModal}>
+  return <ModalFrame open={true} close={closeModal}>
     <h1 className='font-bold text-2xl mb-4'>{caltrops.rollDescribe(info)}</h1>
     <div className='flex gap-4 flex-row flex-wrap justify-center'>
       {
@@ -58,7 +58,7 @@ function RollResultModal({results, info, close}: {
         })
       }
     </div>
-  </Modal>
+  </ModalFrame>
 }
 
 export default RollResultModal

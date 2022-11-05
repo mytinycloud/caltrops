@@ -1,5 +1,5 @@
 // External imports
-import { Modal } from 'react-daisyui'
+import ModalFrame from './ModalFrame'
 
 function TreatWoundModal( {open, setOpen, treatWound}: {
     open: boolean,
@@ -20,7 +20,7 @@ function TreatWoundModal( {open, setOpen, treatWound}: {
     closeModal()
   }
 
-  return <Modal open={open} onClickBackdrop={closeModal}>
+  return <ModalFrame open={open} close={closeModal}>
     <h1 className='font-bold text-2xl'>Treat wound</h1>
     
     <div className='flex gap-8 justify-center mt-4'>
@@ -37,7 +37,7 @@ function TreatWoundModal( {open, setOpen, treatWound}: {
         Botch
       </button>
     </div>
-  </Modal>
+  </ModalFrame>
 }
 
 
