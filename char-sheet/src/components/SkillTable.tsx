@@ -32,6 +32,10 @@ function SkillTable({skills, scores, setScores, level, editable = false, roll}: 
     roll({ skill: { name: skill, score: scores[skill] ?? 0 }, bonus: 0 })
   }
 
+  if (!editable) {
+    skills = skills.filter(s => caltrops.skillIsRollable(s, scores))
+  }
+
   return (
     <div>
       <table className="table table-compact">

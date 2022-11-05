@@ -13,6 +13,7 @@ export interface Attribute {
 export interface Skill {
     name: string,
     description?: string,
+    trained?: boolean, // If true, this skill can not be used without at least 1 point.
 }
 
 export interface Equipment {

@@ -54,6 +54,7 @@ const airlockRuleset: Rules = {
         },
         {
             name: 'Abyss',
+            trained: true,
         }
     ],
     equipment: [
