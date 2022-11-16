@@ -4,11 +4,14 @@ import React, { useState } from 'react'
 // Components
 import IconButton from './IconButton';
 import NewSheetModal from './NewSheetModal';
-import { ImDownload3, ImFileEmpty, ImFloppyDisk } from 'react-icons/im'
+import OpenSheetModal from './OpenSheetModal'
+import { ImDownload3, ImFileEmpty, ImFloppyDisk, ImUser } from 'react-icons/im'
 
 // Internal imports
 import { downloadObject, saveObject } from '../lib/util'
 import { Sheet } from '../lib/rules'
+import server, { ServerItem } from '../lib/server'
+import UserLoginModal from './UserLoginModal';
 
 
 function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
@@ -18,9 +21,28 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
     setSheet(sheet: Sheet): void,
     children?: React.ReactNode,
   }): JSX.Element {
-  const [isNewSheetOpen, setIsNewSheetOpen] = useState(false);
+  
+  const [isNewSheetOpen, setIsNewSheetOpen] = useState(false)
+  const [user, setUser] = useState(null as string | null)
+  const [isLoginOpen, setIsLoginOpen] = useState(false)
+  const [isOpenSheetOpen, setIsOpenSheetOpen] = useState(false)
+  const [sheetList, setSheetList] = useState(null as ServerItem[] | null)
 
   const menuItems = [
+    <li>
+      <button
+        className='btn btn-ghost'
+        onClick={() => {
+          if (user) {
+            server.list(user).then( s => setSheetList(s))
+            setIsOpenSheetOpen(true)
+          }
+        }}
+      >
+        <ImFileEmpty size={20}/>
+        Open sheet
+      </button>
+    </li>,
     <li>
       <button
         className='btn btn-ghost'
@@ -51,6 +73,15 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
         Download
       </button>
     </li>,
+    <li>
+    <button
+      className='btn btn-ghost'
+      onClick={() => setIsLoginOpen(true)}
+    >
+      <ImUser size={20}/>
+      {user ?? "Login"}
+    </button>
+  </li>,
   ]
   
   return (
@@ -92,6 +123,20 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
       setOpen={setIsNewSheetOpen}
       setSheet={setSheet}
       />
+
+    <UserLoginModal
+      open={isLoginOpen}
+      setOpen={setIsLoginOpen}
+      setUser={setUser}
+      />
+
+    <OpenSheetModal
+      open={isOpenSheetOpen}
+      setOpen={setIsOpenSheetOpen}
+      setSheet={setSheet}
+      user={user}
+      sheets={sheetList}
+    />
   </div>
   )
 }

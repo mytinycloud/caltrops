@@ -2,6 +2,10 @@ const AWS = require('aws-sdk');
 const db = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = 'caltrops-sheets';
 
+const HEADERS = {
+    'Content-Type': 'application/json',
+}
+
 async function writeContent(uid, title, user, content) {
     const item = {
         "id": uid,
@@ -41,14 +45,12 @@ async function readContent(uid) {
     return response.Item ?? null
 }
 
-function errorResponse(status, source, exception = undefined) {
+function errorResponse(status, source, error = undefined) {
     return {
         statusCode: status,
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: HEADERS,
         body: {
-            "error": exception === undefined ? source : `${source}: ${exception.toString}`
+            "error": error === undefined ? source : `${source}: ${error.toString}`
         },
     };
 }
@@ -61,7 +63,7 @@ exports.handler = async (event) => {
 
     let body = null;
     try {
-        let body = JSON.parse(event.body);
+        body = JSON.parse(event.body);
     } catch (error) {
         return errorResponse(400, "Error parsing body", error);
     }
@@ -104,9 +106,7 @@ exports.handler = async (event) => {
 
     const response = {
         statusCode: 200,
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: HEADERS,
         body: reply,
     };
     return response;
