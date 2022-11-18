@@ -29,7 +29,7 @@ const airlockRuleset: Rules = {
             name: 'Deception',
         },
         {
-            name: 'Eloquence',
+            name: 'Diplomacy',
         },
         {
             name: 'Athletics',
@@ -53,7 +53,15 @@ const airlockRuleset: Rules = {
             name: 'Survival',
         },
         {
-            name: 'Abyss',
+            name: 'Jacked',
+            trained: true,
+        },
+        {
+            name: 'Mech',
+            trained: true,
+        },
+        {
+            name: 'Wirehead',
             trained: true,
         }
     ],
@@ -173,12 +181,30 @@ const airlockRuleset: Rules = {
     ],
     powers: [
         {
-            name: 'Abyss',
+            name: 'Jacked',
             description: '',
-            source: 'Abyss',
+            source: 'Jacked',
             dice: {
-                base: 3,
-                level: 1,
+                base: 2,
+                level: 2,
+            }
+        },
+        {
+            name: 'Mech',
+            description: '',
+            source: 'Mech',
+            dice: {
+                base: 2,
+                level: 2,
+            }
+        },
+        {
+            name: 'Wirehead',
+            description: '',
+            source: 'Wirehead',
+            dice: {
+                base: 2,
+                level: 2,
             }
         }
     ]
