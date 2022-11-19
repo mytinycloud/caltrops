@@ -79,6 +79,10 @@ const airlockRuleset: Rules = {
             description: 'A short weapon, intended to send a withering quantity of lead downrange. Consumes a clip per encounter. May consume an clip per round to lay down supressing fire.',
         },
         {
+            name: 'Shotgun',
+            description: '',
+        },
+        {
             name: 'Ammunition',
             stack: 4,
             description: 'Clips of ammunition for standardised conventional weapons.',
