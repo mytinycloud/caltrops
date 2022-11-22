@@ -13,7 +13,7 @@ const SKILL_COST = [
 const SKILL_COST_ONGOING = 3
 
 const ATTRIBUTE_MIN = 1
-const ATTRIBUTE_MAX = 4
+const ATTRIBUTE_MAX = 3
 const ASPECT_MAX = 9
 const ATTRIBUTE_TOTAL_MAX = 8
 
