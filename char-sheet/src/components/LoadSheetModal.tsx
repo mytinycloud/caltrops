@@ -40,21 +40,24 @@ function LoadSheetModal({open, setOpen, setSheet, sheets, user}:{
   }
 
   return <Modal open={open} onClickBackdrop={closeModal}>
-    <h1 className='font-bold text-2xl'>Open sheet</h1>
-    
+    <h1 className='font-bold text-2xl mb-4'>Select sheet</h1>
     {
-      sheets ?
-      <div className='scrollbar scrollbar-neutral flex w-full justify-center pr-4 mt-6'>
-        { sheets.map( s => 
-            <section className='card'>
-              <button
-                className='btn btn-primary w-80'
-                onClick={() => selectSheet(s)}
-              >{s.title}</button>
-            </section>
-        )}
-      </div> :
-      <LoadingSpinner/>
+      sheets == null ?
+        <LoadingSpinner/> :
+      !sheets.length ?
+        "No sheets found" :
+      <div className='scrollbar scrollbar-neutral flex flex-col w-full items-center gap-2'>
+      {
+        sheets.map( s => 
+          <section className='card'>
+            <button
+              className='btn btn-primary w-80'
+              onClick={() => selectSheet(s)}
+            >{s.title}</button>
+          </section>
+        )
+      }
+      </div>
     }
   </Modal>
 }

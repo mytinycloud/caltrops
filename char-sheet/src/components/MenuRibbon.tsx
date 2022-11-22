@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 // Components
 import IconButton from './IconButton';
 import NewSheetModal from './NewSheetModal';
-import OpenSheetModal from './OpenSheetModal'
+import LoadSheetModal from './LoadSheetModal'
 import { ImDownload3, ImFileEmpty, ImFloppyDisk, ImUser } from 'react-icons/im'
 
 // Internal imports
@@ -26,7 +26,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
   const [isNewSheetOpen, setIsNewSheetOpen] = useState(false)
   const [user, setUser] = useState(server.restoreLogin() as string | null)
   const [isLoginOpen, setIsLoginOpen] = useState(false)
-  const [isOpenSheetOpen, setIsOpenSheetOpen] = useState(false)
+  const [isLoadSheetOpen, setIsLoadSheetOpen] = useState(false)
   const [sheetList, setSheetList] = useState(null as ServerItem[] | null)
 
   const menuItems = [
@@ -37,13 +37,13 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
           if (user) {
             setSheetList(null)
             server.list(user).then( s => setSheetList(s))
-            setIsOpenSheetOpen(true)
+            setIsLoadSheetOpen(true)
           }
         }}
         disabled={!user}
       >
         <ImFileEmpty size={20}/>
-        Open sheet
+        Load sheet
       </button>
     </li>,
     <li>
@@ -90,7 +90,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
     <li>
     <button
       className='btn btn-ghost'
-      onClick={() => setIsLoginOpen(true)}
+      onClick={ () => !user ? setIsLoginOpen(true) : server.logout().then(setUser) }
     >
       <ImUser size={20}/>
       {user ?? "Login"}
@@ -141,12 +141,12 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
     <UserLoginModal
       open={isLoginOpen}
       setOpen={setIsLoginOpen}
-      setUser={u => server.login(u).then( u => setUser(u))}
+      setUser={u => server.login(u).then(setUser)}
       />
 
-    <OpenSheetModal
-      open={isOpenSheetOpen}
-      setOpen={setIsOpenSheetOpen}
+    <LoadSheetModal
+      open={isLoadSheetOpen}
+      setOpen={setIsLoadSheetOpen}
       setSheet={setSheet}
       user={user}
       sheets={sheetList}

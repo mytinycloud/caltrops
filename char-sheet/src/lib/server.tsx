@@ -57,8 +57,9 @@ async function login(user: string | null = null): Promise<string | null> {
     return user;
 }
 
-async function logout(): Promise<void> {
+async function logout(): Promise<string | null> {
     localStorage.removeItem('caltrops-user')
+    return null
 }
 
 function restoreLogin(): string | null {
