@@ -126,21 +126,9 @@ function woundTreat(wound: SheetWound, success: boolean): SheetWound | null {
 }
 
 function newSheet(rules: Rules, name: string = 'Mork Borginson'): Sheet {
-    console.log('Creating new sheet....')
-    let sheet: Sheet = {
-        rules: rules.name,
-        info: {
-            name: name,
-            level: 1,
-            funds: '',
-            background: '',
-        },
-        equipment: {},
-        skills: {},
-        attributes: {},
-        powers: {},
-        wounds: [],
-    }
+    let sheet = loadSheet();
+    sheet.rules = rules.name
+    sheet.info.name = name
     for (const attribute of rules.attributes) {
         sheet.attributes[attribute.name] = ATTRIBUTE_MIN
         for (const aspect of attribute.aspects) {
@@ -153,9 +141,22 @@ function newSheet(rules: Rules, name: string = 'Mork Borginson'): Sheet {
 /*
     Cleans up an arbitrary object, converting it into a sheet
 */
-function loadSheet(obj: any): Sheet {
-    // TODO. lol.
-    return obj;
+function loadSheet(obj: any = {}): Sheet {
+    return {
+        rules: obj.rules ?? '',
+        equipment: { ...obj.equipment },
+        skills: { ...obj.skills },
+        attributes: { ...obj.attributes },
+        powers: { ...obj.powers },
+        wounds: [ ...(obj.wounds || []) ],
+        info: {
+            name: '',
+            level: 1,
+            funds: '',
+            background: '',
+            ...obj.info
+        }
+    }
 }
 
 function loadRules(name: string = ""): Rules {
