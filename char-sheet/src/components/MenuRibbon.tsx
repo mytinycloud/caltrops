@@ -12,18 +12,19 @@ import { downloadObject, saveObject } from '../lib/util'
 import { Sheet } from '../lib/rules'
 import server, { ServerItem } from '../lib/server'
 import UserLoginModal from './UserLoginModal';
+import caltrops from '../lib/caltrops';
 
 
 function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
     editable: boolean,
     setEditable(editable: boolean): void,
-    sheet: Sheet,
-    setSheet(sheet: Sheet): void,
+    sheet: Sheet | null,
+    setSheet(sheet: Sheet | null): void,
     children?: React.ReactNode,
   }): JSX.Element {
   
   const [isNewSheetOpen, setIsNewSheetOpen] = useState(false)
-  const [user, setUser] = useState(null as string | null)
+  const [user, setUser] = useState(server.restoreLogin() as string | null)
   const [isLoginOpen, setIsLoginOpen] = useState(false)
   const [isOpenSheetOpen, setIsOpenSheetOpen] = useState(false)
   const [sheetList, setSheetList] = useState(null as ServerItem[] | null)
@@ -34,10 +35,12 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
         className='btn btn-ghost'
         onClick={() => {
           if (user) {
+            setSheetList(null)
             server.list(user).then( s => setSheetList(s))
             setIsOpenSheetOpen(true)
           }
         }}
+        disabled={!user}
       >
         <ImFileEmpty size={20}/>
         Open sheet
@@ -55,7 +58,13 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
     <li>
       <button
         className='btn btn-ghost'
-        onClick={() => saveObject("sheet", sheet)}
+        onClick={() => {
+          saveObject("sheet", sheet)
+          if (user && sheet) {
+            server.write(user, sheet.id, sheet.info.name, sheet)
+          }
+        }}
+        disabled={!sheet}
       >
         <ImFloppyDisk size={20}/>
         Save
@@ -64,10 +73,15 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
     <li>
       <button
         className='btn btn-ghost'
-        onClick={() => downloadObject(sheet,
-          `caltrops-${sheet.info.name.replace(' ', '-').toLowerCase()}.json`,
-          true
-          )}
+        onClick={() => {
+            if (sheet) {
+            downloadObject(sheet,
+              `caltrops-${sheet.info.name.replace(' ', '-').toLowerCase()}.json`,
+              true
+            )
+          }
+        }}
+        disabled={!sheet}
       >
         <ImDownload3 size={20}/>
         Download
@@ -127,7 +141,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
     <UserLoginModal
       open={isLoginOpen}
       setOpen={setIsLoginOpen}
-      setUser={setUser}
+      setUser={u => server.login(u).then( u => setUser(u))}
       />
 
     <OpenSheetModal

@@ -4,7 +4,6 @@ import { useState } from 'react'
 // Components
 import { Modal } from 'react-daisyui'
 import { Sheet } from '../lib/rules';
-import TextEntryBox from './TextEntryBox'
 import LoadingSpinner from './LoadingSpinner';
 
 // Libraries
@@ -15,7 +14,7 @@ import server, { ServerItem } from '../lib/server'
 function LoadSheetModal({open, setOpen, setSheet, sheets, user}:{
     open: boolean,
     setOpen(open: boolean): void,
-    setSheet(sheet: Sheet): void,
+    setSheet(sheet: Sheet | null): void,
     sheets: ServerItem[] | null,
     user: string | null,
   }): JSX.Element | null {
@@ -30,6 +29,7 @@ function LoadSheetModal({open, setOpen, setSheet, sheets, user}:{
 
   function selectSheet(item: ServerItem) {
     if (user) {
+      setSheet(null)
       server.read(user, item.id).then(s => {
         if (s != null) {
           setSheet( caltrops.loadSheet(s.content) )

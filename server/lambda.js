@@ -4,7 +4,7 @@ const TABLE_NAME = 'caltrops-sheets';
 
 const HEADERS = {
     'Content-Type': 'application/json',
-}
+};
 
 async function writeContent(uid, title, user, content) {
     const item = {
@@ -20,6 +20,15 @@ async function writeContent(uid, title, user, content) {
     }).promise();
 }
 
+async function deleteContent(uid) {
+    await db.delete({
+        TableName: TABLE_NAME,
+        Key: {
+            id: uid,
+        }
+    }).promise()
+}
+
 async function listContent(user) {
     return (await db.query({
         TableName: TABLE_NAME,
@@ -32,7 +41,7 @@ async function listContent(user) {
             "#o": "owner"
         },
         Select: "ALL_PROJECTED_ATTRIBUTES"
-    }).promise()).Items
+    }).promise()).Items;
 }
 
 async function readContent(uid) {
@@ -41,8 +50,8 @@ async function readContent(uid) {
         Key: {
             id: uid,
         }
-    }).promise()
-    return response.Item ?? null
+    }).promise();
+    return response.Item ?? null;
 }
 
 function errorResponse(status, source, error = undefined) {
@@ -50,7 +59,7 @@ function errorResponse(status, source, error = undefined) {
         statusCode: status,
         headers: HEADERS,
         body: {
-            "error": error === undefined ? source : `${source}: ${error.toString}`
+            "error": error === undefined ? source : `${source}: ${error.toString()}`
         },
     };
 }
@@ -86,13 +95,23 @@ exports.handler = async (event) => {
 
     if (body.read) {
         try {
-            let read = []
+            let read = [];
             for (const uid of body.read) {
                 read.push(await readContent(uid));
             }
             reply.read = read;
         } catch (error) {
             return errorResponse(500, "Error reading content", error);
+        }
+    }
+
+    if (body.delete) {
+        try {
+            for (const uid of body.delete) {
+                await deleteContent(uid)
+            }
+        } catch (error) {
+            return errorResponse(500, "Error deleting content", error);
         }
     }
 

@@ -9,6 +9,7 @@ const App = (props) => {
   let sheet = loadObject("sheet")
   let rules = null;
   if (sheet) {
+    sheet = caltrops.loadSheet(sheet)
     rules = caltrops.loadRules(sheet.rules)
   }
   else {

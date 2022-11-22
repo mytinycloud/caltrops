@@ -38,7 +38,7 @@ function UserLoginModal({open, setOpen, setUser}:{
       <TextEntryBox
         value={username}
         setValue={setUsername}
-        limit={32}
+        limit={48}
         inputSize='input-md'
         placeholder='enter email'
       ></TextEntryBox>

@@ -98,6 +98,37 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Caltrops delete",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"tlamborn@gmail.com\",\r\n    \"delete\": [\r\n        \"e9087a04-2ffb-443c-86d6-b900b02f61f2\"\r\n    ],\r\n    \"list\": \"*\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://nad7hr2keheheljlwvlkiyjtq40mwgzl.lambda-url.ap-southeast-2.on.aws/",
+					"protocol": "https",
+					"host": [
+						"nad7hr2keheheljlwvlkiyjtq40mwgzl",
+						"lambda-url",
+						"ap-southeast-2",
+						"on",
+						"aws"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

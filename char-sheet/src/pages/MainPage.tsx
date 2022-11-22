@@ -10,6 +10,7 @@ import SheetView from '../components/SheetView'
 import { setTheme } from '../lib/util'
 import caltrops from '../lib/caltrops'
 import { Sheet, Rules } from '../lib/rules'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 /* 
   - Top level parent component responsible for all state management
@@ -23,14 +24,14 @@ function MainPage( { defaultSheet, defaultRules }: {
     defaultRules: Rules,
   }): JSX.Element {
   const [rules, setRules] = useState(defaultRules)
-  const [sheet, setSheet] = useState(defaultSheet)
+  const [sheet, setSheet] = useState(defaultSheet as Sheet | null)
   const [editable, setEditable] = useState(false);
   
   setTheme(rules.theme);
 
-  function setSheetAndRules(sheet: Sheet) {
+  function setSheetAndRules(sheet: Sheet | null) {
     // Check if sheet.rules were changed, and load the new rules if so.
-    if (sheet.rules !== rules.name) {
+    if (sheet && sheet.rules !== rules.name) {
       const newRules = caltrops.loadRules(sheet.rules)
       setRules(newRules)
       sheet.rules = newRules.name
@@ -47,13 +48,16 @@ function MainPage( { defaultSheet, defaultRules }: {
         sheet={sheet}
         setSheet={setSheetAndRules}
       >
-
-        <SheetView
-          rules={rules}
-          sheet={sheet}
-          setSheet={setSheet}
-          editable={editable}
-        />
+        {
+          sheet ?
+          <SheetView
+            rules={rules}
+            sheet={sheet}
+            setSheet={setSheet}
+            editable={editable}
+          /> :
+          <LoadingSpinner size={100}/>
+        }
       </MenuRibbon>
 
     </FileUploader>

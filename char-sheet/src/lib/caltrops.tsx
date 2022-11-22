@@ -1,5 +1,6 @@
 import { Attribute, Rules, Sheet, Power, SheetWound, Dictionary, Equipment, RollInfo, Skill } from './rules'
 import RULESETS from '../data/rulesets'
+import { v4 as uuidv4 } from 'uuid';
 
 const SKILL_COST = [
     0,
@@ -125,25 +126,13 @@ function woundTreat(wound: SheetWound, success: boolean): SheetWound | null {
     }
 }
 
-function newSheet(rules: Rules, name: string = 'Mork Borginson'): Sheet {
-    let sheet = loadSheet();
-    sheet.rules = rules.name
-    sheet.info.name = name
-    for (const attribute of rules.attributes) {
-        sheet.attributes[attribute.name] = ATTRIBUTE_MIN
-        for (const aspect of attribute.aspects) {
-            sheet.attributes[aspect.name] = ATTRIBUTE_MIN
-        }
-    }
-    return sheet;
-}
-
 /*
-    Cleans up an arbitrary object, converting it into a sheet
-*/
+ *  Cleans up an arbitrary object, converting it into a sheet
+ */
 function loadSheet(obj: any = {}): Sheet {
     return {
         rules: obj.rules ?? '',
+        id: obj.id ?? uuidv4(),
         equipment: { ...obj.equipment },
         skills: { ...obj.skills },
         attributes: { ...obj.attributes },
@@ -157,6 +146,19 @@ function loadSheet(obj: any = {}): Sheet {
             ...obj.info
         }
     }
+}
+
+function newSheet(rules: Rules, name: string = 'Mork Borginson'): Sheet {
+    let sheet = loadSheet();
+    sheet.rules = rules.name
+    sheet.info.name = name
+    for (const attribute of rules.attributes) {
+        sheet.attributes[attribute.name] = ATTRIBUTE_MIN
+        for (const aspect of attribute.aspects) {
+            sheet.attributes[aspect.name] = ATTRIBUTE_MIN
+        }
+    }
+    return sheet;
 }
 
 function loadRules(name: string = ""): Rules {

@@ -50,10 +50,28 @@ async function writeContent(user: string, id: string, title: string, content: an
     return true;
 }
 
+async function login(user: string | null = null): Promise<string | null> {
+    if (user){
+        localStorage.setItem('caltrops-user', user)
+    }
+    return user;
+}
+
+async function logout(): Promise<void> {
+    localStorage.removeItem('caltrops-user')
+}
+
+function restoreLogin(): string | null {
+    return localStorage.getItem('caltrops-user')
+}
+
 const server = {
     list: listContent,
     read: readContent,
-    write: writeContent
+    write: writeContent,
+    login: login,
+    logout: logout,
+    restoreLogin: restoreLogin,
 }
 
 export default server;
