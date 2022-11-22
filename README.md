@@ -29,3 +29,23 @@ On push to the `deploy/char-sheet` branch, the app within `char-sheet` will be p
 This is a module for the Foundry Virtual Table Top system. The working directory is [fvtt](./fvtt/).
 
 The readme for this component is in [/fvtt/README.md](./fvtt/README.md)
+
+
+# Server
+
+This component provides functionality to store sheets.
+
+The sheet information is stored in DynamoDB, and served by a lambda function.
+
+The server provides the following functions:
+ * List sheets owned by a user
+ * Read sheets
+ * Write sheet
+
+The lambda url is `https://nad7hr2keheheljlwvlkiyjtq40mwgzl.lambda-url.ap-southeast-2.on.aws/`
+
+## Deployment
+
+Currently the contents of [/server/lambda.js](./server/lambda.js) are merely copied and pasted into 
+
+The lambda has been tested using node v14.
