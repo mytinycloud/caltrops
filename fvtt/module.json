@@ -2,12 +2,12 @@
     "id": "fvtt-caltrops",
     "title": "Caltrops integration",
     "description": "Add dice rolling support for the caltrops character sheet",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "library": "false",
     "manifestPlusVersion": "1.2.0",
     "compatibility": {
         "minimum": 10,
-        "verified": 10.288
+        "verified": 10.290
     },
     "authors": [
         {
