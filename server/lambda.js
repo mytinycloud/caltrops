@@ -117,7 +117,8 @@ exports.handler = async (event) => {
 
     if (body.list) {
         try {
-            reply.list = await listContent(body.user);
+            let items = await listContent(body.user);
+            reply.list = items.sort( (a,b) => b.time.localeCompare(a.time) )
         } catch (error) {
             return errorResponse(500, "Error listing content", error);
         }

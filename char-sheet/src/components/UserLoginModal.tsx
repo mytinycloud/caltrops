@@ -24,7 +24,7 @@ function UserLoginModal({open, setOpen, setUser}:{
   }
 
   function login() {
-    setUser(username)
+    setUser(username.toLowerCase())
     closeModal()
   }
 
