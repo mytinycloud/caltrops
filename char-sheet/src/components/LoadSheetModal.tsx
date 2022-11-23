@@ -30,7 +30,7 @@ function LoadSheetModal({open, setOpen, setSheet, sheets, user}:{
   function selectSheet(item: ServerItem) {
     if (user) {
       setSheet(null)
-      server.read(user, item.id).then(s => {
+      server.read(item.id).then(s => {
         if (s != null) {
           setSheet( caltrops.loadSheet(s.content) )
         }

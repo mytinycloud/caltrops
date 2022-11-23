@@ -28,9 +28,8 @@ async function listContent(user: string): Promise<ServerItem[]> {
     return result.list;
 }
 
-async function readContent(user: string, id: string): Promise<ServerItem | null> {
+async function readContent(id: string): Promise<ServerItem | null> {
     const result = await post({
-        user: user,
         read: [ id ]
     })
     return result.read.length ? result.read[0] : null

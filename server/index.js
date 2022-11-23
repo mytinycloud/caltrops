@@ -77,13 +77,13 @@ exports.handler = async (event) => {
         return errorResponse(400, "Error parsing body", error);
     }
 
+    const authenticated = authenticate(body.user)
     let reply = {};
 
-    if (!authenticate(body.user)) {
-        return errorResponse(401, "Unauthorised");
-    }
-
     if (body.write) {
+        if (!authenticated) {
+            return errorResponse(401, "Unauthorised");
+        }
         try {
             for (const info of body.write) {
                 await writeContent(info.id, info.title, body.user, info.content);
@@ -106,6 +106,9 @@ exports.handler = async (event) => {
     }
 
     if (body.delete) {
+        if (!authenticated) {
+            return errorResponse(401, "Unauthorised");
+        }
         try {
             for (const uid of body.delete) {
                 await deleteContent(uid)
@@ -116,6 +119,9 @@ exports.handler = async (event) => {
     }
 
     if (body.list) {
+        if (!authenticated) {
+            return errorResponse(401, "Unauthorised");
+        }
         try {
             let items = await listContent(body.user);
             reply.list = items.sort( (a,b) => b.time.localeCompare(a.time) )
