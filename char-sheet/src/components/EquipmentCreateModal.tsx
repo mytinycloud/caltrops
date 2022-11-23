@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 // Components
 import TextEntryBox from './TextEntryBox';
-import { Modal } from 'react-daisyui'
+import ModalFrame from './ModalFrame'
 
 // Interal imports
 import { Equipment, SheetEquipment } from '../lib/rules'
@@ -35,7 +35,7 @@ function EquipmentCreateModal({equipment, addEquipment, open, setOpen}: {
     closeModal()
   }
 
-  return <Modal open={open} onClickBackdrop={closeModal}>
+  return <ModalFrame open={open} close={closeModal}>
     <h1 className='font-bold text-2xl'>New item</h1>
     
     <div className="form-control w-full max-w-xs">
@@ -60,7 +60,7 @@ function EquipmentCreateModal({equipment, addEquipment, open, setOpen}: {
         Create
       </button>
     </div>
-  </Modal>
+  </ModalFrame>
 }
 
 export default EquipmentCreateModal

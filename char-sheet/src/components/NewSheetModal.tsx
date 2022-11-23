@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 // Components
-import { Modal } from 'react-daisyui'
+import ModalFrame from './ModalFrame'
 import TextEntryBox from './TextEntryBox'
 
 // Internal imports
@@ -37,7 +37,7 @@ function NewSheetModal({open, setOpen, setSheet}:{
     setSheet(sheet)
   }
 
-  return <Modal open={open} onClickBackdrop={closeModal}>
+  return <ModalFrame open={open} close={closeModal}>
     <h1 className='font-bold text-2xl'>New character sheet</h1>
     
     <div className="form-control w-full max-w-xs">
@@ -72,7 +72,7 @@ function NewSheetModal({open, setOpen, setSheet}:{
         Create
       </button>
     </div>
-  </Modal>
+  </ModalFrame>
 }
 
 

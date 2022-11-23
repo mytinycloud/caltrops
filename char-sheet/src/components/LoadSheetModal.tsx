@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 // Components
-import { Modal } from 'react-daisyui'
+import ModalFrame from './ModalFrame'
 import { Sheet } from '../lib/rules';
 import LoadingSpinner from './LoadingSpinner';
 
@@ -39,7 +39,7 @@ function LoadSheetModal({open, setOpen, setSheet, sheets, user}:{
     closeModal()
   }
 
-  return <Modal open={open} onClickBackdrop={closeModal}>
+  return <ModalFrame open={open} close={closeModal}>
     <h1 className='font-bold text-2xl mb-4'>Select sheet</h1>
     {
       sheets == null ?
@@ -59,7 +59,7 @@ function LoadSheetModal({open, setOpen, setSheet, sheets, user}:{
       }
       </div>
     }
-  </Modal>
+  </ModalFrame>
 }
 
 

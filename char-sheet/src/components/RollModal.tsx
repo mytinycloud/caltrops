@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 // Components
-import { Modal } from 'react-daisyui'
+import ModalFrame from './ModalFrame'
 
 // Interal imports
 import { Attribute, RollInfo, Dictionary } from '../lib/rules'
@@ -58,7 +58,7 @@ function RollCreateModal({attributes, scores, roll, setRoll}: {
 
   const isFoundryPresent = foundry.isPresent()
 
-  return <Modal open={true} onClickBackdrop={closeModal}>
+  return <ModalFrame open={true} close={closeModal}>
     <h1 className='font-bold text-2xl mb-4'>Roll {roll.skill.name}</h1>
 
     <label className="label">
@@ -124,7 +124,7 @@ function RollCreateModal({attributes, scores, roll, setRoll}: {
       close={() => { closeModal(); }}
     />
 
-  </Modal>
+  </ModalFrame>
 }
 
 export default RollCreateModal
