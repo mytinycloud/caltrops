@@ -37,3 +37,7 @@ export function loadObject(name: string): any | null {
     }
     return null;
 }
+
+export function copyToClipboard(text: string): void {
+    navigator.clipboard.writeText(text)
+}
