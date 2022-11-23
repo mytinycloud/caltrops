@@ -26,7 +26,7 @@ async function deleteContent(uid) {
         Key: {
             id: uid,
         }
-    }).promise()
+    }).promise();
 }
 
 async function listContent(user) {
