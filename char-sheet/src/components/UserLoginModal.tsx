@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 // Components
-import { Modal } from 'react-daisyui'
+import ModalFrame from './ModalFrame'
 import TextEntryBox from './TextEntryBox'
 
 
@@ -28,7 +28,7 @@ function UserLoginModal({open, setOpen, setUser}:{
     closeModal()
   }
 
-  return <Modal open={open} onClickBackdrop={closeModal}>
+  return <ModalFrame open={open} close={closeModal}>
     <h1 className='font-bold text-2xl'>New character sheet</h1>
     
     <div className="form-control w-full max-w-xs">
@@ -53,7 +53,7 @@ function UserLoginModal({open, setOpen, setUser}:{
         Login
       </button>
     </div>
-  </Modal>
+  </ModalFrame>
 }
 
 
