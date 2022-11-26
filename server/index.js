@@ -31,14 +31,14 @@ async function deleteContent(uid) {
 
 async function canDelete(user, uid) {
     if (!user) { return false; }
-    let item = await readContent(uid)
-    return (item != null) && (item.owner == user)
+    let item = await readContent(uid);
+    return (item !== null) && (item.owner === user);
 }
 
 async function canWrite(user, uid) {
     if (!user) { return false; }
-    let item = await readContent(uid)
-    return (item == null) || (item.owner == user)
+    let item = await readContent(uid);
+    return (item === null) || (item.owner === user);
 }
 
 async function listContent(user) {
@@ -92,7 +92,7 @@ exports.handler = async (event) => {
     if (body.write) {
         try {
             for (const info of body.write) {
-                if (canWrite(user, info.id)) {
+                if (await canWrite(user, info.id)) {
                     await writeContent(info.id, info.title, user, info.content);
                 } else {
                     return errorResponse(401, "Unauthorised");
@@ -118,7 +118,7 @@ exports.handler = async (event) => {
     if (body.delete) {
         try {
             for (const uid of body.delete) {
-                if (canDelete(user, uid)) {
+                if (await canDelete(user, uid)) {
                     await deleteContent(uid)
                 } else {
                     return errorResponse(401, "Unauthorised"); 
