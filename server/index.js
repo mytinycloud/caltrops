@@ -29,6 +29,18 @@ async function deleteContent(uid) {
     }).promise();
 }
 
+async function canDelete(user, uid) {
+    if (!user) { return false; }
+    let item = await readContent(uid)
+    return (item != null) && (item.owner == user)
+}
+
+async function canWrite(user, uid) {
+    if (!user) { return false; }
+    let item = await readContent(uid)
+    return (item == null) || (item.owner == user)
+}
+
 async function listContent(user) {
     return (await db.query({
         TableName: TABLE_NAME,
@@ -64,10 +76,6 @@ function errorResponse(status, source, error = undefined) {
     };
 }
 
-function authenticate(user) {
-    return !!user;
-}
-
 exports.handler = async (event) => {
 
     let body = null;
@@ -77,16 +85,18 @@ exports.handler = async (event) => {
         return errorResponse(400, "Error parsing body", error);
     }
 
-    const authenticated = authenticate(body.user)
+    const user = body.user ?? null
+
     let reply = {};
 
     if (body.write) {
-        if (!authenticated) {
-            return errorResponse(401, "Unauthorised");
-        }
         try {
             for (const info of body.write) {
-                await writeContent(info.id, info.title, body.user, info.content);
+                if (canWrite(user, info.id)) {
+                    await writeContent(info.id, info.title, user, info.content);
+                } else {
+                    return errorResponse(401, "Unauthorised");
+                }
             }
         } catch (error) {
             return errorResponse(500, "Error writing content", error);
@@ -106,12 +116,13 @@ exports.handler = async (event) => {
     }
 
     if (body.delete) {
-        if (!authenticated) {
-            return errorResponse(401, "Unauthorised");
-        }
         try {
             for (const uid of body.delete) {
-                await deleteContent(uid)
+                if (canDelete(user, uid)) {
+                    await deleteContent(uid)
+                } else {
+                    return errorResponse(401, "Unauthorised"); 
+                }
             }
         } catch (error) {
             return errorResponse(500, "Error deleting content", error);
@@ -119,11 +130,11 @@ exports.handler = async (event) => {
     }
 
     if (body.list) {
-        if (!authenticated) {
+        if (!user) {
             return errorResponse(401, "Unauthorised");
         }
         try {
-            let items = await listContent(body.user);
+            let items = await listContent(user);
             reply.list = items.sort( (a,b) => b.time.localeCompare(a.time) )
         } catch (error) {
             return errorResponse(500, "Error listing content", error);
