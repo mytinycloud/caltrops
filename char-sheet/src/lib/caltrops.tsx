@@ -148,7 +148,7 @@ function loadSheet(obj: any = {}): Sheet {
     }
 }
 
-function newSheet(rules: Rules, name: string = 'Mork Borginson'): Sheet {
+function newSheet(rules: Rules, name: string = 'New Character'): Sheet {
     let sheet = loadSheet();
     sheet.rules = rules.name
     sheet.info.name = name
