@@ -11,6 +11,8 @@ export function unsubscribeFromAlerts(): void {
 function submitAlert(content: string, level: string = "info") {
   if (ALERT_CALLBACK) {
     ALERT_CALLBACK(content, level)
+  } else {
+    console.warn(`Alert fired without subscriber: ${content}`)
   }
 }
 

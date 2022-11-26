@@ -13,7 +13,7 @@ import caltrops from '../lib/caltrops'
 import { Sheet, Rules } from '../lib/rules'
 import LoadingSpinner from '../components/LoadingSpinner'
 import server from '../lib/server'
-import { alertError } from '../lib/alerts'
+import { alertError, alertWarning } from '../lib/alerts'
 
 /* 
   - Top level parent component responsible for all state management
@@ -56,7 +56,10 @@ function MainPage(): JSX.Element {
       const newRules = caltrops.loadRules(sheet.rules)
       setRules(newRules)
       localStorage.setItem('caltrops-rules', newRules.name)
-      sheet.rules = newRules.name
+      if (sheet.rules !== newRules.name) {
+        alertWarning(`Ruleset ${sheet.rules} was not loaded. ${newRules.name} loaded instead.`)
+        sheet.rules = newRules.name
+      }
     }
     if (sheet) {
       localStorage.setItem('caltrops-sheet', sheet.id)
