@@ -39,7 +39,7 @@ function AttributeTable({attributes, scores, setScores, level, editable=false}: 
           attributes.map( attribute => {
             let base = scores[attribute.name] ?? 0
 
-            return <tr>
+            return <tr key={attribute.name}>
               <td>
                 <div className='card rounded-box bg-base-200'>
                 <div className='flex flex-col content-center gap-2 m-2'>
@@ -61,7 +61,7 @@ function AttributeTable({attributes, scores, setScores, level, editable=false}: 
                   <tbody>
                   {
                     attribute.aspects.map( aspect => {
-                      return <tr className='hover'>
+                      return <tr className='hover' key={aspect.name}>
                         <td className='w-24'>{aspect.name}</td>
                         <td><PointEntryBox
                           value={scores[aspect.name] ?? 0}

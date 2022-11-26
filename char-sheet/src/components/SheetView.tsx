@@ -68,6 +68,7 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
               container={container}
               items={sheet.equipment[container.name] ?? []}
               setItems={items => {setSheet(modifyObject(sheet, 'equipment', modifyObject(sheet.equipment, container.name, items)))}}
+              key={`equipment-${container.name}-table`}
           />
           } )
         }
@@ -84,6 +85,7 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
                 powerDice={sheet.powers}
                 skillScores={sheet.skills}
                 setPowerDice={scores => {setSheet(modifyObject(sheet, 'powers', scores))}}
+                key='power-table'
               /> :
                null
           })()}

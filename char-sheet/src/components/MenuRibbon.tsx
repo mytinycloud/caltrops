@@ -31,7 +31,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
   const [sheetList, setSheetList] = useState(null as ServerItem[] | null)
 
   const menuItems = [
-    <li>
+    <li key='load'>
       <button
         className='btn btn-ghost'
         onClick={() => {
@@ -49,7 +49,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
         Load sheet
       </button>
     </li>,
-    <li>
+    <li key='new'>
       <button
         className='btn btn-ghost'
         onClick={() => setIsNewSheetOpen(true)}
@@ -58,7 +58,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
         New sheet
       </button>
     </li>,
-    <li>
+    <li key='save'>
       <button
         className='btn btn-ghost'
         onClick={() => {
@@ -75,7 +75,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
         Save
       </button>
     </li>,
-    <li>
+    <li key='download'>
       <button
         className='btn btn-ghost'
         onClick={() => {
@@ -92,7 +92,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
         Download
       </button>
   </li>,
-  <li>
+  <li key='share'>
     <button
       className='btn btn-ghost'
       onClick={ () => {
@@ -107,7 +107,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
       Share
     </button>
   </li>,
-  <li>
+  <li key='login'>
     <button
       className='btn btn-ghost'
       onClick={ () => !user ? setIsLoginOpen(true) : server.logout().then(setUser) }

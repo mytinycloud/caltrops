@@ -49,7 +49,10 @@ function SkillTable({skills, scores, setScores, level, editable = false, roll}: 
           {skills.map(s => {
             let value = scores[s.name] ?? 0
             return(
-              <tr className='hover cursor-pointer' onClick={editable ? undefined : () => startRoll(s.name)} >
+              <tr className='hover cursor-pointer'
+                onClick={editable ? undefined : () => startRoll(s.name)}
+                key={s.name}
+                >
                 <td>{s.name}</td>
                 <td className='text-center'>
                   <PointEntryBox
