@@ -5,10 +5,10 @@ import React, { useState } from 'react'
 import IconButton from './IconButton';
 import NewSheetModal from './NewSheetModal';
 import LoadSheetModal from './LoadSheetModal'
-import { ImDownload3, ImFileEmpty, ImFloppyDisk, ImUser } from 'react-icons/im'
+import { ImDownload3, ImFileEmpty, ImFloppyDisk, ImUser, ImShare2 } from 'react-icons/im'
 
 // Internal imports
-import { downloadObject, saveObject } from '../lib/util'
+import { downloadObject, saveObject, copyToClipboard } from '../lib/util'
 import { Sheet } from '../lib/rules'
 import server, { ServerItem } from '../lib/server'
 import UserLoginModal from './UserLoginModal';
@@ -86,8 +86,22 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
         <ImDownload3 size={20}/>
         Download
       </button>
-    </li>,
-    <li>
+  </li>,
+  <li>
+    <button
+      className='btn btn-ghost'
+      onClick={ () => {
+        if (sheet) {
+          copyToClipboard( `${window.location.href.split('?')[0]}?sheet=${sheet.id}` )
+        }
+        }}
+      disabled={ !sheet }
+    >
+      <ImShare2 size={20}/>
+      Share
+    </button>
+  </li>,
+  <li>
     <button
       className='btn btn-ghost'
       onClick={ () => !user ? setIsLoginOpen(true) : server.logout().then(setUser) }

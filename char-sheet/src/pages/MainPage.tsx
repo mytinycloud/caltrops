@@ -11,6 +11,7 @@ import { setTheme } from '../lib/util'
 import caltrops from '../lib/caltrops'
 import { Sheet, Rules } from '../lib/rules'
 import LoadingSpinner from '../components/LoadingSpinner'
+import server from '../lib/server'
 
 /* 
   - Top level parent component responsible for all state management
@@ -19,34 +20,58 @@ import LoadingSpinner from '../components/LoadingSpinner'
     - (otherwise they'd end up being done in the children on an as-needed basis)
   - Further lookup and controlling logic can be split out into modules if desired
 */
-function MainPage( { defaultSheet, defaultRules }: {
-    defaultSheet: Sheet,
-    defaultRules: Rules,
-  }): JSX.Element {
-  const [rules, setRules] = useState(defaultRules)
-  const [sheet, setSheet] = useState(defaultSheet as Sheet | null)
+function MainPage(): JSX.Element {
+
+  function loadRules(): Rules {
+    const last_rules = localStorage.getItem('caltrops-rules')
+    return caltrops.loadRules(last_rules ?? undefined)
+  }
+
+  function loadSheet(): Sheet | null {
+    let sheet_id = new URLSearchParams(window.location.search).get("sheet")
+    if (!sheet_id) {
+      sheet_id = localStorage.getItem('caltrops-sheet')
+    }
+    if (sheet_id) {
+      console.log(`loading sheet ${sheet_id}`)
+      server.read(sheet_id).then( sheet => {
+        if (sheet != null) {
+          changeSheet(sheet.content)
+        }
+      })
+      return null
+    }
+    return caltrops.newSheet(rules)
+  }
+
+  const [rules, setRules] = useState(loadRules)
+  const [sheet, setSheet] = useState(loadSheet)
   const [editable, setEditable] = useState(false);
   
   setTheme(rules.theme);
 
-  function setSheetAndRules(sheet: Sheet | null) {
+  function changeSheet(sheet: Sheet | null) {
     // Check if sheet.rules were changed, and load the new rules if so.
     if (sheet && sheet.rules !== rules.name) {
       const newRules = caltrops.loadRules(sheet.rules)
       setRules(newRules)
+      localStorage.setItem('caltrops-rules', newRules.name)
       sheet.rules = newRules.name
+    }
+    if (sheet) {
+      localStorage.setItem('caltrops-sheet', sheet.id)
     }
     setSheet(sheet)
   }
 
   return (
-    <FileUploader setFile={setSheetAndRules}>
+    <FileUploader setFile={changeSheet}>
 
       <MenuRibbon
         editable={editable}
         setEditable={setEditable}
         sheet={sheet}
-        setSheet={setSheetAndRules}
+        setSheet={changeSheet}
       >
         {
           sheet ?
