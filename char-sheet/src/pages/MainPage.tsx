@@ -5,6 +5,7 @@ import { useState } from 'react'
 import FileUploader from '../components/FileUploader'
 import MenuRibbon from '../components/MenuRibbon'
 import SheetView from '../components/SheetView'
+import AlertGroup from '../components/AlertGroup'
 
 // Internal imports
 import { setTheme } from '../lib/util'
@@ -33,7 +34,6 @@ function MainPage(): JSX.Element {
       sheet_id = localStorage.getItem('caltrops-sheet')
     }
     if (sheet_id) {
-      console.log(`loading sheet ${sheet_id}`)
       server.read(sheet_id).then( sheet => {
         if (sheet != null) {
           changeSheet(sheet.content)
@@ -84,6 +84,8 @@ function MainPage(): JSX.Element {
           <LoadingSpinner size={100}/>
         }
       </MenuRibbon>
+
+      <AlertGroup/>
 
     </FileUploader>
   )

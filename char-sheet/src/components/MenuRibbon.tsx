@@ -13,6 +13,7 @@ import { Sheet } from '../lib/rules'
 import server, { ServerItem } from '../lib/server'
 import UserLoginModal from './UserLoginModal';
 import caltrops from '../lib/caltrops';
+import { submitAlert } from '../lib/alerts';
 
 
 function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
@@ -93,6 +94,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
       onClick={ () => {
         if (sheet) {
           copyToClipboard( `${window.location.href.split('?')[0]}?sheet=${sheet.id}` )
+          submitAlert("Share URL copied to clipboard")
         }
         }}
       disabled={ !sheet }
