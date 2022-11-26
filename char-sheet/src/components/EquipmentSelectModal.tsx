@@ -67,7 +67,7 @@ function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=t
                         .toLowerCase()
                         .includes(filter))
                         .map( item => {
-                return <tr className='hover'>
+                return <tr className='hover' key={item.name}>
                   <td><IconButton
                     icon='plus'
                     enabled={enabled}

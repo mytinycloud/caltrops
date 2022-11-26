@@ -66,7 +66,7 @@ function EquipmentTable({equipment, container, items, setItems}: {
         <tbody>
         {
           items.map((item, i) => {
-            return <tr className='hover'>
+            return <tr className='hover' key={i}>
               <td className='w-full'>
                 { item.name }
               </td>

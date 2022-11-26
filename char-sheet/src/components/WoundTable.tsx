@@ -71,12 +71,12 @@ function WoundTable( {wounds, setWounds, woundCount=5, woundSizeLimit=2, editabl
         <tbody>
         {
           wounds.map((wound,n) => { 
-            return <tr className='hover'>
+            return <tr className='hover' key={n}>
               <td className='p-0'>
                 <div>
                   {
-                    Array(wound.size).fill(
-                    <ImHeartBroken size={40} color='hsl(var(--er))' className='p-3'/>
+                    Array(wound.size).fill(0).map( (i, n) => 
+                      <ImHeartBroken size={40} color='hsl(var(--er))' className='p-3' key={n}/>
                     )
                   }
                 </div>
