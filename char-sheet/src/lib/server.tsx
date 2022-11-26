@@ -10,14 +10,18 @@ export interface ServerItem {
 
 async function post(body: any): Promise<any> {
     const result = await fetch(SERVER_URI, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-    })
-    return result.json()
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+    const json = await result.json()
+    if (json.error) {
+        throw Error(json.error)
+    }
+    return json;
 }
 
 async function listContent(user: string): Promise<ServerItem[]> {
@@ -28,11 +32,14 @@ async function listContent(user: string): Promise<ServerItem[]> {
     return result.list;
 }
 
-async function readContent(id: string): Promise<ServerItem | null> {
+async function readContent(id: string): Promise<ServerItem> {
     const result = await post({
         read: [ id ]
     })
-    return result.read.length ? result.read[0] : null
+    if (!result.read.length || !result.read[0]) {
+        throw Error(`Sheet ${id} not found!`)
+    }
+    return result.read[0]
 }
 
 async function writeContent(user: string, id: string, title: string, content: any): Promise<boolean> {

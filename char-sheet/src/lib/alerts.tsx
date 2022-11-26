@@ -8,8 +8,24 @@ export function unsubscribeFromAlerts(): void {
   ALERT_CALLBACK = null;
 }
 
-export function submitAlert(content: string, level: string = "info") {
+function submitAlert(content: string, level: string = "info") {
   if (ALERT_CALLBACK) {
     ALERT_CALLBACK(content, level)
   }
+}
+
+export function alertError(content: string) {
+  submitAlert(content, 'error')
+}
+
+export function alertWarning(content: string) {
+  submitAlert(content, 'warning')
+}
+
+export function alertInfo(content: string) {
+  submitAlert(content, 'info')
+}
+
+export function alertSuccess(content: string) {
+  submitAlert(content, 'success')
 }

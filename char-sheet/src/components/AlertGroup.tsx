@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 // Internal imports
 import { subscribeToAlerts, unsubscribeFromAlerts } from '../lib/alerts'
 
+const ALERT_DURATION = 4.0
 
 interface AlertInfo {
   content: string,
@@ -16,13 +17,14 @@ function AlertBox(info: AlertInfo): JSX.Element {
     'error': 'alert-error',
     'info': 'alert-info',
     'warning': 'alert-warning',
+    'success': 'alert-success'
   }[info.level] ?? 'alert-info'
 
   return <div
     className={`alert ${level_string} shadow-lg w-full max-w-[24rem] pointer-events-auto`}
     style={{
       animation: "fade-out 0.5s",
-      animationDelay: `2.5s`,
+      animationDelay: `${ALERT_DURATION - 0.5}s`,
       animationFillMode: "forwards"
     }}
     key={info.key}
@@ -41,10 +43,6 @@ function AlertGroup(): JSX.Element {
   const [alerts, setAlerts] = useState([] as AlertInfo[])
   LAST_ALERTS = alerts
 
-  function getAlerts() {
-    return alerts
-  }
-
   function createAlert(info: AlertInfo) {
     setAlerts([
       ...alerts,
@@ -55,7 +53,7 @@ function AlertGroup(): JSX.Element {
       setAlerts(
         LAST_ALERTS.filter( a => a.key !== info.key )
       )
-    }, 3000)
+    }, ALERT_DURATION * 1000)
   }
   
   useEffect(() => {

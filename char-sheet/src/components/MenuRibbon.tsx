@@ -13,7 +13,7 @@ import { Sheet } from '../lib/rules'
 import server, { ServerItem } from '../lib/server'
 import UserLoginModal from './UserLoginModal';
 import caltrops from '../lib/caltrops';
-import { submitAlert } from '../lib/alerts';
+import { alertError, alertInfo, alertSuccess } from '../lib/alerts';
 
 
 function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
@@ -37,7 +37,9 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
         onClick={() => {
           if (user) {
             setSheetList(null)
-            server.list(user).then( s => setSheetList(s))
+            server.list(user)
+              .then( s => setSheetList(s))
+              .catch(e => alertError(`Error listing sheets: ${e.message}`))
             setIsLoadSheetOpen(true)
           }
         }}
@@ -63,6 +65,8 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
           saveObject("sheet", sheet)
           if (user && sheet) {
             server.write(user, sheet.id, sheet.info.name, sheet)
+              .then( s => alertSuccess("Sheet saved") )
+              .catch(e => alertError(`Error saving sheet: ${e.message}`))
           }
         }}
         disabled={!sheet}
@@ -94,7 +98,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
       onClick={ () => {
         if (sheet) {
           copyToClipboard( `${window.location.href.split('?')[0]}?sheet=${sheet.id}` )
-          submitAlert("Share URL copied to clipboard")
+          alertInfo("Share URL copied to clipboard")
         }
         }}
       disabled={ !sheet }

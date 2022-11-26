@@ -13,6 +13,7 @@ import caltrops from '../lib/caltrops'
 import { Sheet, Rules } from '../lib/rules'
 import LoadingSpinner from '../components/LoadingSpinner'
 import server from '../lib/server'
+import { alertError } from '../lib/alerts'
 
 /* 
   - Top level parent component responsible for all state management
@@ -35,10 +36,9 @@ function MainPage(): JSX.Element {
     }
     if (sheet_id) {
       server.read(sheet_id).then( sheet => {
-        if (sheet != null) {
           changeSheet(sheet.content)
         }
-      })
+      ).catch(e => alertError(`Error reading sheet: ${e.message}`))
       return null
     }
     return caltrops.newSheet(rules)

@@ -9,6 +9,7 @@ import LoadingSpinner from './LoadingSpinner';
 // Libraries
 import caltrops from '../lib/caltrops'
 import server, { ServerItem } from '../lib/server'
+import { alertError } from '../lib/alerts'
 
 
 function LoadSheetModal({open, setOpen, setSheet, sheets, user}:{
@@ -31,10 +32,8 @@ function LoadSheetModal({open, setOpen, setSheet, sheets, user}:{
     if (user) {
       setSheet(null)
       server.read(item.id).then(s => {
-        if (s != null) {
           setSheet( caltrops.loadSheet(s.content) )
-        }
-      })
+      }).catch(e => alertError( `Error reading sheet: ${e.message}`))
     }
     closeModal()
   }
