@@ -51,11 +51,11 @@ function canSign(token) {
 
 function validateToken(token) {
     try {
-        token = Signature.decode(body.token, CALTROPS_PSK);
-        if (!token.user) {
+        let payload = Signature.decode(token, CALTROPS_PSK);
+        if (!payload.user) {
             return null;
         }
-        return token;
+        return payload;
     } catch {
         return null;
     }
