@@ -14,7 +14,7 @@ jobs:
         working-directory: ./server
     steps:
       - uses: actions/checkout@v2
-      - run: zip ./function.zip index.js
+      - run: cd ./src && zip -r ../function.zip ./
       - name: Set AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

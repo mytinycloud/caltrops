@@ -24,9 +24,9 @@ async function post(body: any): Promise<any> {
     return json;
 }
 
-async function listContent(user: string): Promise<ServerItem[]> {
+async function listContent(token: string): Promise<ServerItem[]> {
     const result = await post({
-        user: user,
+        token: token,
         list: "*",
     })
     return result.list;
@@ -42,9 +42,9 @@ async function readContent(id: string): Promise<ServerItem> {
     return result.read[0]
 }
 
-async function writeContent(user: string, id: string, title: string, content: any): Promise<boolean> {
+async function writeContent(token: string, id: string, title: string, content: any): Promise<boolean> {
     const result = await post({
-        user: user,
+        token: token,
         write: [
             {
                 id: id,
@@ -56,29 +56,26 @@ async function writeContent(user: string, id: string, title: string, content: an
     return true;
 }
 
-async function login(user: string | null = null): Promise<string | null> {
-    if (user){
-        localStorage.setItem('caltrops-user', user)
+function parseToken(token: string): string | null {
+    try {
+        const [text, signature] = token.split('.')
+        const sig_size = (atob(signature).length * 8)
+        if (sig_size !== 256) {
+            return null
+        }
+        const payload = JSON.parse(atob(text)) //JSON.parse(Buffer.from(text, 'base64').toString())
+        return payload.user ?? null
     }
-    return user;
-}
-
-async function logout(): Promise<string | null> {
-    localStorage.removeItem('caltrops-user')
-    return null
-}
-
-function restoreLogin(): string | null {
-    return localStorage.getItem('caltrops-user')
+    catch {
+        return null;
+    }
 }
 
 const server = {
     list: listContent,
     read: readContent,
     write: writeContent,
-    login: login,
-    logout: logout,
-    restoreLogin: restoreLogin,
+    parseToken: parseToken,
 }
 
 export default server;

@@ -1,6 +1,9 @@
 const AWS = require('aws-sdk');
+const Signature = require('./signature')
+
 const db = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = 'caltrops-sheets';
+const CALTROPS_PSK = process.env.caltrops_psk;
 
 const HEADERS = {
     'Content-Type': 'application/json',
@@ -29,16 +32,33 @@ async function deleteContent(uid) {
     }).promise();
 }
 
-async function canDelete(user, uid) {
-    if (!user) { return false; }
+async function canDelete(token, uid) {
+    if (!token) { return false; }
     let item = await readContent(uid);
-    return (item !== null) && (item.owner === user);
+    return (item !== null) && (item.owner === token.user);
 }
 
-async function canWrite(user, uid) {
-    if (!user) { return false; }
+async function canWrite(token, uid) {
+    if (!token) { return false; }
     let item = await readContent(uid);
-    return (item === null) || (item.owner === user);
+    return (item === null) || (item.owner === token.user);
+}
+
+function canSign(token) {
+    if (!token) { return false; }
+    return !!token.signer;
+}
+
+function validateToken(token) {
+    try {
+        let payload = Signature.decode(token, CALTROPS_PSK);
+        if (!payload.user) {
+            return null;
+        }
+        return payload;
+    } catch {
+        return null;
+    }
 }
 
 async function listContent(user) {
@@ -85,15 +105,21 @@ exports.handler = async (event) => {
         return errorResponse(400, "Error parsing body", error);
     }
 
-    const user = body.user ?? null
+    let token = null;
+    if (body.token) {
+        token = validateToken(body.token)
+        if (!token) {
+            return errorResponse(400, "Invalid token", error); 
+        }
+    }
 
     let reply = {};
 
     if (body.write) {
         try {
             for (const info of body.write) {
-                if (await canWrite(user, info.id)) {
-                    await writeContent(info.id, info.title, user, info.content);
+                if (await canWrite(token, info.id)) {
+                    await writeContent(info.id, info.title, token.user, info.content);
                 } else {
                     return errorResponse(401, "Unauthorised");
                 }
@@ -118,8 +144,8 @@ exports.handler = async (event) => {
     if (body.delete) {
         try {
             for (const uid of body.delete) {
-                if (await canDelete(user, uid)) {
-                    await deleteContent(uid)
+                if (await canDelete(token, uid)) {
+                    await deleteContent(uid);
                 } else {
                     return errorResponse(401, "Unauthorised"); 
                 }
@@ -130,15 +156,26 @@ exports.handler = async (event) => {
     }
 
     if (body.list) {
-        if (!user) {
+        if (!token) {
             return errorResponse(401, "Unauthorised");
         }
         try {
-            let items = await listContent(user);
-            reply.list = items.sort( (a,b) => b.time.localeCompare(a.time) )
+            let items = await listContent(token.user);
+            reply.list = items.sort( (a,b) => b.time.localeCompare(a.time) );
         } catch (error) {
             return errorResponse(500, "Error listing content", error);
         }
+    }
+
+    if (body.sign) {
+        if (!canSign(token)) {
+            return errorResponse(401, "Unauthorised");
+        }
+        let signed = [];
+        for (const item of body.sign) {
+            signed.push( Signature.encode(item, CALTROPS_PSK) );
+        }
+        reply.sign = signed;
     }
 
     const response = {

@@ -1,5 +1,6 @@
 // External imports
 import { useState } from 'react'
+import server from '../lib/server'
 
 // Components
 import ModalFrame from './ModalFrame'
@@ -12,43 +13,36 @@ function UserLoginModal({open, setOpen, setUser}:{
     setUser(user: string | null): void,
   }): JSX.Element | null {
 
-  const [username, setUsername] = useState("");
+  const [token, setToken] = useState("")
+  const username = server.parseToken(token)
 
   if (!open) {
     return null
   }
 
   function closeModal() {
-    setUsername("");
+    setToken("");
     setOpen(false)
   }
 
   function login() {
-    setUser(username.toLowerCase())
+    setUser(token)
     closeModal()
   }
 
   return <ModalFrame open={open} close={closeModal}>
-    <h1 className='font-bold text-2xl'>New character sheet</h1>
+    <h1 className='font-bold text-2xl'>Login</h1>
     
-    <div className="form-control w-full max-w-xs">
-      <label className="label">
-        <span className="label-text">Login</span>
-      </label>
-      <TextEntryBox
-        value={username}
-        setValue={setUsername}
-        limit={48}
-        inputSize='input-md'
-        placeholder='enter email'
-      ></TextEntryBox>
-    </div>
+    <label className="label">
+      <span className="label-text">Enter token</span>
+    </label>
+    <textarea className="textarea textarea-bordered w-full" placeholder="paste token here" value={token} onChange={ (e) => setToken(e.target.value) }></textarea>
 
     <div className='flex justify-center'>
       <button
         className='btn m-4 btn-primary'
         onClick={login}
-        disabled={username.length === 0}
+        disabled={ !username }
       >
         Login
       </button>
