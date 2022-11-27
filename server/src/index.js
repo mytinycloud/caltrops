@@ -1,6 +1,9 @@
 const AWS = require('aws-sdk');
+const Signature = require('./signature')
+
 const db = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = 'caltrops-sheets';
+const CALTROPS_PSK = process.env.caltrops_psk;
 
 const HEADERS = {
     'Content-Type': 'application/json',
@@ -39,6 +42,11 @@ async function canWrite(user, uid) {
     if (!user) { return false; }
     let item = await readContent(uid);
     return (item === null) || (item.owner === user);
+}
+
+function canSign(user) {
+    if (!user) { return false; }
+    return true;
 }
 
 async function listContent(user) {
@@ -85,7 +93,7 @@ exports.handler = async (event) => {
         return errorResponse(400, "Error parsing body", error);
     }
 
-    const user = body.user ?? null
+    const user = body.user ?? null;
 
     let reply = {};
 
@@ -119,7 +127,7 @@ exports.handler = async (event) => {
         try {
             for (const uid of body.delete) {
                 if (await canDelete(user, uid)) {
-                    await deleteContent(uid)
+                    await deleteContent(uid);
                 } else {
                     return errorResponse(401, "Unauthorised"); 
                 }
@@ -135,10 +143,21 @@ exports.handler = async (event) => {
         }
         try {
             let items = await listContent(user);
-            reply.list = items.sort( (a,b) => b.time.localeCompare(a.time) )
+            reply.list = items.sort( (a,b) => b.time.localeCompare(a.time) );
         } catch (error) {
             return errorResponse(500, "Error listing content", error);
         }
+    }
+
+    if (body.sign) {
+        if (!canSign(user)) {
+            return errorResponse(401, "Unauthorised");
+        }
+        let signed = [];
+        for (const item of body.sign) {
+            signed.push( Signature.encode(item, CALTROPS_PSK) );
+        }
+        reply.sign = signed;
     }
 
     const response = {
