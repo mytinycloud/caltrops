@@ -1,27 +1,23 @@
-const crypto = require('crypto')
+import { createHmac } from 'crypto';
 
 function sign(text, secret) {
-    crypto.createHmac('sha256', secret).update(text).digest('base64')
+    return createHmac('sha256', secret).update(text).digest('base64')
 }
 
 function encode(payload, secret) {
-    const text = JSON.stringify(payload);
+    const text = btoa(JSON.stringify(payload));
     const signature = sign(text, secret);
-    return `${atob(text)}.${atob(signature)}`;
+    return `${text}.${signature}`;
 }
 
 function decode(token, secret) {
-    const components = token.split('.');
-    const text = btoa(components[0]);
-    const signature = btoa(components[1]);
+    const [text, signature] = token.split('.');
     const expected = sign(text, secret);
     if (signature === expected) {
-        return JSON.parse(text);
+        return JSON.parse(atob(text));
     }
     return null;
 }
 
-export default Signature = {
-    encode: encode,
-    decode: decode,
-};
+exports.encode = encode;
+exports.decode = decode;
