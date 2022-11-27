@@ -23,27 +23,44 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
     setSheet(sheet: Sheet | null): void,
     children?: React.ReactNode,
   }): JSX.Element {
+
+  function recallToken(): string | null {
+    const token = localStorage.getItem('caltrops-token');
+    if (token && server.parseToken(token)) {
+      return token;
+    }
+    return null;
+  }
   
   const [isNewSheetOpen, setIsNewSheetOpen] = useState(false)
-  const [user, setUser] = useState(server.restoreLogin() as string | null)
+  const [token, setToken] = useState(recallToken)
   const [isLoginOpen, setIsLoginOpen] = useState(false)
   const [isLoadSheetOpen, setIsLoadSheetOpen] = useState(false)
   const [sheetList, setSheetList] = useState(null as ServerItem[] | null)
+
+  function updateToken(token: string | null) {
+    if (token) {
+      localStorage.setItem('caltrops-token', token)
+    } else {
+      localStorage.removeItem('caltrops-token')
+    }
+    setToken(token);
+  }
 
   const menuItems = [
     <li key='load'>
       <button
         className='btn btn-ghost'
         onClick={() => {
-          if (user) {
+          if (token) {
             setSheetList(null)
-            server.list(user)
+            server.list(token)
               .then( s => setSheetList(s))
               .catch(e => alertError(`Error listing sheets: ${e.message}`))
             setIsLoadSheetOpen(true)
           }
         }}
-        disabled={!user}
+        disabled={!token}
       >
         <ImFileEmpty size={20}/>
         Load sheet
@@ -63,8 +80,8 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
         className='btn btn-ghost'
         onClick={() => {
           saveObject("sheet", sheet)
-          if (user && sheet) {
-            server.write(user, sheet.id, sheet.info.name, sheet)
+          if (token && sheet) {
+            server.write(token, sheet.id, sheet.info.name, sheet)
               .then( s => alertSuccess("Sheet saved") )
               .catch(e => alertError(`Error saving sheet: ${e.message}`))
           }
@@ -110,10 +127,10 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
   <li key='login'>
     <button
       className='btn btn-ghost'
-      onClick={ () => !user ? setIsLoginOpen(true) : server.logout().then(setUser) }
+      onClick={ () => !token ? setIsLoginOpen(true) : updateToken(null) }
     >
       <ImUser size={20}/>
-      {user ?? "Login"}
+      {token ? server.parseToken(token) : "Login"}
     </button>
   </li>,
   ]
@@ -161,14 +178,13 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
     <UserLoginModal
       open={isLoginOpen}
       setOpen={setIsLoginOpen}
-      setUser={u => server.login(u).then(setUser)}
+      setUser={u => updateToken(u)}
       />
 
     <LoadSheetModal
       open={isLoadSheetOpen}
       setOpen={setIsLoadSheetOpen}
       setSheet={setSheet}
-      user={user}
       sheets={sheetList}
     />
   </div>

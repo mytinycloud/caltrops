@@ -12,12 +12,11 @@ import server, { ServerItem } from '../lib/server'
 import { alertError } from '../lib/alerts'
 
 
-function LoadSheetModal({open, setOpen, setSheet, sheets, user}:{
+function LoadSheetModal({open, setOpen, setSheet, sheets}:{
     open: boolean,
     setOpen(open: boolean): void,
     setSheet(sheet: Sheet | null): void,
     sheets: ServerItem[] | null,
-    user: string | null,
   }): JSX.Element | null {
 
   if (!open) {
@@ -29,12 +28,10 @@ function LoadSheetModal({open, setOpen, setSheet, sheets, user}:{
   }
 
   function selectSheet(item: ServerItem) {
-    if (user) {
-      setSheet(null)
-      server.read(item.id).then(s => {
-          setSheet( caltrops.loadSheet(s.content) )
-      }).catch(e => alertError( `Error reading sheet: ${e.message}`))
-    }
+    setSheet(null)
+    server.read(item.id).then(s => {
+        setSheet( caltrops.loadSheet(s.content) )
+    }).catch(e => alertError( `Error reading sheet: ${e.message}`))
     closeModal()
   }
 
