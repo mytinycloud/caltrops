@@ -56,7 +56,7 @@ function validateToken(token) {
             return null;
         }
         return payload;
-    } catch {
+    } catch (error) {
         return null;
     }
 }
@@ -107,9 +107,9 @@ exports.handler = async (event) => {
 
     let token = null;
     if (body.token) {
-        token = validateToken(body.token)
+        token = validateToken(body.token);
         if (!token) {
-            return errorResponse(400, "Invalid token", error); 
+            return errorResponse(400, "Invalid token");
         }
     }
 
