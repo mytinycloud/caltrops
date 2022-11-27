@@ -1,7 +1,7 @@
-import { createHmac } from 'crypto';
+const crypto = require('crypto')
 
 function sign(text, secret) {
-    return createHmac('sha256', secret).update(text).digest('base64')
+    return crypto.createHmac('sha256', secret).update(text).digest('base64')
 }
 
 function encode(payload, secret) {
