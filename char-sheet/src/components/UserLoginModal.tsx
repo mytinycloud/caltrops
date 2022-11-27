@@ -14,7 +14,7 @@ function UserLoginModal({open, setOpen, setUser}:{
   }): JSX.Element | null {
 
   const [token, setToken] = useState("")
-  const username = server.parseToken(token)
+  const username = server.parseToken(token.trim())
 
   if (!open) {
     return null
@@ -26,7 +26,7 @@ function UserLoginModal({open, setOpen, setUser}:{
   }
 
   function login() {
-    setUser(token)
+    setUser(token.trim())
     closeModal()
   }
 
