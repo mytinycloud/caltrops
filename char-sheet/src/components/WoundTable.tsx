@@ -9,7 +9,7 @@ import { ImHeartBroken } from 'react-icons/im'
 
 // Internal imports
 import caltrops from '../lib/caltrops'
-import { SheetWound } from '../lib/rules'
+import { SheetWound, Container } from '../lib/rules'
 
 
 /* 
@@ -19,10 +19,10 @@ import { SheetWound } from '../lib/rules'
  *    in: woundMaxSize <- sheet.wounds.
  *    out: setWounds -> sheet.wounds
  */
-function WoundTable( {wounds, setWounds, woundCount=5, woundSizeLimit=2, editable=false}: {
+function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, editable=false}: {
     wounds: SheetWound[],
     setWounds(wounds: SheetWound[]): void,
-    woundCount?: number,
+    container: Container,
     woundSizeLimit?: number,
     editable?: boolean
   }): JSX.Element | null {
@@ -65,7 +65,7 @@ function WoundTable( {wounds, setWounds, woundCount=5, woundSizeLimit=2, editabl
       <table className="table table-compact w-64">
         <thead>
           <tr>
-            <th colSpan={4}>Wounds</th>
+            <th colSpan={4}>Wounds: {container.name}</th>
           </tr>
         </thead>
         <tbody>

@@ -90,13 +90,16 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
                null
           })()}
 
-          <WoundTable
-            wounds={sheet.wounds}
-            setWounds={wounds => {setSheet(modifyObject(sheet, 'wounds', wounds))}}
-            woundCount={rules.woundCount}
-            woundSizeLimit={rules.woundSizeLimit}
-            editable={editable}
-          />
+          {(() => {
+            return rules.wounds.map( w =>
+            <WoundTable
+              wounds={sheet.wounds[w.name] || []}
+              setWounds={wounds => {setSheet(modifyObject(sheet, 'wounds', modifyObject(sheet.wounds, w.name, wounds)))}}
+              container={w}
+              woundSizeLimit={rules.woundSizeLimit}
+              editable={editable}
+            />
+          )})()}
         </section>
 
         <RollCreateModal

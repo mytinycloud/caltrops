@@ -52,7 +52,7 @@ export interface Rules {
     equipment: Equipment[],
     containers: Container[],
     powers: Power[],
-    woundCount: number,
+    wounds: Container[],
     woundSizeLimit: number,
 }
 
@@ -86,7 +86,7 @@ export interface Sheet {
     skills: Dictionary<number>,
     attributes: Dictionary<number>,
     powers: Dictionary<number>,
-    wounds: SheetWound[],
+    wounds: Dictionary<SheetWound[]>,
 }
 
 export interface RollInfo {
@@ -104,7 +104,6 @@ export interface RollInfo {
 export const DEFAULT_RULES: Rules = {
     name: 'default',
     theme: 'light',
-    woundCount: 5,
     woundSizeLimit: 2,
     skills: [
         {
@@ -123,6 +122,13 @@ export const DEFAULT_RULES: Rules = {
         {
             name: 'Personal',
             description: 'Equipment carried on ones person',
+            size: 5,
+        }
+    ],
+    wounds: [
+        {
+            name: 'Body',
+            description: 'Physical wounds',
             size: 5,
         }
     ],

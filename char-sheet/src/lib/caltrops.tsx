@@ -130,6 +130,11 @@ function woundTreat(wound: SheetWound, success: boolean): SheetWound | null {
  *  Cleans up an arbitrary object, converting it into a sheet
  */
 function loadSheet(obj: any = {}): Sheet {
+    if (obj.wounds && obj.wounds[0]) {
+        // TODO: Delete this.
+        // This is a hack for migrating old data structures
+        obj.wounds["Body"] = obj.wounds
+    }
     return {
         rules: obj.rules ?? '',
         id: obj.id ?? uuidv4(),
@@ -137,7 +142,7 @@ function loadSheet(obj: any = {}): Sheet {
         skills: { ...obj.skills },
         attributes: { ...obj.attributes },
         powers: { ...obj.powers },
-        wounds: [ ...(obj.wounds || []) ],
+        wounds: { ...obj.wounds },
         info: {
             name: '',
             level: 1,

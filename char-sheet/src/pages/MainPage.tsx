@@ -36,7 +36,7 @@ function MainPage(): JSX.Element {
     }
     if (sheet_id) {
       server.read(sheet_id).then( sheet => {
-          changeSheet(sheet.content)
+          changeSheet( caltrops.loadSheet(sheet.content) )
         }
       ).catch(e => alertError(`Error reading sheet: ${e.message}`))
       return null
