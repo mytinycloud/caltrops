@@ -9,6 +9,7 @@ import PowerTable from './PowerTable'
 import EquipmentTable from './EquipmentTable'
 import WoundTable from './WoundTable'
 import RollCreateModal from './RollModal'
+import NotesTable from './NotesTable'
 
 // Internal imports
 import { modifyObject } from '../lib/util'
@@ -93,6 +94,7 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
           {(() => {
             return rules.wounds.map( w =>
             <WoundTable
+              key={w.name}
               wounds={sheet.wounds[w.name] || []}
               setWounds={wounds => {setSheet(modifyObject(sheet, 'wounds', modifyObject(sheet.wounds, w.name, wounds)))}}
               container={w}
@@ -100,6 +102,14 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
               editable={editable}
             />
           )})()}
+        </section>
+        
+        {/* Notes */}
+        <section className='flex gap-4 flex-col'>
+          <NotesTable
+            notes={sheet.notes}
+            setNotes={notes => setSheet(modifyObject(sheet, 'notes', notes))}
+          />
         </section>
 
         <RollCreateModal

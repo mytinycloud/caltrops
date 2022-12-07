@@ -87,6 +87,7 @@ export interface Sheet {
     attributes: Dictionary<number>,
     powers: Dictionary<number>,
     wounds: Dictionary<SheetWound[]>,
+    notes: string[],
 }
 
 export interface RollInfo {

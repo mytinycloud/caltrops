@@ -133,7 +133,9 @@ function loadSheet(obj: any = {}): Sheet {
     if (obj.wounds && obj.wounds[0]) {
         // TODO: Delete this.
         // This is a hack for migrating old data structures
-        obj.wounds["Body"] = obj.wounds
+        obj.wounds = {
+            "Body": obj.wounds
+        }
     }
     return {
         rules: obj.rules ?? '',
@@ -143,6 +145,7 @@ function loadSheet(obj: any = {}): Sheet {
         attributes: { ...obj.attributes },
         powers: { ...obj.powers },
         wounds: { ...obj.wounds },
+        notes: [ ...(obj.notes || []) ],
         info: {
             name: '',
             level: 1,
