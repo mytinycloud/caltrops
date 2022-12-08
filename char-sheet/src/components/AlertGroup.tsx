@@ -41,7 +41,7 @@ function AlertBox(info: AlertInfo, deleteAlert: (info: AlertInfo) => void): JSX.
   >
     <div className='flex w-full'>
       <span className='mr-2'><IconClass size={22}></IconClass></span>
-      <span>{info.content}</span>
+      <span className='w-full text-center md:text-left'>{info.content}</span>
     </div>
   </div>
 }
