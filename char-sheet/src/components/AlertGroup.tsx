@@ -1,5 +1,7 @@
 // External imports
 import { useState, useEffect } from 'react'
+import { ImNotification, ImCancelCircle, ImWarning } from 'react-icons/im'
+import { FaRegCheckCircle } from 'react-icons/fa'
 
 // Internal imports
 import { subscribeToAlerts, unsubscribeFromAlerts } from '../lib/alerts'
@@ -12,13 +14,20 @@ interface AlertInfo {
   key: string,
 }
 
-function AlertBox(info: AlertInfo): JSX.Element {
+function AlertBox(info: AlertInfo, deleteAlert: (info: AlertInfo) => void): JSX.Element {
   const level_string = {
     'error': 'alert-error',
     'info': 'alert-info',
     'warning': 'alert-warning',
-    'success': 'alert-success'
+    'success': 'alert-success',
   }[info.level] ?? 'alert-info'
+
+  const IconClass: any = {
+    'error': ImCancelCircle,
+    'info': ImNotification,
+    'warning': ImWarning,
+    'success': FaRegCheckCircle,
+  }[info.level] ?? ImNotification
 
   return <div
     className={`alert ${level_string} shadow-lg w-full max-w-[24rem] pointer-events-auto`}
@@ -28,8 +37,10 @@ function AlertBox(info: AlertInfo): JSX.Element {
       animationFillMode: "forwards"
     }}
     key={info.key}
+    onClick={() => deleteAlert(info)}
   >
-    <div>
+    <div className='flex w-full'>
+      <span className='mr-2'><IconClass size={22}></IconClass></span>
       <span>{info.content}</span>
     </div>
   </div>
@@ -50,10 +61,14 @@ function AlertGroup(): JSX.Element {
     ])
     // Delete the alert after a while
     setTimeout( () => {
-      setAlerts(
-        LAST_ALERTS.filter( a => a.key !== info.key )
-      )
+      deleteAlert(info)
     }, ALERT_DURATION * 1000)
+  }
+
+  function deleteAlert(info: AlertInfo) {
+    setAlerts(
+      LAST_ALERTS.filter( a => a.key !== info.key )
+    )
   }
   
   useEffect(() => {
@@ -68,7 +83,7 @@ function AlertGroup(): JSX.Element {
   return (
     <div className="flex flex-col gap-2 p-8 h-full w-full fixed bottom-0 left-0 z-10 justify-end items-center md:items-start pointer-events-none">
       {
-        alerts.map( a => AlertBox(a) )
+        alerts.map( a => AlertBox(a, deleteAlert) )
       }
     </div>
   )

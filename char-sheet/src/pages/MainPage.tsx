@@ -15,7 +15,7 @@ import LoadingSpinner from '../components/LoadingSpinner'
 import server from '../lib/server'
 import { alertSuccess, alertError, alertWarning } from '../lib/alerts'
 
-const AUTO_SAVE_TIMEOUT = 5000
+const AUTO_SAVE_TIMEOUT = 5.0
 let SAVE_TIMEOUT_ID: any = -1
 
 /* 
@@ -98,7 +98,7 @@ function MainPage(): JSX.Element {
           .then( s => alertSuccess("Sheet auto saved") )
           .catch(e => alertError(`Error auto saving sheet: ${e.message}`))
       }
-    }, AUTO_SAVE_TIMEOUT)
+    }, AUTO_SAVE_TIMEOUT * 1000)
     setSheet(sheet)
   }
 
