@@ -13,7 +13,10 @@ import caltrops from '../lib/caltrops'
 import { Sheet, Rules } from '../lib/rules'
 import LoadingSpinner from '../components/LoadingSpinner'
 import server from '../lib/server'
-import { alertError, alertWarning } from '../lib/alerts'
+import { alertSuccess, alertError, alertWarning } from '../lib/alerts'
+
+const AUTO_SAVE_TIMEOUT = 5000
+let SAVE_TIMEOUT_ID: any = -1
 
 /* 
   - Top level parent component responsible for all state management
@@ -23,6 +26,23 @@ import { alertError, alertWarning } from '../lib/alerts'
   - Further lookup and controlling logic can be split out into modules if desired
 */
 function MainPage(): JSX.Element {
+
+  function recallToken(): string | null {
+    const token = localStorage.getItem('caltrops-token');
+    if (token && server.parseToken(token)) {
+      return token;
+    }
+    return null;
+  }
+
+  function changeToken(token: string | null) {
+    if (token) {
+      localStorage.setItem('caltrops-token', token)
+    } else {
+      localStorage.removeItem('caltrops-token')
+    }
+    setToken(token);
+  }
 
   function loadRules(): Rules {
     const last_rules = localStorage.getItem('caltrops-rules')
@@ -47,6 +67,7 @@ function MainPage(): JSX.Element {
   const [rules, setRules] = useState(loadRules)
   const [sheet, setSheet] = useState(loadSheet)
   const [editable, setEditable] = useState(false);
+  const [token, setToken] = useState(recallToken)
   
   setTheme(rules.theme);
 
@@ -67,6 +88,20 @@ function MainPage(): JSX.Element {
     setSheet(sheet)
   }
 
+  function editSheet(sheet: Sheet | null) {
+    if (SAVE_TIMEOUT_ID >= 0) {
+      clearTimeout(SAVE_TIMEOUT_ID)
+    }
+    SAVE_TIMEOUT_ID = setTimeout(() => {
+      if (token && sheet) {
+        server.write(token, sheet.id, sheet.info.name, sheet)
+          .then( s => alertSuccess("Sheet auto saved") )
+          .catch(e => alertError(`Error auto saving sheet: ${e.message}`))
+      }
+    }, AUTO_SAVE_TIMEOUT)
+    setSheet(sheet)
+  }
+
   return (
     <FileUploader setFile={changeSheet}>
 
@@ -75,13 +110,15 @@ function MainPage(): JSX.Element {
         setEditable={setEditable}
         sheet={sheet}
         setSheet={changeSheet}
+        token={token}
+        setToken={changeToken}
       >
         {
           sheet ?
           <SheetView
             rules={rules}
             sheet={sheet}
-            setSheet={setSheet}
+            setSheet={editSheet}
             editable={editable}
           /> :
           <LoadingSpinner size={100}/>
