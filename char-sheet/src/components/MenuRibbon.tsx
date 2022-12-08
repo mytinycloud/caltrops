@@ -8,44 +8,27 @@ import LoadSheetModal from './LoadSheetModal'
 import { ImDownload3, ImFileEmpty, ImFloppyDisk, ImUser, ImShare2 } from 'react-icons/im'
 
 // Internal imports
-import { downloadObject, saveObject, copyToClipboard } from '../lib/util'
+import { downloadObject, copyToClipboard } from '../lib/util'
 import { Sheet } from '../lib/rules'
 import server, { ServerItem } from '../lib/server'
 import UserLoginModal from './UserLoginModal';
-import caltrops from '../lib/caltrops';
 import { alertError, alertInfo, alertSuccess } from '../lib/alerts';
 
 
-function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
+function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, children}: {
     editable: boolean,
     setEditable(editable: boolean): void,
     sheet: Sheet | null,
     setSheet(sheet: Sheet | null): void,
+    token: string | null,
+    setToken(token: string | null): void,
     children?: React.ReactNode,
   }): JSX.Element {
 
-  function recallToken(): string | null {
-    const token = localStorage.getItem('caltrops-token');
-    if (token && server.parseToken(token)) {
-      return token;
-    }
-    return null;
-  }
-  
   const [isNewSheetOpen, setIsNewSheetOpen] = useState(false)
-  const [token, setToken] = useState(recallToken)
   const [isLoginOpen, setIsLoginOpen] = useState(false)
   const [isLoadSheetOpen, setIsLoadSheetOpen] = useState(false)
   const [sheetList, setSheetList] = useState(null as ServerItem[] | null)
-
-  function updateToken(token: string | null) {
-    if (token) {
-      localStorage.setItem('caltrops-token', token)
-    } else {
-      localStorage.removeItem('caltrops-token')
-    }
-    setToken(token);
-  }
 
   const menuItems = [
     <li key='load'>
@@ -79,7 +62,6 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
       <button
         className='btn btn-ghost'
         onClick={() => {
-          saveObject("sheet", sheet)
           if (token && sheet) {
             server.write(token, sheet.id, sheet.info.name, sheet)
               .then( s => alertSuccess("Sheet saved") )
@@ -127,7 +109,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
   <li key='login'>
     <button
       className='btn btn-ghost'
-      onClick={ () => !token ? setIsLoginOpen(true) : updateToken(null) }
+      onClick={ () => !token ? setIsLoginOpen(true) : setToken(null) }
     >
       <ImUser size={20}/>
       {token ? server.parseToken(token) : "Login"}
@@ -178,7 +160,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, children}: {
     <UserLoginModal
       open={isLoginOpen}
       setOpen={setIsLoginOpen}
-      setUser={u => updateToken(u)}
+      setUser={u => setToken(u)}
       />
 
     <LoadSheetModal
