@@ -1,7 +1,6 @@
 // External imports
 import { useState, useEffect } from 'react'
-import { ImNotification, ImCancelCircle, ImWarning } from 'react-icons/im'
-import { FaRegCheckCircle } from 'react-icons/fa'
+import { BsExclamationTriangle, BsCheckCircle, BsInfoCircle, BsXCircle } from 'react-icons/bs'
 
 // Internal imports
 import { subscribeToAlerts, unsubscribeFromAlerts } from '../lib/alerts'
@@ -23,11 +22,11 @@ function AlertBox(info: AlertInfo, deleteAlert: (info: AlertInfo) => void): JSX.
   }[info.level] ?? 'alert-info'
 
   const IconClass: any = {
-    'error': ImCancelCircle,
-    'info': ImNotification,
-    'warning': ImWarning,
-    'success': FaRegCheckCircle,
-  }[info.level] ?? ImNotification
+    'error': BsXCircle,
+    'info': BsInfoCircle,
+    'warning': BsExclamationTriangle,
+    'success': BsCheckCircle,
+  }[info.level] ?? BsInfoCircle
 
   return <div
     className={`alert ${level_string} shadow-lg w-full max-w-[24rem] pointer-events-auto`}

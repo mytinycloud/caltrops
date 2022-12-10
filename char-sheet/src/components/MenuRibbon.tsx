@@ -2,10 +2,12 @@
 import React, { useState } from 'react'
 
 // Components
-import IconButton from './IconButton';
 import NewSheetModal from './NewSheetModal';
 import LoadSheetModal from './LoadSheetModal'
-import { ImDownload3, ImFileEmpty, ImFloppyDisk, ImUser, ImShare2 } from 'react-icons/im'
+import { BsPerson, BsShare, BsCloudArrowDown,
+  BsCloudArrowUp, BsFileEarmarkPlus, BsDownload,
+ } from 'react-icons/bs'
+import { ImCheckmark, ImPencil } from 'react-icons/im';
 
 // Internal imports
 import { downloadObject, copyToClipboard } from '../lib/util'
@@ -31,13 +33,13 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
   const [sheetList, setSheetList] = useState(null as ServerItem[] | null)
 
   const menuItems = [
-    <li key='new'>
+  <li key='new'>
     <button
       className='btn btn-ghost'
       onClick={() => setIsNewSheetOpen(true)}
     >
-      <ImFileEmpty size={20}/>
-      New sheet
+      <BsFileEarmarkPlus size={25}/>
+      New
     </button>
   </li>,
     <li key='load'>
@@ -54,8 +56,8 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
         }}
         disabled={!token}
       >
-        <ImFileEmpty size={20}/>
-        Load sheet
+        <BsCloudArrowDown size={27}/>
+        Load
       </button>
     </li>,
     <li key='save'>
@@ -68,9 +70,9 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
               .catch(e => alertError(`Error saving sheet: ${e.message}`))
           }
         }}
-        disabled={!(token && sheet)}
+        disabled={!sheet}
       >
-        <ImFloppyDisk size={20}/>
+        <BsCloudArrowUp size={27}/>
         Save
       </button>
     </li>,
@@ -87,7 +89,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
         }}
         disabled={!sheet}
       >
-        <ImDownload3 size={20}/>
+        <BsDownload size={25}/>
         Download
       </button>
   </li>,
@@ -102,7 +104,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
         }}
       disabled={ !sheet }
     >
-      <ImShare2 size={20}/>
+      <BsShare size={25}/>
       Share
     </button>
   </li>,
@@ -111,7 +113,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
       className='btn btn-ghost'
       onClick={ () => !token ? setIsLoginOpen(true) : setToken(null) }
     >
-      <ImUser size={20}/>
+      <BsPerson size={25}/>
       {token ? server.parseToken(token) : "Login"}
     </button>
   </li>,
@@ -129,12 +131,12 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
           </label>
         </div>
         <div className="flex-1 px-2 mx-2">
-        <IconButton
-          icon={editable ? 'check' : 'edit'}
-          btnStyle={editable ? 'btn-primary' : 'btn-ghost'}
-          btnSize='btn-md'
-          onClick={() => setEditable(!editable)}
-        />
+          <button
+            className={`btn btn-square ${ editable ? 'btn-primary' : 'btn-ghost' }`}
+            onClick={() => setEditable(!editable)}
+            >
+            { editable ? <ImCheckmark size={22}/> : <ImPencil size={22}/> }
+          </button>
         </div>
         <div className="flex-none hidden lg:block">
           <ul className="menu menu-horizontal">

@@ -95,7 +95,7 @@ function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, editable=f
                   btnStyle='btn-outline btn-error'
                 /> :
                 <IconButton
-                  icon={wound.locked ? 'lock' : 'unlock' }
+                  icon='heart'
                   onClick={() => setSelected(n)}
                   enabled={!wound.locked}
                 />
