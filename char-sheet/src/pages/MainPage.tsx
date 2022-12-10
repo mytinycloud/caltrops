@@ -91,14 +91,17 @@ function MainPage(): JSX.Element {
   function editSheet(sheet: Sheet | null) {
     if (SAVE_TIMEOUT_ID >= 0) {
       clearTimeout(SAVE_TIMEOUT_ID)
+      SAVE_TIMEOUT_ID = -1;
     }
-    SAVE_TIMEOUT_ID = setTimeout(() => {
-      if (token && sheet) {
-        server.write(token, sheet.id, sheet.info.name, sheet)
-          .then( s => alertSuccess("Sheet auto saved") )
-          .catch(e => alertError(`Error auto saving sheet: ${e.message}`))
-      }
-    }, AUTO_SAVE_TIMEOUT * 1000)
+    if (token) {
+      SAVE_TIMEOUT_ID = setTimeout(() => {
+        if (token && sheet) {
+          server.write(token, sheet.id, sheet.info.name, sheet)
+            .then( s => alertSuccess("Sheet auto saved") )
+            .catch(e => alertError(`Error auto saving sheet: ${e.message}`))
+        }
+      }, AUTO_SAVE_TIMEOUT * 1000)
+    }
     setSheet(sheet)
   }
 

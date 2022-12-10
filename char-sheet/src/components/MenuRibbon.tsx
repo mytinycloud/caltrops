@@ -31,6 +31,15 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
   const [sheetList, setSheetList] = useState(null as ServerItem[] | null)
 
   const menuItems = [
+    <li key='new'>
+    <button
+      className='btn btn-ghost'
+      onClick={() => setIsNewSheetOpen(true)}
+    >
+      <ImFileEmpty size={20}/>
+      New sheet
+    </button>
+  </li>,
     <li key='load'>
       <button
         className='btn btn-ghost'
@@ -49,15 +58,6 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
         Load sheet
       </button>
     </li>,
-    <li key='new'>
-      <button
-        className='btn btn-ghost'
-        onClick={() => setIsNewSheetOpen(true)}
-      >
-        <ImFileEmpty size={20}/>
-        New sheet
-      </button>
-    </li>,
     <li key='save'>
       <button
         className='btn btn-ghost'
@@ -68,7 +68,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
               .catch(e => alertError(`Error saving sheet: ${e.message}`))
           }
         }}
-        disabled={!sheet}
+        disabled={!(token && sheet)}
       >
         <ImFloppyDisk size={20}/>
         Save
