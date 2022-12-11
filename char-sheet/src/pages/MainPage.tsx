@@ -71,7 +71,7 @@ function MainPage(): JSX.Element {
   
   setTheme(rules.theme);
 
-  function changeSheet(sheet: Sheet | null) {
+  function changeSheet(sheet: Sheet | null, remember: boolean = false) {
     // Check if sheet.rules were changed, and load the new rules if so.
     if (sheet && sheet.rules !== rules.name) {
       const newRules = caltrops.loadRules(sheet.rules)
@@ -82,7 +82,7 @@ function MainPage(): JSX.Element {
         sheet.rules = newRules.name
       }
     }
-    if (sheet) {
+    if (sheet && remember) {
       localStorage.setItem('caltrops-sheet', sheet.id)
     }
     setSheet(sheet)
@@ -106,13 +106,13 @@ function MainPage(): JSX.Element {
   }
 
   return (
-    <FileUploader setFile={changeSheet}>
+    <FileUploader setFile={s => changeSheet(s)}>
 
       <MenuRibbon
         editable={editable}
         setEditable={setEditable}
         sheet={sheet}
-        setSheet={changeSheet}
+        setSheet={s => changeSheet(s, true)}
         token={token}
         setToken={changeToken}
       >
