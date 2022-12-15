@@ -1,11 +1,15 @@
 const crypto = require('crypto')
 
+function trimB64(text) {
+    return text.replace(/=*$/, '')
+}
+
 function sign(text, secret) {
-    return crypto.createHmac('sha256', secret).update(text).digest('base64')
+    return trimB64(crypto.createHmac('sha256', secret).update(text).digest('base64'))
 }
 
 function encode(payload, secret) {
-    const text = btoa(JSON.stringify(payload));
+    const text = trimB64(btoa(JSON.stringify(payload)));
     const signature = sign(text, secret);
     return `${text}.${signature}`;
 }
@@ -13,7 +17,7 @@ function encode(payload, secret) {
 function decode(token, secret) {
     const [text, signature] = token.split('.');
     const expected = sign(text, secret);
-    if (signature === expected) {
+    if (trimB64(signature) === expected) {
         return JSON.parse(atob(text));
     }
     return null;
