@@ -30,6 +30,7 @@ function EquipmentSelectModal({equipment, addEquipment, open, close, enabled=tru
   }
 
   function closeModal() {
+    setCustomEquipment(null)
     setFilter("")
     close()
   }
