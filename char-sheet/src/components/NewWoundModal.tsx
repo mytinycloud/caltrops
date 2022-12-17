@@ -46,9 +46,7 @@ function NewWoundModal({open, setOpen, addWound, maxSize=2}: {
     addWound(caltrops.woundCreate(size, name))
   }
 
-  return <ModalFrame open={open} close={closeModal}>
-    <h1 className='font-bold text-2xl'>New wound</h1>
-    
+  return <ModalFrame open={open} close={closeModal} title="New Wound">
     <div className="form-control w-full max-w-xs">
       <label className="label">
         <span className="label-text">Description</span>

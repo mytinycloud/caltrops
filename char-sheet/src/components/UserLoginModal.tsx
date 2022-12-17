@@ -4,13 +4,12 @@ import server from '../lib/server'
 
 // Components
 import ModalFrame from './ModalFrame'
-import TextEntryBox from './TextEntryBox'
 
-
-function UserLoginModal({open, setOpen, setUser}:{
+function UserLoginModal({open, setOpen, setUser, isLoggedIn}:{
     open: boolean,
     setOpen(open: boolean): void,
     setUser(user: string | null): void,
+    isLoggedIn: boolean,
   }): JSX.Element | null {
 
   const [token, setToken] = useState("")
@@ -25,28 +24,36 @@ function UserLoginModal({open, setOpen, setUser}:{
     setOpen(false)
   }
 
-  function login() {
-    setUser(token.trim())
+  function login(token: string | null) {
+    setUser(token)
     closeModal()
   }
 
-  return <ModalFrame open={open} close={closeModal}>
-    <h1 className='font-bold text-2xl'>Login</h1>
-    
-    <label className="label">
-      <span className="label-text">Enter token</span>
-    </label>
-    <textarea className="textarea textarea-bordered w-full" placeholder="paste token here" value={token} onChange={ (e) => setToken(e.target.value) }></textarea>
+  return <ModalFrame open={open} close={closeModal} title={isLoggedIn ? "Confirm Logout" : "Login"}>
+    {
+      !isLoggedIn ? [
+        <label className="label">
+          <span className="label-text">Enter token</span>
+        </label>,
+        <textarea
+          className="textarea textarea-bordered w-full"
+          placeholder="paste token here"
+          value={token}
+          onChange={ (e) => setToken(e.target.value) }
+          />
+      ] : null
+    }
 
     <div className='flex justify-center'>
       <button
         className='btn m-4 btn-primary'
-        onClick={login}
-        disabled={ !username }
+        onClick={() => login(isLoggedIn ? null : token.trim())}
+        disabled={ isLoggedIn ? false : !username }
       >
-        Login
+        {isLoggedIn ? "Logout" : "Login"}
       </button>
     </div>
+
   </ModalFrame>
 }
 

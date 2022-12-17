@@ -35,8 +35,7 @@ function LoadSheetModal({open, setOpen, setSheet, sheets}:{
     closeModal()
   }
 
-  return <ModalFrame open={open} close={closeModal}>
-    <h1 className='font-bold text-2xl mb-4'>Select sheet</h1>
+  return <ModalFrame open={open} close={closeModal} title="Select sheet">
     {
       sheets == null ?
         <LoadingSpinner/> :

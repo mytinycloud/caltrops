@@ -58,9 +58,7 @@ function RollCreateModal({attributes, scores, roll, setRoll}: {
 
   const isFoundryPresent = foundry.isPresent()
 
-  return <ModalFrame open={true} close={closeModal}>
-    <h1 className='font-bold text-2xl mb-4'>Roll {roll.skill.name}</h1>
-
+  return <ModalFrame open={true} close={closeModal} title={`Roll ${roll.skill.name}`}>
     <label className="label">
         <span className="label-text">Select aspect</span>
     </label>

@@ -20,9 +20,7 @@ function TreatWoundModal( {open, setOpen, treatWound}: {
     closeModal()
   }
 
-  return <ModalFrame open={open} close={closeModal}>
-    <h1 className='font-bold text-2xl'>Treat wound</h1>
-    
+  return <ModalFrame open={open} close={closeModal} title="Treat wound">
     <div className='flex gap-8 justify-center mt-4'>
       <button
         className='btn btn-success'

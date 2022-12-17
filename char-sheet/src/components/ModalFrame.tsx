@@ -2,10 +2,11 @@
 import { Modal } from 'react-daisyui'
 import { ImCross } from 'react-icons/im'
 
-function ModalFrame( {open, close, children}: {
+function ModalFrame( {open, close, children, title}: {
     open: boolean,
     close(): void,
     children?: React.ReactNode,
+    title: string
   }): JSX.Element | null {
 
   return <Modal open={open} onClickBackdrop={close}>
@@ -15,6 +16,8 @@ function ModalFrame( {open, close, children}: {
       >
       <ImCross size={14}/>
     </button>
+
+    <h1 className='font-bold text-2xl'>{title}</h1>
 
     { children }
   </Modal>

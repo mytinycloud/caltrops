@@ -70,7 +70,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
               .catch(e => alertError(`Error saving sheet: ${e.message}`))
           }
         }}
-        disabled={!sheet}
+        disabled={!(sheet && token)}
       >
         <BsCloudArrowUp size={27}/>
         Save
@@ -111,7 +111,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
   <li key='login'>
     <button
       className='btn btn-ghost'
-      onClick={ () => !token ? setIsLoginOpen(true) : setToken(null) }
+      onClick={ () => setIsLoginOpen(true) }
     >
       <BsPerson size={25}/>
       {token ? server.parseToken(token) : "Login"}
@@ -163,6 +163,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
       open={isLoginOpen}
       setOpen={setIsLoginOpen}
       setUser={u => setToken(u)}
+      isLoggedIn={!!token}
       />
 
     <LoadSheetModal

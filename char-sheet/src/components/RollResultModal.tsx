@@ -19,9 +19,8 @@ function RollResultModal({results, info, close}: {
     close()
   }
   
-  return <ModalFrame open={true} close={closeModal}>
-    <h1 className='font-bold text-2xl mb-4'>{caltrops.rollDescribe(info)}</h1>
-    <div className='flex gap-4 flex-row flex-wrap justify-center'>
+  return <ModalFrame open={true} close={closeModal} title={caltrops.rollDescribe(info)}>
+    <div className='flex gap-4 flex-row flex-wrap justify-center mt-4'>
       {
       results.map( (r, i) => {
         let success = r >= 4

@@ -35,9 +35,7 @@ function EquipmentCreateModal({equipment, addEquipment, open, setOpen}: {
     closeModal()
   }
 
-  return <ModalFrame open={open} close={closeModal}>
-    <h1 className='font-bold text-2xl'>New item</h1>
-    
+  return <ModalFrame open={open} close={closeModal} title="New item">
     <div className="form-control w-full max-w-xs">
       <label className="label">
         <span className="label-text">Name item</span>

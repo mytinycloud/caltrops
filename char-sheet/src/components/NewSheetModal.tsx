@@ -37,9 +37,7 @@ function NewSheetModal({open, setOpen, setSheet}:{
     setSheet(sheet)
   }
 
-  return <ModalFrame open={open} close={closeModal}>
-    <h1 className='font-bold text-2xl'>New character sheet</h1>
-    
+  return <ModalFrame open={open} close={closeModal} title="New character sheet">
     <div className="form-control w-full max-w-xs">
       <label className="label">
         <span className="label-text">Name character</span>
