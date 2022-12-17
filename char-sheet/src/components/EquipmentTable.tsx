@@ -106,7 +106,7 @@ function EquipmentTable({equipment, container, items, setItems}: {
 
       <EquipmentSelectModal
         open={modalOpen}
-        setOpen={setModalOpen}
+        close={() => setModalOpen(false)}
         enabled={freeCapacity > 0}
         equipment={modalOpen ? caltrops.equipmentFilter(equipment, container.tags) : []}
         addEquipment={addItem}

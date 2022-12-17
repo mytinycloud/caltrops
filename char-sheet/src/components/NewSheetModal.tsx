@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 // Components
-import ModalFrame from './ModalFrame'
+import ActionModal from './ActionModal'
 import TextEntryBox from './TextEntryBox'
 
 // Internal imports
@@ -10,9 +10,9 @@ import caltrops from '../lib/caltrops'
 import { Sheet } from '../lib/rules'
 
 
-function NewSheetModal({open, setOpen, setSheet}:{
+function NewSheetModal({open, close, setSheet}:{
     open: boolean,
-    setOpen(open: boolean): void,
+    close(): void,
     setSheet(sheet: Sheet): void,
   }): JSX.Element | null {
 
@@ -25,19 +25,23 @@ function NewSheetModal({open, setOpen, setSheet}:{
   }
 
   function closeModal() {
-    setOpen(false)
+    close()
     setName("")
   }
 
-  function createSheet() {
-    const rules = caltrops.loadRules(ruleset)
-    const sheet = caltrops.newSheet(rules, name)
-
-    closeModal()
-    setSheet(sheet)
-  }
-
-  return <ModalFrame open={open} close={closeModal} title="New character sheet">
+  return <ActionModal
+    open={open}
+    close={closeModal}
+    title="New character sheet"
+    actions={[
+      {
+        name: "Create",
+        type: "primary",
+        disabled: name.length === 0,
+        callback: () => setSheet(caltrops.newSheet(caltrops.loadRules(ruleset), name))
+      }
+    ]}
+    >
     <div className="form-control w-full max-w-xs">
       <label className="label">
         <span className="label-text">Name character</span>
@@ -60,17 +64,7 @@ function NewSheetModal({open, setOpen, setSheet}:{
         )}
       </select>
     </div>
-
-    <div className='flex justify-center'>
-      <button
-        className='btn m-4 btn-primary'
-        onClick={createSheet}
-        disabled={name.length === 0}
-      >
-        Create
-      </button>
-    </div>
-  </ModalFrame>
+  </ActionModal>
 }
 
 

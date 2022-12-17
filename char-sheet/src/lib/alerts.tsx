@@ -1,6 +1,8 @@
-let ALERT_CALLBACK: ((text: string, level: string) => void) | null = null;
+type AlertLevel = 'error' | 'warning' | 'success' | 'info';
 
-export function subscribeToAlerts( callback: (text: string, level: string) => void ) {
+let ALERT_CALLBACK: ((text: string, level: AlertLevel) => void) | null = null;
+
+export function subscribeToAlerts( callback: (text: string, level: AlertLevel) => void ) {
   ALERT_CALLBACK = callback;
 }
 
@@ -8,7 +10,7 @@ export function unsubscribeFromAlerts(): void {
   ALERT_CALLBACK = null;
 }
 
-function submitAlert(content: string, level: string = "info") {
+function submitAlert(content: string, level: AlertLevel = "info") {
   if (ALERT_CALLBACK) {
     ALERT_CALLBACK(content, level)
   } else {

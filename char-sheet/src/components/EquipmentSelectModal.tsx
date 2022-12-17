@@ -5,16 +5,18 @@ import { useState } from 'react'
 import IconButton from './IconButton'
 import { Modal } from 'react-daisyui'
 import { ImCross } from 'react-icons/im'
+import TextEntryBox from './TextEntryBox'
+import ActionModal from './ActionModal'
 
 // Interal imports
 import { Equipment, SheetEquipment } from '../lib/rules'
-import EquipmentCreateModal from './EquipmentCreateModal'
+import { modifyObject } from '../lib/util'
 
-function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=true}: {
+function EquipmentSelectModal({equipment, addEquipment, open, close, enabled=true}: {
     equipment: Equipment[],
     addEquipment(item: SheetEquipment): void,
     open: boolean,
-    setOpen(open: boolean): void,
+    close(): void,
     enabled?: boolean,
   }): JSX.Element | null {
 
@@ -29,7 +31,7 @@ function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=t
 
   function closeModal() {
     setFilter("")
-    setOpen(false)
+    close()
   }
 
   return (
@@ -71,7 +73,7 @@ function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=t
                   <td><IconButton
                     icon='plus'
                     enabled={enabled}
-                    onClick={() => { item.custom ? setCustomEquipment(item) : addEquipment(item) } }
+                    onClick={() => { item.custom ? setCustomEquipment(modifyObject(item, "name", "")) : addEquipment(item) } }
                   /></td>
                   <td>{item.name}</td>
                   <td>{item.stack ?? ""}</td>
@@ -82,12 +84,34 @@ function EquipmentSelectModal({equipment, addEquipment, open, setOpen, enabled=t
           </tbody>
         </table>
       </div>
-      <EquipmentCreateModal
-        equipment={customEquipment as Equipment}
+
+      <ActionModal
+        title="New item"
         open={customEquipment != null}
-        setOpen={open => setCustomEquipment(null)}
-        addEquipment={addEquipment}
-      />
+        close={() => setCustomEquipment(null)}
+        actions={[
+          {
+            name: "Create",
+            type: "primary",
+            callback: () => addEquipment(customEquipment as Equipment),
+            disabled: !(customEquipment?.name.length),
+          }
+        ]}
+      >
+        <div className="form-control w-full max-w-xs">
+          <label className="label">
+            <span className="label-text">Name item</span>
+          </label>
+          <TextEntryBox
+            value={customEquipment?.name ?? ""}
+            setValue={ v => setCustomEquipment(modifyObject(customEquipment, "name", v)) }
+            limit={32}
+            inputSize='input-md'
+            placeholder='Item name'
+          ></TextEntryBox>
+        </div>
+      </ActionModal>
+
     </Modal>
   )
 }
