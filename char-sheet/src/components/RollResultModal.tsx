@@ -24,7 +24,7 @@ function RollResultModal({results, info, close}: {
       {
       results.map( (r, i) => {
         let success = r >= 4
-        return <div
+        return <div key={i}
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-12 w-12 animate-ping"
@@ -47,8 +47,8 @@ function RollResultModal({results, info, close}: {
               y={60}
               style={{fontSize: 48}}
               fill={success ? "hsl(var(--su))" : "hsl(var(--er))"}
-              dominant-baseline="middle"
-              text-anchor="middle"
+              dominantBaseline="middle"
+              textAnchor="middle"
             >
               {r}
             </text>

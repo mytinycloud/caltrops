@@ -66,11 +66,12 @@ function RollCreateModal({attributes, scores, roll, setRoll}: {
       <div className='grid grid-cols-1 gap-2'>
         {
           attributes.map( attr => 
-            <div className="btn-group">
+            <div className="btn-group" key={attr.name}>
             {
               attr.aspects.map( a => {
                 let selected = roll.aspect?.name === a.name
                 return <button
+                  key={a.name}
                   className={ `btn btn-sm w-24 ${ selected ? 'btn-active' : '' }`}
                   onClick={() => {setAspect(a.name, scores[a.name] ?? 0)}}
                 >{a.name}</button>
