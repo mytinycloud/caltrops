@@ -13,7 +13,7 @@ jobs:
       run:
         working-directory: ./fvtt
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - run: zip -r ./fvtt-caltrops.zip ./
     - name: Create Release
       id: create_versioned_release
