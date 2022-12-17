@@ -170,12 +170,14 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
       isLoggedIn={!!token}
       />
 
-    <LoadSheetModal
+    { token ? <LoadSheetModal
       open={isLoadSheetOpen}
       close={() => setIsLoadSheetOpen(false)}
       setSheet={s => { setSheet(s); closeRibbon() }}
+      setSheets={setSheetList}
       sheets={sheetList}
-    />
+      token={token}
+    /> : null }
   </div>
   )
 }
