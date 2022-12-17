@@ -4,7 +4,7 @@ import { useState } from 'react'
 // Components
 import IconButton from './IconButton'
 import NewWoundModal from './NewWoundModal'
-import TreatWoundModal from './TreatWoundModal'
+import ActionModal from './ActionModal'
 import { ImHeartBroken } from 'react-icons/im'
 
 // Internal imports
@@ -121,14 +121,26 @@ function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, editable=f
 
       <NewWoundModal
         open={newWoundOpen}
-        setOpen={setNewWoundOpen}
+        close={() => setNewWoundOpen(false)}
         addWound={addWound}
         maxSize={woundSizeLimit}
       />
-      <TreatWoundModal
+
+      <ActionModal
         open={selected > -1}
-        setOpen={() => setSelected(-1)}
-        treatWound={treatWound}
+        close={() => setSelected(-1)}
+        title="Treat wound"
+        actions={[
+          {
+            name: "Treat",
+            callback: () => treatWound(true),
+            type: "success"
+          }, {
+            name: "Botch",
+            callback: () => treatWound(false),
+            type: "error"
+          }
+        ]}
       />
     </div>
   )

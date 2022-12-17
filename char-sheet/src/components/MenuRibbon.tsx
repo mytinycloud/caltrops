@@ -159,23 +159,25 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
 
     <NewSheetModal
       open={isNewSheetOpen}
-      setOpen={setIsNewSheetOpen}
+      close={() => setIsNewSheetOpen(false)}
       setSheet={s => { setSheet(s); closeRibbon() }}
       />
 
     <UserLoginModal
       open={isLoginOpen}
-      setOpen={setIsLoginOpen}
+      close={() => setIsLoginOpen(false)}
       setUser={u => setToken(u)}
       isLoggedIn={!!token}
       />
 
-    <LoadSheetModal
+    { token ? <LoadSheetModal
       open={isLoadSheetOpen}
-      setOpen={setIsLoadSheetOpen}
+      close={() => setIsLoadSheetOpen(false)}
       setSheet={s => { setSheet(s); closeRibbon() }}
+      setSheets={setSheetList}
       sheets={sheetList}
-    />
+      token={token}
+    /> : null }
   </div>
   )
 }

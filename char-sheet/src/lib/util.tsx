@@ -41,3 +41,38 @@ export function loadObject(name: string): any | null {
 export function copyToClipboard(text: string): void {
     navigator.clipboard.writeText(text)
 }
+
+export function timeSince(date: Date): string {
+    var seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+
+    function formatInterval(interval: number, name: string): string {
+      interval = Math.floor(interval)
+      if (interval > 1) {
+        return `${interval} ${name}s`
+      }
+      return `1 ${name}` 
+    }
+  
+    var interval = seconds / 31536000;
+  
+    if (interval > 1) {
+      return formatInterval(interval, "year");
+    }
+    interval = seconds / 2592000;
+    if (interval > 1) {
+      return formatInterval(interval, "month");
+    }
+    interval = seconds / 86400;
+    if (interval > 1) {
+      return formatInterval(interval, "day");
+    }
+    interval = seconds / 3600;
+    if (interval > 1) {
+      return formatInterval(interval, "hour");
+    }
+    interval = seconds / 60;
+    if (interval > 1) {
+      return formatInterval(interval, "minute");
+    }
+    return formatInterval(seconds, "second");
+  }

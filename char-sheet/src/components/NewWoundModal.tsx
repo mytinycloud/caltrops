@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 // Components
-import ModalFrame from './ModalFrame'
+import ActionModal from './ActionModal'
 import TextEntryBox from './TextEntryBox'
 
 // Internal imports
@@ -23,9 +23,9 @@ function WoundSizeNames(maxSize: number): string[] {
   }
 }
 
-function NewWoundModal({open, setOpen, addWound, maxSize=2}: {
+function NewWoundModal({open, close, addWound, maxSize=2}: {
     open: boolean,
-    setOpen(open: boolean): void,
+    close(): void,
     addWound(wound: SheetWound): void,
     maxSize?: number,
   }): JSX.Element | null {
@@ -37,16 +37,26 @@ function NewWoundModal({open, setOpen, addWound, maxSize=2}: {
   }
 
   function closeModal() {
-    setOpen(false)
+    close()
     setName("")
   }
 
-  function createWound(size: number) {
-    closeModal()
-    addWound(caltrops.woundCreate(size, name))
-  }
-
-  return <ModalFrame open={open} close={closeModal} title="New Wound">
+  return <ActionModal
+    title="New Wound"
+    open={open}
+    close={closeModal}
+    actions={
+      WoundSizeNames(maxSize).map( (sizeName, i) => {
+        return {
+          callback: () => addWound(caltrops.woundCreate(i + 1, name)),
+          disabled: name.length <= 0,
+          name: sizeName,
+          type: i === 0 ? 'primary' : undefined
+        }
+      })
+    }
+    >
+    
     <div className="form-control w-full max-w-xs">
       <label className="label">
         <span className="label-text">Description</span>
@@ -63,20 +73,7 @@ function NewWoundModal({open, setOpen, addWound, maxSize=2}: {
     <label className="label mt-4">
         <span className="label-text">Size</span>
     </label>
-    <div className='flex gap-8 justify-center'>
-      {
-        WoundSizeNames(maxSize).map( (sizeName, i) => {
-        return <button
-            className={ i === 0 ? 'btn btn-primary' : 'btn' }
-            onClick={ () => createWound(i+1) }
-            disabled={ name.length <= 0 }
-          >
-          { sizeName }
-        </button>
-        })
-      }
-    </div>
-  </ModalFrame>
+  </ActionModal>
 }
 
 

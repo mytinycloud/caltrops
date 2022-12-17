@@ -3,11 +3,11 @@ import { useState } from 'react'
 import server from '../lib/server'
 
 // Components
-import ModalFrame from './ModalFrame'
+import ActionModal from './ActionModal'
 
-function UserLoginModal({open, setOpen, setUser, isLoggedIn}:{
+function UserLoginModal({open, close, setUser, isLoggedIn}:{
     open: boolean,
-    setOpen(open: boolean): void,
+    close(): void,
     setUser(user: string | null): void,
     isLoggedIn: boolean,
   }): JSX.Element | null {
@@ -21,40 +21,50 @@ function UserLoginModal({open, setOpen, setUser, isLoggedIn}:{
 
   function closeModal() {
     setToken("");
-    setOpen(false)
+    close()
   }
 
-  function login(token: string | null) {
-    setUser(token)
-    closeModal()
+  if (isLoggedIn) {
+    return <ActionModal
+      title="Confirm logout"
+      open={open}
+      close={closeModal}
+      actions={[
+        {
+          name: "Logout",
+          callback: () => setUser(null),
+          type: "error",
+        }
+      ]}
+    />
   }
+  else {
+    return <ActionModal
+      title="Login"
+      open={open}
+      close={closeModal}
+      actions={[
+        {
+          name: "Login",
+          callback: () => setUser(token.trim()),
+          type: "primary",
+          disabled: !username,
+        }
+      ]}
+    >
 
-  return <ModalFrame open={open} close={closeModal} title={isLoggedIn ? "Confirm Logout" : "Login"}>
-    {
-      !isLoggedIn ? [
-        <label className="label">
-          <span className="label-text">Enter token</span>
-        </label>,
-        <textarea
-          className="textarea textarea-bordered w-full"
-          placeholder="paste token here"
-          value={token}
-          onChange={ (e) => setToken(e.target.value) }
-          />
-      ] : null
-    }
+    <label className="label">
+      <span className="label-text">Enter token</span>
+    </label>
+    <textarea
+      className="textarea textarea-bordered w-full"
+      placeholder="paste token here"
+      value={token}
+      onChange={ (e) => setToken(e.target.value) }
+      />
 
-    <div className='flex justify-center'>
-      <button
-        className='btn m-4 btn-primary'
-        onClick={() => login(isLoggedIn ? null : token.trim())}
-        disabled={ isLoggedIn ? false : !username }
-      >
-        {isLoggedIn ? "Logout" : "Login"}
-      </button>
-    </div>
-
-  </ModalFrame>
+    </ActionModal>
+  }
 }
 
 

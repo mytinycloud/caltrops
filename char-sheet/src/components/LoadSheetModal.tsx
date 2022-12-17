@@ -2,29 +2,31 @@
 import { useState } from 'react'
 
 // Components
-import ModalFrame from './ModalFrame'
 import { Sheet } from '../lib/rules';
 import LoadingSpinner from './LoadingSpinner';
+import { ImCross } from 'react-icons/im';
+import ActionModal from './ActionModal';
 
 // Libraries
 import caltrops from '../lib/caltrops'
 import server, { ServerItem } from '../lib/server'
-import { alertError } from '../lib/alerts'
+import { alertError, alertSuccess } from '../lib/alerts'
+import { timeSince } from '../lib/util';
 
 
-function LoadSheetModal({open, setOpen, setSheet, sheets}:{
+function LoadSheetModal({open, close, setSheet, sheets, setSheets, token}:{
     open: boolean,
-    setOpen(open: boolean): void,
+    close(): void,
     setSheet(sheet: Sheet | null): void,
     sheets: ServerItem[] | null,
+    setSheets( sheets: ServerItem[] | null ): void,
+    token: string
   }): JSX.Element | null {
+
+  const [toDelete, setToDelete] = useState(null as ServerItem | null)
 
   if (!open) {
     return null
-  }
-
-  function closeModal() {
-    setOpen(false)
   }
 
   function selectSheet(item: ServerItem) {
@@ -32,29 +34,69 @@ function LoadSheetModal({open, setOpen, setSheet, sheets}:{
     server.read(item.id).then(s => {
         setSheet( caltrops.loadSheet(s.content) )
     }).catch(e => alertError( `Error reading sheet: ${e.message}`))
-    closeModal()
+    close()
   }
 
-  return <ModalFrame open={open} close={closeModal} title="Select sheet">
+  return <ActionModal
+    open={open}
+    close={close}
+    title="Select sheet"
+    >
     {
       sheets == null ?
         <LoadingSpinner/> :
       !sheets.length ?
         "No sheets found" :
-      <div className='scrollbar scrollbar-neutral flex flex-col w-full items-center gap-2'>
+      <div className='scrollbar scrollbar-neutral flex flex-col items-center gap-2 p-2'>
       {
         sheets.map( s => 
-          <section className='card'>
+          <div className='flex flex-row gap-2 max-w-xl w-full' key={s.title}>
             <button
-              className='btn btn-primary w-80'
+              className='btn btn-primary p-0 grow'
               onClick={() => selectSheet(s)}
-            >{s.title}</button>
-          </section>
+            >
+              <div>
+                <h2 className='font-bold text-xl'>
+                  {s.title}
+                </h2>
+                <section className='text-md normal-case'>
+                  { timeSince(new Date(s.time))} ago
+                </section>
+              </div>
+            </button>
+            <button
+              className='btn btn-outline btn-error btn-square'
+              onClick={() => setToDelete(s)}
+            ><ImCross size={20}/></button>
+          </div>
         )
       }
       </div>
     }
-  </ModalFrame>
+
+    <ActionModal
+      title={`Delete ${toDelete?.title ?? ""}?`}
+      open={!!toDelete}
+      close={() => setToDelete(null)}
+      actions={[
+        {
+          name: "Delete",
+          type: "error",
+          callback: () => {
+            setSheets(null);
+            server.delete(token, toDelete?.id ?? "").then(
+              sheets => {
+                setSheets(sheets)
+                alertSuccess(`${toDelete?.title} deleted`)
+              }
+            ).catch( e => alertError(`Error deleting sheet: ${e.message}`))
+          },
+        }
+      ]}
+    >
+    Sheet deletion cannot be undone.
+    </ActionModal>
+  </ActionModal>
 }
 
 
