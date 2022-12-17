@@ -119,14 +119,18 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
   </li>,
   ]
   
+  function closeRibbon() {
+    (document.getElementById("menu-ribbon-drawer") as any).checked = false;
+  }
+  
   return (
   <div className="drawer">
-    <input id="my-drawer-3" type="checkbox" className="drawer-toggle" /> 
+    <input id="menu-ribbon-drawer" type="checkbox" className="drawer-toggle"/> 
     <div className="drawer-content flex flex-col">
       {/*<!-- Navbar -->*/}
       <div className="w-full navbar bg-base-300 min-h-12 my-0 p-0">
         <div className="flex-none lg:hidden">
-          <label htmlFor="my-drawer-3" className="btn btn-square btn-ghost">
+          <label htmlFor="menu-ribbon-drawer" className="btn btn-square btn-ghost">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
           </label>
         </div>
@@ -147,7 +151,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
         {children}
     </div>
     <div className="drawer-side">
-      <label htmlFor="my-drawer-3" className="drawer-overlay"></label> 
+      <label htmlFor="menu-ribbon-drawer" className="drawer-overlay"></label> 
       <ul className="menu p-4 overflow-y-auto w-80 bg-base-100">
         { menuItems }
       </ul>
@@ -156,7 +160,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
     <NewSheetModal
       open={isNewSheetOpen}
       setOpen={setIsNewSheetOpen}
-      setSheet={setSheet}
+      setSheet={s => { setSheet(s); closeRibbon() }}
       />
 
     <UserLoginModal
@@ -169,7 +173,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
     <LoadSheetModal
       open={isLoadSheetOpen}
       setOpen={setIsLoadSheetOpen}
-      setSheet={setSheet}
+      setSheet={s => { setSheet(s); closeRibbon() }}
       sheets={sheetList}
     />
   </div>
