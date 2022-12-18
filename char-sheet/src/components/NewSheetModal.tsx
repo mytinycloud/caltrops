@@ -59,7 +59,7 @@ function NewSheetModal({open, close, setSheet}:{
       </label>
       <select className="select select-bordered" value={ruleset} onChange={e=>setRuleset(e.target.value)}>
         { rulesets.map( name => {
-            return <option>{name}</option>
+            return <option key={name}>{name}</option>
           }
         )}
       </select>

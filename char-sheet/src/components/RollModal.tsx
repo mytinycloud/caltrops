@@ -73,6 +73,7 @@ function RollCreateModal({attributes, scores, roll, setRoll}: {
           </div>
           })
         }
+        <div className='h-32 sm:h-0' />
       </div>
     </ActionModal>
 

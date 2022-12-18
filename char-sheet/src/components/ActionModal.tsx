@@ -30,7 +30,7 @@ function ActionModal( {open, close, children, title, actions = []}: {
     return keys[type]
   }
 
-  return <Modal open={open} onClickBackdrop={close}>
+  return <Modal open={open} onClickBackdrop={close} responsive={true}>
     <button
       className="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"
       onClick={close}

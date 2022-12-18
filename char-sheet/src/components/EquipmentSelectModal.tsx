@@ -36,7 +36,7 @@ function EquipmentSelectModal({equipment, addEquipment, open, close, enabled=tru
   }
 
   return (
-    <Modal open={open} onClickBackdrop={closeModal} className='flex flex-col m-4 h-full' style={{ width: "auto", maxWidth: "50rem"}}>
+    <Modal open={open} onClickBackdrop={closeModal} className='flex flex-col h-full' style={{ width: "100%", maxWidth: "50rem"}} responsive={true}>
       
       <button
         className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -54,8 +54,8 @@ function EquipmentSelectModal({equipment, addEquipment, open, close, enabled=tru
           placeholder="filter equipment"
           />
       </div>
-      <div className='scrollbar scrollbar-neutral pr-4'>
-        <table className="table table-compact">
+      <div className='scrollbar scrollbar-neutral w-full pr-4'>
+        <table className="table table-compact w-full">
           <thead>
             <tr>
               <th></th>
