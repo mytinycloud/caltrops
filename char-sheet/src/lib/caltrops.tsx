@@ -1,6 +1,7 @@
 import { Attribute, Rules, Sheet, Power, SheetWound, Dictionary, Equipment, RollInfo, Skill } from './rules'
 import RULESETS from '../data/rulesets'
 import { v4 as uuidv4 } from 'uuid';
+import { filterObject } from './util';
 
 const SKILL_COST = [
     0,
@@ -126,10 +127,6 @@ function woundTreat(wound: SheetWound, success: boolean): SheetWound | null {
     }
 }
 
-function cleanDictionary<T>( items: Dictionary<T> ) {
-    return Object.fromEntries(Object.entries(items).filter(([_,v]) => !!v));
-}
-
 /*
  *  Cleans up an arbitrary object, converting it into a sheet
  *  This also doubles as a way to create a new sheet or sanitise an existing one
@@ -142,14 +139,17 @@ function loadSheet(obj: any = {}): Sheet {
             "Body": obj.wounds
         }
     }
+
+    const truthyValues = (_: string,v: any) => !!v;
+
     const result: Sheet = {
         rules: obj.rules ?? '',
         id: obj.id ?? uuidv4(),
-        equipment: cleanDictionary(obj.equipment),
-        skills: cleanDictionary(obj.skills),
-        attributes: cleanDictionary(obj.attributes),
-        powers: cleanDictionary(obj.powers),
-        wounds: cleanDictionary(obj.wounds),
+        equipment: filterObject(obj.equipment, truthyValues ),
+        skills: filterObject(obj.skills, truthyValues),
+        attributes: filterObject(obj.attributes, truthyValues),
+        powers: filterObject(obj.powers, truthyValues),
+        wounds: filterObject(obj.wounds, truthyValues),
         notes: [ ...(obj.notes || []) ],
         info: {
             name: '',

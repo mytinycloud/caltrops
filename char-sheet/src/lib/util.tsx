@@ -42,6 +42,10 @@ export function copyToClipboard(text: string): void {
     navigator.clipboard.writeText(text)
 }
 
+export function filterObject<T>(obj: {[key: string]: T}, predicate: (key: string, value: T) => boolean) {
+  return Object.fromEntries(Object.entries(obj).filter(([k,v]) => predicate(k,v)));
+}
+
 export function timeSince(date: Date): string {
     var seconds = Math.floor((Date.now() - date.getTime()) / 1000);
 
