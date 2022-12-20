@@ -96,7 +96,7 @@ function MainPage(): JSX.Element {
     if (token) {
       SAVE_TIMEOUT_ID = setTimeout(() => {
         if (token && sheet) {
-          server.write(token, sheet.id, sheet.info.name, sheet)
+          server.write(token, sheet.id, sheet.info.name, caltrops.cleanSheet(sheet))
             .then( s => alertSuccess("Sheet auto saved") )
             .catch(e => alertError(`Error auto saving sheet: ${e.message}`))
         }

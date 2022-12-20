@@ -126,8 +126,13 @@ function woundTreat(wound: SheetWound, success: boolean): SheetWound | null {
     }
 }
 
+function cleanDictionary<T>( items: Dictionary<T> ) {
+    return Object.fromEntries(Object.entries(items).filter(([_,v]) => !!v));
+}
+
 /*
  *  Cleans up an arbitrary object, converting it into a sheet
+ *  This also doubles as a way to create a new sheet or sanitise an existing one
  */
 function loadSheet(obj: any = {}): Sheet {
     if (obj.wounds && obj.wounds[0]) {
@@ -137,14 +142,14 @@ function loadSheet(obj: any = {}): Sheet {
             "Body": obj.wounds
         }
     }
-    return {
+    const result: Sheet = {
         rules: obj.rules ?? '',
         id: obj.id ?? uuidv4(),
-        equipment: { ...obj.equipment },
-        skills: { ...obj.skills },
-        attributes: { ...obj.attributes },
-        powers: { ...obj.powers },
-        wounds: { ...obj.wounds },
+        equipment: cleanDictionary(obj.equipment),
+        skills: cleanDictionary(obj.skills),
+        attributes: cleanDictionary(obj.attributes),
+        powers: cleanDictionary(obj.powers),
+        wounds: cleanDictionary(obj.wounds),
         notes: [ ...(obj.notes || []) ],
         info: {
             name: '',
@@ -154,6 +159,11 @@ function loadSheet(obj: any = {}): Sheet {
             ...obj.info
         }
     }
+    return result;
+}
+
+function cleanSheet(sheet: Sheet): Sheet {
+    return loadSheet(sheet)
 }
 
 function newSheet(rules: Rules, name: string = 'New Character'): Sheet {
@@ -239,12 +249,13 @@ const caltrops = {
     powerDiceMax: powerDiceMax,
     equipmentFilter: equipmentFilter,
     newSheet: newSheet,
+    loadSheet: loadSheet,
+    cleanSheet: cleanSheet,
     woundCreate: woundCreate,
     woundTotal: woundTotal,
     woundTreat: woundTreat,
     loadRules: loadRules,
     listRules: listRules,
-    loadSheet: loadSheet,
     rollDice: rollDice,
     rollDiceCount: rollDiceCount,
     rollDescribe: rollDescribe,

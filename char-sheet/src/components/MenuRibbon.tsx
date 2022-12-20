@@ -15,6 +15,7 @@ import { Sheet } from '../lib/rules'
 import server, { ServerItem } from '../lib/server'
 import UserLoginModal from './UserLoginModal';
 import { alertError, alertInfo, alertSuccess } from '../lib/alerts';
+import caltrops from '../lib/caltrops';
 
 
 function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, children}: {
@@ -65,7 +66,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
         className='btn btn-ghost'
         onClick={() => {
           if (token && sheet) {
-            server.write(token, sheet.id, sheet.info.name, sheet)
+            server.write(token, sheet.id, sheet.info.name, caltrops.cleanSheet(sheet))
               .then( s => alertSuccess("Sheet saved") )
               .catch(e => alertError(`Error saving sheet: ${e.message}`))
           }
