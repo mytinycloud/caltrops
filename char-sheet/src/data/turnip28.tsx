@@ -152,7 +152,8 @@ const turnipRuleset: Rules = {
                 level: 1,
             }
         }
-    ]
+    ],
+    currency: []
 }
 
 export default turnipRuleset;

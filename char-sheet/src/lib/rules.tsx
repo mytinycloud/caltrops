@@ -16,6 +16,12 @@ export interface Skill {
     trained?: boolean, // If true, this skill can not be used without at least 1 point.
 }
 
+export interface Currency {
+    name: string,
+    precision?: number,
+    description?: string,
+}
+
 export interface Equipment {
     name: string,
     stack?: number,
@@ -53,6 +59,7 @@ export interface Rules {
     containers: Container[],
     powers: Power[],
     wounds: Container[],
+    currency: Currency[],
     woundSizeLimit: number,
 }
 
@@ -73,7 +80,6 @@ export interface SheetInfo {
     name: string,
     level: number,
     background: string,
-    funds: string,
 }
 
 export type Dictionary<t> = {[key: string]: t};
@@ -82,6 +88,7 @@ export interface Sheet {
     rules: string,
     id: string,
     info: SheetInfo,
+    currency: Dictionary<number>,
     equipment: Dictionary<SheetEquipment[]>,
     skills: Dictionary<number>,
     attributes: Dictionary<number>,
@@ -111,6 +118,12 @@ export const DEFAULT_RULES: Rules = {
             name: 'Default skill',
             description: "Skills should be overidden by the ruleset",
         },
+    ],
+    currency: [
+        {
+            name: 'Gold',
+            description: 'Currency should be overidden by the ruleset',
+        }
     ],
     equipment: [
         {
