@@ -1,3 +1,4 @@
+export interface Dictionary<T> { [key: string]: T }
 
 export function setTheme(theme: string) {
     if (document.documentElement.getAttribute("data-theme") !== theme ) {
@@ -42,8 +43,8 @@ export function copyToClipboard(text: string): void {
     navigator.clipboard.writeText(text)
 }
 
-export function filterObject<T>(obj: {[key: string]: T}, predicate: (key: string, value: T) => boolean) {
-  return Object.fromEntries(Object.entries(obj).filter(([k,v]) => predicate(k,v)));
+export function filterObject<T>(obj: Dictionary<T>, predicate: (key: string, value: T) => boolean): Dictionary<T> {
+  return Object.fromEntries(Object.entries(obj).filter(([k,v]) => predicate(k,v)))
 }
 
 export function timeSince(date: Date): string {

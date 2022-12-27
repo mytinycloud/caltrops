@@ -132,16 +132,7 @@ function woundTreat(wound: SheetWound, success: boolean): SheetWound | null {
  *  This also doubles as a way to create a new sheet or sanitise an existing one
  */
 function loadSheet(obj: any = {}): Sheet {
-    if (obj.wounds && obj.wounds[0]) {
-        // TODO: Delete this.
-        // This is a hack for migrating old data structures
-        obj.wounds = {
-            "Body": obj.wounds
-        }
-    }
-
     const truthyValues = (_: string,v: any) => !!v;
-
     const result: Sheet = {
         rules: obj.rules ?? '',
         id: obj.id ?? uuidv4(),
@@ -161,6 +152,17 @@ function loadSheet(obj: any = {}): Sheet {
     }
     return result;
 }
+
+function importSheet(obj: any): Sheet {
+    if (obj.wounds && obj.wounds[0]) {
+        // TODO: Delete this.
+        // This is a hack for migrating old data structures
+        obj.wounds = {
+            "Body": obj.wounds
+        }
+    }
+    return loadSheet(obj);
+} 
 
 function cleanSheet(sheet: Sheet): Sheet {
     return loadSheet(sheet)

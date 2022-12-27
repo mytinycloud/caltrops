@@ -32,7 +32,7 @@ function LoadSheetModal({open, close, setSheet, sheets, setSheets, token}:{
   function selectSheet(item: ServerItem) {
     setSheet(null)
     server.read(item.id).then(s => {
-        setSheet( caltrops.loadSheet(s.content) )
+        setSheet( caltrops.importSheet(s.content) )
     }).catch(e => alertError( `Error reading sheet: ${e.message}`))
     close()
   }
