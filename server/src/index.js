@@ -2,6 +2,7 @@ const AWS = require('aws-sdk');
 const Signature = require('./signature')
 
 const db = new AWS.DynamoDB.DocumentClient();
+const ses = new AWS.SES();
 const TABLE_NAME = 'caltrops-sheets';
 const CALTROPS_PSK = process.env.caltrops_psk;
 
@@ -96,6 +97,33 @@ function errorResponse(status, source, error = undefined) {
     };
 }
 
+async function sendEmail(recipient, subject, body) {
+  const params = {
+    Destination: {
+      ToAddresses: [recipient],
+    },
+    Message: {
+      Body: {
+        Text: { Data: body },
+      },
+      Subject: { Data: subject },
+    },
+    Source: "no-reply@tlembedded.com"
+  };
+  return ses.sendEmail(params).promise();
+}
+
+async function registrationRequest(recipient) {
+    const payload = { user: recipient };
+    const token = Signature.encode(payload, CALTROPS_PSK);
+
+    let body = ""
+    body += "The following token will allow you to log in to caltrops.tlembedded.com:\n"
+    body += `${token}`
+
+    await sendEmail(recipient, "Caltrops registration", body);
+}
+
 exports.handler = async (event) => {
 
     let body = null;
@@ -176,6 +204,14 @@ exports.handler = async (event) => {
             signed.push( Signature.encode(item, CALTROPS_PSK) );
         }
         reply.sign = signed;
+    }
+
+    if (body.register) {
+        try {
+            await registrationRequest(body.register)
+        } catch (error) {
+            return errorResponse(500, "Error sending registration", error);
+        }
     }
 
     const response = {
