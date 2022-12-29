@@ -144,9 +144,9 @@ function loadSheet(obj: any = {}): Sheet {
         notes: [ ...(obj.notes || []) ],
         currency: filterObject(obj.currency, truthyValues),
         info: {
-            name: obj.info.name ?? '',
-            level: obj.info.level ?? 1,
-            background: obj.info.background ?? '',
+            name: obj.info?.name ?? '',
+            level: obj.info?.level ?? 1,
+            background: obj.info?.background ?? '',
         }
     }
     return result;
