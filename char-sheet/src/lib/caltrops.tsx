@@ -142,12 +142,11 @@ function loadSheet(obj: any = {}): Sheet {
         powers: filterObject(obj.powers, truthyValues),
         wounds: filterObject(obj.wounds, truthyValues),
         notes: [ ...(obj.notes || []) ],
+        currency: filterObject(obj.currency, truthyValues),
         info: {
-            name: '',
-            level: 1,
-            funds: '',
-            background: '',
-            ...obj.info
+            name: obj.info.name ?? '',
+            level: obj.info.level ?? 1,
+            background: obj.info.background ?? '',
         }
     }
     return result;
@@ -251,7 +250,7 @@ const caltrops = {
     powerDiceMax: powerDiceMax,
     equipmentFilter: equipmentFilter,
     newSheet: newSheet,
-    loadSheet: loadSheet,
+    importSheet: importSheet,
     cleanSheet: cleanSheet,
     woundCreate: woundCreate,
     woundTotal: woundTotal,

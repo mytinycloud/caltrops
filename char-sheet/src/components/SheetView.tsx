@@ -10,6 +10,7 @@ import EquipmentTable from './EquipmentTable'
 import WoundTable from './WoundTable'
 import RollCreateModal from './RollModal'
 import NotesTable from './NotesTable'
+import CurrencyTable from './CurrencyTable'
 
 // Internal imports
 import { modifyObject } from '../lib/util'
@@ -38,6 +39,11 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
             info={sheet.info}
             setInfo={info => {setSheet(modifyObject(sheet, 'info', info))}}
             editable={editable}
+          />
+          <CurrencyTable
+            currencies={rules.currency}
+            values={sheet.currency}
+            setValues={currency => {setSheet(modifyObject(sheet, 'currency', currency))}}
           />
           <AttributeTable
             attributes={rules.attributes}

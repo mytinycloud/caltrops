@@ -55,15 +55,6 @@ function InfoTable({info, setInfo, editable=false}: {
               />
             </td>
           </tr>
-          <tr className='hover'>
-            <td>Funds</td>
-            <td className='py-0'><TextEntryBox
-              value={info.funds}
-              setValue={v => { setInfo(modifyObject(info, 'funds', v)) }}
-              placeholder='0 coins'
-              />
-            </td>
-          </tr>
         </tbody>
       </table>
     </div>

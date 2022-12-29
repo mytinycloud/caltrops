@@ -43,7 +43,10 @@ export function copyToClipboard(text: string): void {
     navigator.clipboard.writeText(text)
 }
 
-export function filterObject<T>(obj: Dictionary<T>, predicate: (key: string, value: T) => boolean): Dictionary<T> {
+export function filterObject<T>(obj: Dictionary<T> | undefined, predicate: (key: string, value: T) => boolean): Dictionary<T> {
+  if (!obj) {
+    return {}
+  }
   return Object.fromEntries(Object.entries(obj).filter(([k,v]) => predicate(k,v)))
 }
 
@@ -80,4 +83,9 @@ export function timeSince(date: Date): string {
       return formatInterval(interval, "minute");
     }
     return formatInterval(seconds, "second");
+  }
+
+  export function setPrecision(n: number, precision: number): number {
+    const p = Math.pow(10, precision)
+    return Math.floor(n * p) / p
   }

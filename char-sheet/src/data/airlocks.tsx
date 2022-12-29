@@ -5,6 +5,14 @@ const airlockRuleset: Rules = {
 
     name: 'Airlocks',
     theme: 'duskers',
+    currency: [
+        {
+            name: "Solari"
+        },
+        {
+            name: "U"
+        }
+    ],
     skills: [
         {
             name: 'Observation',
