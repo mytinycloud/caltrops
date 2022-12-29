@@ -1,9 +1,10 @@
 // Components
-import TextEntryBox from './TextEntryBox'
+import { NumberEntryBox } from './EntryBox'
 
 // Internal imports
 import { modifyObject } from '../lib/util'
 import { Currency, Dictionary } from '../lib/rules'
+
 
 
 function CurrencyTable({currencies, values, setValues}: {
@@ -12,13 +13,7 @@ function CurrencyTable({currencies, values, setValues}: {
     setValues(values: Dictionary<number>): void,
   }): JSX.Element {
 
-  function editCurrency(currency: Currency, text: string) {
-    let value = parseFloat(text)
-    if (!value || isNaN(value)) {
-      value = 0;
-    }
-    const p = Math.pow(10, currency.precision ?? 0)
-    value = Math.round(value * p) / p
+  function setValue(currency: Currency, value: number) {
     setValues(modifyObject(values, currency.name, value))
   }
 
@@ -34,11 +29,13 @@ function CurrencyTable({currencies, values, setValues}: {
         <tbody>
           {
             currencies.map( currency => {
-              return <tr className='hover' >
+              return <tr className='hover' key={currency.name} >
                 <td>{currency.name}</td>
-                <td className='py-0'><TextEntryBox
-                  value={(values[currency.name] ?? 0).toString()}
-                  setValue={v => editCurrency(currency, v)}
+                <td className='py-0'>
+                  <NumberEntryBox
+                    value={values[currency.name] ?? 0}
+                    setValue={v => setValue(currency, v)}
+                    precision={currency.precision ?? 0}
                   />
                 </td>
               </tr>

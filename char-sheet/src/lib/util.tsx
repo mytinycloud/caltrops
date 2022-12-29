@@ -84,3 +84,8 @@ export function timeSince(date: Date): string {
     }
     return formatInterval(seconds, "second");
   }
+
+  export function setPrecision(n: number, precision: number): number {
+    const p = Math.pow(10, precision)
+    return Math.floor(n * p) / p
+  }
