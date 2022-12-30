@@ -89,3 +89,8 @@ export function timeSince(date: Date): string {
     const p = Math.pow(10, precision)
     return Math.floor(n * p) / p
   }
+
+  export function isEmail(email: string): boolean {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return re.test(email)
+  }
