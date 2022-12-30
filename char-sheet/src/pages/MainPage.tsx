@@ -28,7 +28,18 @@ let SAVE_TIMEOUT_ID: any = -1
 function MainPage(): JSX.Element {
 
   function recallToken(): string | null {
-    const token = localStorage.getItem('caltrops-token');
+
+    let token = new URLSearchParams(window.location.search).get("token")
+    if (token && server.parseToken(token)) {
+      // Token supplied via URI. Save it.
+      localStorage.setItem('caltrops-token', token)
+      // Reload without query params
+      window.location.href = window.location.href.split('?')[0]
+    }
+    else {
+      token = localStorage.getItem('caltrops-token');
+    }
+
     if (token && server.parseToken(token)) {
       return token;
     }

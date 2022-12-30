@@ -67,6 +67,13 @@ async function deleteContent(token: string, id: string): Promise<ServerItem[]> {
     return result.list
 }
 
+async function requestToken(email: string): Promise<boolean> {
+    const result = await post({
+        register: email
+    })
+    return true;
+}
+
 function parseToken(token: string): string | null {
     try {
         const [text, signature] = token.split('.')
@@ -88,6 +95,7 @@ const server = {
     write: writeContent,
     delete: deleteContent,
     parseToken: parseToken,
+    requestToken: requestToken,
 }
 
 export default server;
