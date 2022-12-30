@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const Signature = require('./signature')
+const Signature = require('./signature');
 
 const db = new AWS.DynamoDB.DocumentClient();
 const ses = new AWS.SES();
@@ -119,16 +119,16 @@ async function registrationRequest(recipient) {
     const payload = { user: recipient };
     const token = Signature.encode(payload, CALTROPS_PSK);
 
-    let body = ""
-    body += `Thanks for signing up to Caltrops.\n`
-    body += `\n`
-    body += `You can sign on using the following URL:\n`
-    body += `${CALTROPS_URL}?token=${encodeURIComponent(token)}\n`
-    body += `\n`
-    body += `Or you can paste the following token:\n`
-    body += `${token}\n`
-    body += `\n`
-    body += `If you believe there is something wrong with this email, you can contact me at ${SUPPORT_EMAIL}\n`
+    let body = "";
+    body += `Thanks for signing up to Caltrops.\n`;
+    body += `\n`;
+    body += `You can sign on using the following URL:\n`;
+    body += `${CALTROPS_URL}?token=${encodeURIComponent(token)}\n`;
+    body += `\n`;
+    body += `Or you can paste the following token:\n`;
+    body += `${token}\n`;
+    body += `\n`;
+    body += `If you believe there is something wrong with this email, you can contact me at ${SUPPORT_EMAIL}\n`;
 
     await sendEmail(recipient, "Caltrops registration", body);
 }
@@ -217,7 +217,7 @@ exports.handler = async (event) => {
 
     if (body.register) {
         try {
-            await registrationRequest(body.register)
+            await registrationRequest(body.register);
         } catch (error) {
             return errorResponse(500, "Error sending registration", error);
         }

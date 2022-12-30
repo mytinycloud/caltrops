@@ -1,11 +1,11 @@
-const crypto = require('crypto')
+const crypto = require('crypto');
 
 function trimB64(text) {
-    return text.replace(/=*$/, '')
+    return text.replace(/=*$/, '');
 }
 
 function sign(text, secret) {
-    return trimB64(crypto.createHmac('sha256', secret).update(text).digest('base64'))
+    return trimB64(crypto.createHmac('sha256', secret).update(text).digest('base64'));
 }
 
 function encode(payload, secret) {
