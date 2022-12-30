@@ -5,6 +5,8 @@ const db = new AWS.DynamoDB.DocumentClient();
 const ses = new AWS.SES();
 const TABLE_NAME = 'caltrops-sheets';
 const CALTROPS_PSK = process.env.caltrops_psk;
+const SUPPORT_EMAIL = process.env.support_email;
+const CALTROPS_URL = process.env.caltrops_url;
 
 const HEADERS = {
     'Content-Type': 'application/json',
@@ -108,7 +110,7 @@ async function sendEmail(recipient, subject, body) {
       },
       Subject: { Data: subject },
     },
-    Source: "no-reply@tlembedded.com"
+    Source: "noreply@tlembedded.com"
   };
   return ses.sendEmail(params).promise();
 }
@@ -118,8 +120,15 @@ async function registrationRequest(recipient) {
     const token = Signature.encode(payload, CALTROPS_PSK);
 
     let body = ""
-    body += "The following token will allow you to log in to caltrops.tlembedded.com:\n"
-    body += `${token}`
+    body += `Thanks for signing up to Caltrops.\n`
+    body += `\n`
+    body += `You can sign on using the following URL:\n`
+    body += `${CALTROPS_URL}?token=${encodeURIComponent(token)}\n`
+    body += `\n`
+    body += `Or you can paste the following token:\n`
+    body += `${token}\n`
+    body += `\n`
+    body += `If you believe there is something wrong with this email, you can contact me at ${SUPPORT_EMAIL}\n`
 
     await sendEmail(recipient, "Caltrops registration", body);
 }
