@@ -11,7 +11,9 @@ function CurrencyTable({currencies, values, setValues}: {
     currencies: Currency[],
     values: Dictionary<number>,
     setValues(values: Dictionary<number>): void,
-  }): JSX.Element {
+  }): JSX.Element | null {
+
+  if (!currencies.length) { return null; }
 
   function setValue(currency: Currency, value: number) {
     setValues(modifyObject(values, currency.name, value))
