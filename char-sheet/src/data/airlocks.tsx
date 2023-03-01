@@ -7,10 +7,12 @@ const airlockRuleset: Rules = {
     theme: 'duskers',
     currency: [
         {
-            name: "Solari"
+            name: "Solari",
+            precision: 1,
         },
         {
-            name: "U"
+            name: "U",
+            precision: 1,
         }
     ],
     skills: [
@@ -70,6 +72,10 @@ const airlockRuleset: Rules = {
         },
         {
             name: 'Wirehead',
+            trained: true,
+        },
+        {
+            name: 'Bio',
             trained: true,
         }
     ],
@@ -179,6 +185,30 @@ const airlockRuleset: Rules = {
             name: 'Plutonium rod',
             description: 'An plutonium fuel rod for reactor for compact nuclear reactors.',
         },
+        {
+            name: 'Toxins',
+            stack: 4,
+            description: 'Vials of potent neurotoxins.',
+        },
+        {
+            name: 'Injector',
+            description: 'A injector for in-field application of toxins or medicines.',
+        },
+        {
+            name: 'Components',
+            stack: 3,
+            description: 'Salvaged components possible suitable for item manufacturing.',
+        },
+        {
+            name: 'Cherry',
+            stack: 4,
+            description: 'A small vial full of a bright red liquid. This provides a brief burst of power at the expense of organ damage. Highly addictive.',
+        },
+        {
+            name: 'Opioids',
+            stack: 4,
+            description: 'Assorted vials of white or clear liquids. Grant effective pain relief. Highly addictive.',
+        },
         ...DEFAULT_RULES.equipment,
     ],
     containers: [
@@ -214,6 +244,15 @@ const airlockRuleset: Rules = {
             name: 'Wirehead',
             description: '',
             source: 'Wirehead',
+            dice: {
+                base: 2,
+                level: 2,
+            }
+        },
+        {
+            name: 'Bio',
+            description: '',
+            source: 'Bio',
             dice: {
                 base: 2,
                 level: 2,
