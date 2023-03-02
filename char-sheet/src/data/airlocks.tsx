@@ -36,9 +36,6 @@ const airlockRuleset: Rules = {
             name: 'Sneak',
         },
         {
-            name: 'Deception',
-        },
-        {
             name: 'Diplomacy',
         },
         {
