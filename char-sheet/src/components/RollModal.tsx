@@ -15,8 +15,8 @@ import foundry from '../lib/foundry';
 function RollCreateModal({attributes, scores, roll, setRoll}: {
     attributes: Attribute[],
     scores: Dictionary<number>,
-    roll: RollInfo | null,
-    setRoll(roll: RollInfo | null): void,
+    roll: RollInfo,
+    setRoll(roll: RollInfo): void,
   }): JSX.Element | null {
 
   const [result, setResult] = useState(null as number[] | null)
@@ -26,7 +26,7 @@ function RollCreateModal({attributes, scores, roll, setRoll}: {
   }
 
   function closeModal() {
-    setRoll(null)
+    setRoll({})
     setResult(null)
   }
 
@@ -159,7 +159,7 @@ function RollCreateModal({attributes, scores, roll, setRoll}: {
           <span className="label-text">Roll bonus</span>
       </label>
       <PointEntryBox
-        value={roll.bonus}
+        value={roll.bonus ?? 0}
         setValue={setBonus}
         min={-9}
         max={9}

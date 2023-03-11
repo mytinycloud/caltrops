@@ -106,7 +106,7 @@ export interface RollInfo {
         name: string,
         score: number,
     }
-    bonus: number,
+    bonus?: number,
 }
 
 export const DEFAULT_RULES: Rules = {

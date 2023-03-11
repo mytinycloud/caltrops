@@ -15,13 +15,14 @@ import IconButton from './IconButton'
  *    in: level <- sheet.level
  */
 
-function SkillTable({skills, scores, setScores, level, editable = false, roll}: {
+function SkillTable({skills, scores, setScores, level, editable = false, roll, setRoll}: {
     skills: Skill[],
     scores: Dictionary<number>,
     setScores(scores: Dictionary<number>): void,
     level: number,
     editable?: boolean,
-    roll(info: RollInfo): void,
+    roll: RollInfo,
+    setRoll(info: RollInfo): void,
   }): JSX.Element {
   let totalCost = caltrops.skillCostTotal(scores)
   let maxCost = caltrops.skillCostMax(level)
@@ -29,7 +30,10 @@ function SkillTable({skills, scores, setScores, level, editable = false, roll}: 
 
 
   function startRoll(skill: string): void {
-    roll({ skill: { name: skill, score: scores[skill] ?? 0 }, bonus: 0 })
+    setRoll( modifyObject( roll, "skill", {
+      name: skill,
+      score: scores[skill] ?? 0,
+    }))
   }
 
   if (!editable) {

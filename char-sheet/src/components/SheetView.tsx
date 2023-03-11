@@ -28,7 +28,7 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
     editable?: boolean
   }): JSX.Element {
 
-  const [roll, setRoll] = useState(null as RollInfo | null)
+  const [roll, setRoll] = useState({} as RollInfo)
 
   return (
     <div className='flex flex-wrap justify-center flex-row gap-4 basis-full p-4 scrollbar scrollbar-neutral'>
@@ -51,6 +51,8 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
             setScores={scores => {setSheet(modifyObject(sheet, 'attributes', scores))}}
             level={sheet.info.level}
             editable={editable}
+            roll={roll}
+            setRoll={setRoll}
           />
         </section>
 
@@ -62,7 +64,8 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
             setScores={scores => {setSheet(modifyObject(sheet, 'skills', scores))}}
             level={sheet.info.level}
             editable={editable}
-            roll={setRoll}
+            roll={roll}
+            setRoll={setRoll}
           />
         </section>
         

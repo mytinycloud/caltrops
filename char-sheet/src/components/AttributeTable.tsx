@@ -4,7 +4,7 @@ import PointEntryBox from './PointEntryBox'
 // Internal imports
 import caltrops from '../lib/caltrops'
 import { modifyObject } from '../lib/util'
-import { Attribute, Dictionary } from '../lib/rules'
+import { Attribute, Dictionary, RollInfo } from '../lib/rules'
 
 /* 
  * Attributes table.
@@ -13,17 +13,30 @@ import { Attribute, Dictionary } from '../lib/rules'
  *    out: setScores -> sheet.attributes
  *    in: level <- sheet.info.level
  */
-function AttributeTable({attributes, scores, setScores, level, editable=false}: {
+function AttributeTable({attributes, scores, setScores, level, editable=false, roll, setRoll}: {
     attributes: Attribute[],
     scores: Dictionary<number>,
     setScores(scores: Dictionary<number>): void,
     level: number,
     editable?: boolean,
+    roll: RollInfo,
+    setRoll(roll: RollInfo): void,
   }): JSX.Element {
   const attributeTotal = caltrops.attributeTotal(attributes, scores)
   const attributeMax = caltrops.attributeTotalMax
   const aspectTotal = caltrops.aspectTotal(attributes, scores)
   const aspectMax = caltrops.aspectTotalMax(level)
+
+  function selectAspect(aspect: string) {
+    setRoll(modifyObject(roll, "aspect", {
+      name: aspect,
+      score: scores[aspect] ?? 0
+    }))
+  }
+
+  function clearAspect() {
+    setRoll(modifyObject(roll, "aspect", null))
+  }
 
   return (
     <div>
@@ -61,9 +74,15 @@ function AttributeTable({attributes, scores, setScores, level, editable=false}: 
                   <tbody>
                   {
                     attribute.aspects.map( aspect => {
-                      return <tr className='hover' key={aspect.name}>
-                        <td className='w-24'>{aspect.name}</td>
-                        <td><PointEntryBox
+                      const selected = aspect.name === roll.aspect?.name
+                      const bg = selected ? "bg-base-200" : ""
+                      return <tr 
+                          className={ 'hover cursor-pointer'}
+                          key={aspect.name}
+                          onClick={() => selected ? clearAspect() : selectAspect(aspect.name)}
+                          >
+                        <td className={`w-24 ${bg}`}>{aspect.name}</td>
+                        <td className={bg}><PointEntryBox
                           value={scores[aspect.name] ?? 0}
                           setValue={v => setScores(modifyObject(scores, aspect.name, v))}
                           editable={editable}
