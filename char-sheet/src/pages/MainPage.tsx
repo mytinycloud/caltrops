@@ -82,6 +82,15 @@ function MainPage(): JSX.Element {
   
   setTheme(rules.theme);
 
+  function setTitle(title: string | undefined) {
+    if (!title) {
+      title = "Caltrops"
+    }
+    if (title !== document.title) {
+      document.title = title;
+    }
+  }
+
   function changeSheet(sheet: Sheet | null, remember: boolean = false) {
     // Check if sheet.rules were changed, and load the new rules if so.
     if (sheet && sheet.rules !== rules.name) {
@@ -96,6 +105,7 @@ function MainPage(): JSX.Element {
     if (sheet && remember) {
       localStorage.setItem('caltrops-sheet', sheet.id)
     }
+    setTitle(sheet?.info.name)
     setSheet(sheet)
   }
 
@@ -107,6 +117,7 @@ function MainPage(): JSX.Element {
     if (token) {
       SAVE_TIMEOUT_ID = setTimeout(() => {
         if (token && sheet) {
+          setTitle(sheet?.info.name)
           server.write(token, sheet.id, sheet.info.name, caltrops.cleanSheet(sheet))
             .then( s => alertSuccess("Sheet auto saved") )
             .catch(e => alertError(`Error auto saving sheet: ${e.message}`))
