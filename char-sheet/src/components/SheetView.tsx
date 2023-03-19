@@ -13,7 +13,7 @@ import NotesTable from './NotesTable'
 import CurrencyTable from './CurrencyTable'
 
 // Internal imports
-import { modifyObject } from '../lib/util'
+import { modifyObject, EditMode } from '../lib/util'
 import caltrops from '../lib/caltrops'
 import { RollInfo, Rules, Sheet } from '../lib/rules'
 
@@ -21,11 +21,11 @@ import { RollInfo, Rules, Sheet } from '../lib/rules'
  * Sheet view. Contains all other sheet displaying components.
  */
 
-function SheetView( { rules, sheet, setSheet, editable=false }: {
+function SheetView( { rules, sheet, setSheet, editable=EditMode.Live }: {
     rules: Rules,
     sheet: Sheet,
     setSheet(sheet: Sheet): void,
-    editable?: boolean
+    editable?: EditMode
   }): JSX.Element {
 
   const [roll, setRoll] = useState({} as RollInfo)
@@ -44,6 +44,7 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
             currencies={rules.currency}
             values={sheet.currency}
             setValues={currency => {setSheet(modifyObject(sheet, 'currency', currency))}}
+            editable={editable}
           />
           <AttributeTable
             attributes={rules.attributes}
@@ -77,6 +78,7 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
               equipment={rules.equipment}
               container={container}
               items={sheet.equipment[container.name] ?? []}
+              editable={editable}
               setItems={items => {setSheet(modifyObject(sheet, 'equipment', modifyObject(sheet.equipment, container.name, items)))}}
               key={`equipment-${container.name}-table`}
           />
@@ -95,6 +97,7 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
                 powerDice={sheet.powers}
                 skillScores={sheet.skills}
                 setPowerDice={scores => {setSheet(modifyObject(sheet, 'powers', scores))}}
+                editable={editable}
                 key='power-table'
               /> :
                null
@@ -118,6 +121,7 @@ function SheetView( { rules, sheet, setSheet, editable=false }: {
           <NotesTable
             notes={sheet.notes}
             setNotes={notes => setSheet(modifyObject(sheet, 'notes', notes))}
+            editable={editable}
           />
         </section>
 

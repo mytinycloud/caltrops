@@ -136,6 +136,7 @@ function loadSheet(obj: any = {}): Sheet {
     const result: Sheet = {
         rules: obj.rules ?? '',
         id: obj.id ?? uuidv4(),
+        owner: obj.owner ?? null,
         equipment: filterObject(obj.equipment, truthyValues ),
         skills: filterObject(obj.skills, truthyValues),
         attributes: filterObject(obj.attributes, truthyValues),

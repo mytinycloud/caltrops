@@ -87,6 +87,7 @@ export type Dictionary<t> = {[key: string]: t};
 export interface Sheet {
     rules: string,
     id: string,
+    owner: string | null,
     info: SheetInfo,
     currency: Dictionary<number>,
     equipment: Dictionary<SheetEquipment[]>,

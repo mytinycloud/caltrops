@@ -3,7 +3,7 @@ import PointEntryBox from './PointEntryBox'
 
 // Internal imports
 import caltrops from '../lib/caltrops'
-import { modifyObject } from '../lib/util'
+import { modifyObject, EditMode } from '../lib/util'
 import { Attribute, Dictionary, RollInfo } from '../lib/rules'
 
 /* 
@@ -13,12 +13,12 @@ import { Attribute, Dictionary, RollInfo } from '../lib/rules'
  *    out: setScores -> sheet.attributes
  *    in: level <- sheet.info.level
  */
-function AttributeTable({attributes, scores, setScores, level, editable=false, roll, setRoll}: {
+function AttributeTable({attributes, scores, setScores, level, editable=EditMode.Live, roll, setRoll}: {
     attributes: Attribute[],
     scores: Dictionary<number>,
     setScores(scores: Dictionary<number>): void,
     level: number,
-    editable?: boolean,
+    editable?: EditMode,
     roll: RollInfo,
     setRoll(roll: RollInfo): void,
   }): JSX.Element {
@@ -60,7 +60,7 @@ function AttributeTable({attributes, scores, setScores, level, editable=false, r
                   <PointEntryBox
                     value={base}
                     setValue={v => { setScores(caltrops.attributeModify(scores, attribute, v)) }}
-                    editable={editable}
+                    editable={editable >= EditMode.Full}
                     min={caltrops.attributeMin}
                     max={caltrops.attributeMax}
                     isCapped={attributeTotal >= attributeMax}
@@ -85,7 +85,7 @@ function AttributeTable({attributes, scores, setScores, level, editable=false, r
                         <td className={bg}><PointEntryBox
                           value={scores[aspect.name] ?? 0}
                           setValue={v => setScores(modifyObject(scores, aspect.name, v))}
-                          editable={editable}
+                          editable={editable >= EditMode.Full}
                           min={base}
                           isCapped={aspectTotal >= aspectMax}
                           encourageUp={true}

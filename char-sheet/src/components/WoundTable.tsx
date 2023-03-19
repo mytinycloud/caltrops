@@ -10,6 +10,7 @@ import { ImHeartBroken } from 'react-icons/im'
 // Internal imports
 import caltrops from '../lib/caltrops'
 import { SheetWound, Container } from '../lib/rules'
+import { EditMode } from '../lib/util'
 
 
 /* 
@@ -19,12 +20,12 @@ import { SheetWound, Container } from '../lib/rules'
  *    in: woundMaxSize <- sheet.wounds.
  *    out: setWounds -> sheet.wounds
  */
-function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, editable=false}: {
+function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, editable=EditMode.Live}: {
     wounds: SheetWound[],
     setWounds(wounds: SheetWound[]): void,
     container: Container,
     woundSizeLimit?: number,
-    editable?: boolean
+    editable?: EditMode
   }): JSX.Element | null {
 
   const [newWoundOpen, setNewWoundOpen] = useState(false)
@@ -88,7 +89,7 @@ function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, editable=f
               </td>
               <td>
                 {
-                  editable ? 
+                  editable >= EditMode.Full ? 
                 <IconButton
                   icon='cross'
                   onClick={() => removeWound(n)}
@@ -97,7 +98,7 @@ function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, editable=f
                 <IconButton
                   icon='heart'
                   onClick={() => setSelected(n)}
-                  enabled={!wound.locked}
+                  enabled={!wound.locked && editable >= EditMode.Live}
                 />
                 }
               </td>
@@ -112,6 +113,7 @@ function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, editable=f
               <IconButton
                 icon='plus'
                 onClick={() => setNewWoundOpen(true)}
+                enabled={editable >= EditMode.Live}
               />
               </div>
             </th>

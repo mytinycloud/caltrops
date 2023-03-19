@@ -10,7 +10,7 @@ import { BsPerson, BsShare, BsCloudArrowDown,
 import { ImCheckmark, ImPencil } from 'react-icons/im';
 
 // Internal imports
-import { downloadObject, copyToClipboard } from '../lib/util'
+import { downloadObject, copyToClipboard, EditMode } from '../lib/util'
 import { Sheet } from '../lib/rules'
 import server, { ServerItem } from '../lib/server'
 import UserLoginModal from './UserLoginModal';
@@ -19,8 +19,8 @@ import caltrops from '../lib/caltrops';
 
 
 function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, children}: {
-    editable: boolean,
-    setEditable(editable: boolean): void,
+    editable: EditMode,
+    setEditable(editable: EditMode): void,
     sheet: Sheet | null,
     setSheet(sheet: Sheet | null): void,
     token: string | null,
@@ -71,7 +71,7 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
               .catch(e => alertError(`Error saving sheet: ${e.message}`))
           }
         }}
-        disabled={!(sheet && token)}
+        disabled={!(sheet && token && editable > EditMode.None)}
       >
         <BsCloudArrowUp size={27}/>
         Save
@@ -137,10 +137,11 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
         </div>
         <div className="flex-1 px-2 mx-2">
           <button
-            className={`btn btn-square ${ editable ? 'btn-primary' : 'btn-ghost' }`}
-            onClick={() => setEditable(!editable)}
+            className={`btn btn-square ${ editable >= EditMode.Full ? 'btn-primary' : 'btn-ghost' }`}
+            onClick={() => setEditable( editable >= EditMode.Full ? EditMode.Live : EditMode.Full )}
+            disabled={ editable === EditMode.None }
             >
-            { editable ? <ImCheckmark size={22}/> : <ImPencil size={22}/> }
+            { editable >= EditMode.Full ? <ImCheckmark size={22}/> : <ImPencil size={22}/> }
           </button>
         </div>
         <div className="flex-none hidden lg:block">

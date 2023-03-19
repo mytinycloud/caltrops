@@ -2,7 +2,7 @@
 import PointEntryBox from './PointEntryBox'
 
 // Internal imports
-import { modifyObject } from '../lib/util'
+import { EditMode, modifyObject } from '../lib/util'
 import caltrops from '../lib/caltrops'
 import { Power, Dictionary } from '../lib/rules'
 
@@ -14,11 +14,12 @@ import { Power, Dictionary } from '../lib/rules'
  *   out: setPowerDice -> sheet.powers
  */
 
-function PowerTable({powers, skillScores, powerDice, setPowerDice}: {
+function PowerTable({powers, skillScores, powerDice, setPowerDice, editable=EditMode.Live}: {
     powers: Power[],
     skillScores: Dictionary<number>,
     powerDice: Dictionary<number>,
-    setPowerDice(dice: Dictionary<number>): void
+    setPowerDice(dice: Dictionary<number>): void,
+    editable?: EditMode,
   }): JSX.Element {
   return (
     <div>
@@ -42,6 +43,7 @@ function PowerTable({powers, skillScores, powerDice, setPowerDice}: {
                 value={powerDice[power.name] ?? 0}
                 setValue={v => {setPowerDice(modifyObject(powerDice, power.name, v))}}
                 max={diceMax}
+                editable={editable >= EditMode.Live}
                 />
               </td>
               <td>/ {diceMax}</td>

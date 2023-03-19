@@ -2,7 +2,7 @@
 import IconButton from './IconButton'
 
 // Internal imports
-import { modifyObject } from '../lib/util'
+import { EditMode, modifyObject } from '../lib/util'
 
 /* 
  * Power table.
@@ -10,9 +10,10 @@ import { modifyObject } from '../lib/util'
  *   out: setNotes -> sheet.notes
  */
 
-function NotesTable({notes, setNotes}: {
+function NotesTable({notes, setNotes, editable=EditMode.Live}: {
     notes: string[],
-    setNotes(notes: string[]): void
+    setNotes(notes: string[]): void,
+    editable?: EditMode,
   }): JSX.Element {
 
   function createNote() {
@@ -48,6 +49,7 @@ function NotesTable({notes, setNotes}: {
                   placeholder='Enter notes here'
                   value={note}
                   onChange={ evt => editNote(i, evt.target.value) }
+                  disabled={!(editable >= EditMode.Live)}
                 />
               </td>
               <td>
@@ -55,6 +57,7 @@ function NotesTable({notes, setNotes}: {
                   icon="cross"
                   btnStyle="btn-outline btn-error"
                   onClick={() => deleteNote(i)}
+                  enabled={editable >= EditMode.Live}
                 />
               </td>
             </tr>
@@ -68,6 +71,7 @@ function NotesTable({notes, setNotes}: {
               <IconButton
                 icon='plus'
                 onClick={() => {createNote()}}
+                enabled={editable >= EditMode.Live}
               />
               </div>
             </th>

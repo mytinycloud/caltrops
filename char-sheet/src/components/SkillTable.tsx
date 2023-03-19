@@ -2,7 +2,7 @@
 import PointEntryBox from './PointEntryBox'
 
 // Internal imports
-import { modifyObject } from '../lib/util'
+import { modifyObject, EditMode } from '../lib/util'
 import caltrops from '../lib/caltrops'
 import { Skill, Dictionary, RollInfo } from '../lib/rules'
 import IconButton from './IconButton'
@@ -15,12 +15,12 @@ import IconButton from './IconButton'
  *    in: level <- sheet.level
  */
 
-function SkillTable({skills, scores, setScores, level, editable = false, roll, setRoll}: {
+function SkillTable({skills, scores, setScores, level, editable = EditMode.Live, roll, setRoll}: {
     skills: Skill[],
     scores: Dictionary<number>,
     setScores(scores: Dictionary<number>): void,
     level: number,
-    editable?: boolean,
+    editable?: EditMode,
     roll: RollInfo,
     setRoll(info: RollInfo): void,
   }): JSX.Element {
@@ -62,7 +62,7 @@ function SkillTable({skills, scores, setScores, level, editable = false, roll, s
                   <PointEntryBox
                     value={value}
                     setValue={(v) => {setScores(modifyObject(scores, s.name, v))}}
-                    editable={editable}
+                    editable={editable >= EditMode.Full}
                     isCapped={caltrops.skillIncrementCost(value) > sparePoints}
                     encourageUp={true}
                   />

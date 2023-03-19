@@ -2,15 +2,16 @@
 import { NumberEntryBox } from './EntryBox'
 
 // Internal imports
-import { modifyObject } from '../lib/util'
+import { modifyObject, EditMode } from '../lib/util'
 import { Currency, Dictionary } from '../lib/rules'
 
 
 
-function CurrencyTable({currencies, values, setValues}: {
+function CurrencyTable({currencies, values, setValues, editable = EditMode.Live}: {
     currencies: Currency[],
     values: Dictionary<number>,
     setValues(values: Dictionary<number>): void,
+    editable?: EditMode,
   }): JSX.Element | null {
 
   if (!currencies.length) { return null; }
@@ -38,6 +39,7 @@ function CurrencyTable({currencies, values, setValues}: {
                     value={values[currency.name] ?? 0}
                     setValue={v => setValue(currency, v)}
                     precision={currency.precision ?? 0}
+                    editable={editable >= EditMode.Live}
                   />
                 </td>
               </tr>

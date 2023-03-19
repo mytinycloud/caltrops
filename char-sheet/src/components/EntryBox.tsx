@@ -5,11 +5,12 @@ import { useState } from 'react'
 import { setPrecision } from '../lib/util'
 
 
-function BackedEntryBox({value, setValue, isValid, limit = 32}: {
+function BackedEntryBox({value, setValue, isValid, limit = 32, editable}: {
     value: string,
     setValue(value: string): void,
     isValid(value: string): boolean,
     limit?: number,
+    editable: boolean,
   }): JSX.Element {
   
   const [focused, setFocused] = useState(false)
@@ -44,13 +45,15 @@ function BackedEntryBox({value, setValue, isValid, limit = 32}: {
     }}
     onFocus={() => { changeFocus(true) }}
     onBlur={() => { changeFocus(false) }}
+    disabled={!editable}
     />
 }
 
-export function NumberEntryBox({precision, value, setValue}: {
+export function NumberEntryBox({precision, value, setValue, editable=true}: {
   precision: number,
   value: number,
   setValue(value: number): void,
+  editable?: boolean,
 }) {
 
   function parseNumber(text: string): number {
@@ -64,5 +67,6 @@ export function NumberEntryBox({precision, value, setValue}: {
     value={value.toFixed(precision)}
     setValue={text => setValue(setPrecision(parseNumber(text), precision))}
     isValid={text => !isNaN(parseNumber(text))}
+    editable={editable}
   />
 }

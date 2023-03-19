@@ -1,6 +1,5 @@
 // External imports
 import { useState } from 'react'
-import { modifyObject } from '../lib/util'
 
 // Components
 import PointEntryBox from './PointEntryBox'
@@ -11,6 +10,7 @@ import TextEntryBox from './TextEntryBox'
 // Internal imports
 import { Equipment, Container, SheetEquipment, Sheet } from '../lib/rules'
 import caltrops from '../lib/caltrops'
+import { EditMode, modifyObject } from '../lib/util'
 
 /* 
  * Equipment table.
@@ -19,11 +19,12 @@ import caltrops from '../lib/caltrops'
  *    in: items <- sheet.equipment[container.name]
  *    out: setItems -> sheet.equipment[container.name]
  */
-function EquipmentTable({equipment, container, items, setItems}: {
+function EquipmentTable({equipment, container, items, setItems, editable=EditMode.Live}: {
     equipment: Equipment[],
     container: Container,
     items: SheetEquipment[],
     setItems(items: SheetEquipment[]): void,
+    editable?: EditMode
   }): JSX.Element {
 
   const freeCapacity = container.size ? (container.size - items.length) : 1
@@ -76,6 +77,7 @@ function EquipmentTable({equipment, container, items, setItems}: {
                   setValue={ v => { editItem(i, modifyObject(item, 'count', v)) } }
                   max={item.stack ?? 1}
                   visible={(item.stack ?? 1) > 1}
+                  editable={editable >= EditMode.Live}
                 />
               </td>
               <td>
@@ -83,6 +85,7 @@ function EquipmentTable({equipment, container, items, setItems}: {
                   icon='cross'
                   onClick={() => { removeItem(i) }}
                   btnStyle='btn-outline btn-error'
+                  enabled={editable >= EditMode.Live}
                 />
               </td>
             </tr>
@@ -95,7 +98,7 @@ function EquipmentTable({equipment, container, items, setItems}: {
               <div className='flex justify-center'>
               <IconButton
                 icon='plus'
-                enabled={freeCapacity > 0}
+                enabled={editable >= EditMode.Live && freeCapacity > 0}
                 onClick={() => {setModalOpen(true)}}
               />
               </div>
@@ -107,7 +110,7 @@ function EquipmentTable({equipment, container, items, setItems}: {
       <EquipmentSelectModal
         open={modalOpen}
         close={() => setModalOpen(false)}
-        enabled={freeCapacity > 0}
+        enabled={editable >= EditMode.Live && freeCapacity > 0}
         equipment={modalOpen ? caltrops.equipmentFilter(equipment, container.tags) : []}
         addEquipment={addItem}
       />

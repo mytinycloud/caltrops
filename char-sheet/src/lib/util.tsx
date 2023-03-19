@@ -6,6 +6,12 @@ export function setTheme(theme: string) {
     }
 }
 
+export enum EditMode {
+  None = 0,
+  Live = 1,
+  Full = 2,
+}
+
 /*
  * Returns a new object by cloning the source object and then inserting the specified key
  */

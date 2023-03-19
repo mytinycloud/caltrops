@@ -8,7 +8,7 @@ import SheetView from '../components/SheetView'
 import AlertGroup from '../components/AlertGroup'
 
 // Internal imports
-import { setTheme } from '../lib/util'
+import { EditMode, setTheme } from '../lib/util'
 import caltrops from '../lib/caltrops'
 import { Sheet, Rules } from '../lib/rules'
 import LoadingSpinner from '../components/LoadingSpinner'
@@ -77,9 +77,9 @@ function MainPage(): JSX.Element {
 
   const [rules, setRules] = useState(loadRules)
   const [sheet, setSheet] = useState(loadSheet)
-  const [editable, setEditable] = useState(false);
+  const [editable, setEditable] = useState(EditMode.Live);
   const [token, setToken] = useState(recallToken)
-  
+
   setTheme(rules.theme);
 
   function setTitle(title: string | undefined) {
@@ -105,6 +105,13 @@ function MainPage(): JSX.Element {
     if (sheet && remember) {
       localStorage.setItem('caltrops-sheet', sheet.id)
     }
+    if (sheet && sheet.owner && (!token || sheet.owner !== server.parseToken(token))) {
+      alertWarning(`Sheet opened in read only mode. Owner: ${sheet.owner}.`)
+      setEditable(EditMode.None)
+    }
+    else {
+      setEditable(EditMode.Live)
+    }
     setTitle(sheet?.info.name)
     setSheet(sheet)
   }
@@ -118,6 +125,10 @@ function MainPage(): JSX.Element {
       SAVE_TIMEOUT_ID = setTimeout(() => {
         if (token && sheet) {
           setTitle(sheet?.info.name)
+          const username = server.parseToken(token)
+          if (username && sheet.owner !== username) {
+            sheet.owner = username
+          }
           server.write(token, sheet.id, sheet.info.name, caltrops.cleanSheet(sheet))
             .then( s => alertSuccess("Sheet auto saved") )
             .catch(e => alertError(`Error auto saving sheet: ${e.message}`))

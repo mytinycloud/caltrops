@@ -3,7 +3,7 @@ import PointEntryBox from './PointEntryBox'
 import TextEntryBox from './TextEntryBox'
 
 // Internal imports
-import { modifyObject } from '../lib/util'
+import { modifyObject, EditMode } from '../lib/util'
 import { SheetInfo } from '../lib/rules'
 
 /* 
@@ -11,10 +11,10 @@ import { SheetInfo } from '../lib/rules'
  *    in: info <- sheet.info
  *    out: setInfo -> sheet.info
  */
-function InfoTable({info, setInfo, editable=false}: {
+function InfoTable({info, setInfo, editable=EditMode.Live}: {
     info: SheetInfo,
     setInfo(info: SheetInfo): void,
-    editable?:boolean
+    editable?:EditMode
   }): JSX.Element {
 
   return (
@@ -32,7 +32,7 @@ function InfoTable({info, setInfo, editable=false}: {
             <td className='py-0'><TextEntryBox
               value={info.name}
               setValue={v => { setInfo(modifyObject(info, 'name', v)) }}
-              editable={editable}
+              editable={editable >= EditMode.Full}
               placeholder='enter name'
               />
             </td>
@@ -42,7 +42,7 @@ function InfoTable({info, setInfo, editable=false}: {
             <td><PointEntryBox
               value={info.level}
               setValue={v => { setInfo(modifyObject(info, 'level', v)) }}
-              editable={editable}
+              editable={editable >= EditMode.Full}
             /></td>
           </tr>
           <tr className='hover'>
@@ -50,7 +50,7 @@ function InfoTable({info, setInfo, editable=false}: {
             <td className='py-0'><TextEntryBox
               value={info.background}
               setValue={v => { setInfo(modifyObject(info, 'background', v)) }}
-              editable={editable}
+              editable={editable >= EditMode.Full}
               placeholder='enter background'
               />
             </td>
