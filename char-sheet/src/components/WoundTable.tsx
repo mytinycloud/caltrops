@@ -5,7 +5,7 @@ import { useState } from 'react'
 import IconButton from './IconButton'
 import NewWoundModal from './NewWoundModal'
 import ActionModal from './ActionModal'
-import { ImHeartBroken } from 'react-icons/im'
+import { ImHeartBroken, ImHeart } from 'react-icons/im'
 
 // Internal imports
 import caltrops from '../lib/caltrops'
@@ -76,8 +76,10 @@ function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, editable=E
               <td className='p-0'>
                 <div>
                   {
-                    Array(wound.size).fill(0).map( (i, n) => 
-                      <ImHeartBroken size={40} color='hsl(var(--er))' className='p-3' key={n}/>
+                    Array(wound.size).fill(0).map( (i, n) =>
+                      (n === (wound.size - 1) && !wound.locked)
+                      ? <ImHeart size={40} color='hsl(var(--er))' className='p-3' key={n}/>
+                      : <ImHeartBroken size={40} color='hsl(var(--er))' className='p-3' key={n}/>
                     )
                   }
                 </div>
