@@ -54,7 +54,7 @@ function SkillTable({skills, scores, setScores, level, editable = EditMode.Live,
             let value = scores[s.name] ?? 0
             return(
               <tr className='hover cursor-pointer'
-                onClick={editable ? undefined : () => startRoll(s.name)}
+                onClick={editable <= EditMode.Full ? () => startRoll(s.name) : undefined}
                 key={s.name}
                 >
                 <td>{s.name}</td>
