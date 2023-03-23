@@ -66,6 +66,10 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
         className='btn btn-ghost'
         onClick={() => {
           if (token && sheet) {
+            const username = server.parseToken(token)
+            if (username && sheet.owner !== username) {
+              sheet.owner = username
+            }
             server.write(token, sheet.id, sheet.info.name, caltrops.cleanSheet(sheet))
               .then( s => alertSuccess("Sheet saved") )
               .catch(e => alertError(`Error saving sheet: ${e.message}`))
