@@ -63,6 +63,15 @@ module.exports = {
           "base-200": "#423332",
           "base-300": "#5e4440",
         },
+        "darkest": {
+          primary: "#e11d48",
+          secondary: "#881337",
+          accent: "#e11d48",
+          neutral: "#1f2937",
+          "base-100": "#131316",
+          "base-200": "#1f2937",
+          "base-300": "#374151",
+        },
       }
     ],
   },
