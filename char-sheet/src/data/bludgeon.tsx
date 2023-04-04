@@ -19,7 +19,7 @@ const bludgeonRuleset: Rules = {
             name: 'History',
         },
         {
-            name: 'Lockpicking',
+            name: 'Marksmanship',
         },
         {
             name: 'Medicine',
@@ -31,13 +31,10 @@ const bludgeonRuleset: Rules = {
             name: 'Observation',
         },
         {
-            name: 'Riding',
-        },
-        {
             name: 'Stealth',
         },
         {
-            name: 'Shooting',
+            name: 'Thievery',
         },
         {
             name: 'Pyromancy',
