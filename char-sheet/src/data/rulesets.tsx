@@ -9,4 +9,8 @@ const RULESETS = [
     turnipRuleset,
 ];
 
+RULESETS.forEach(r => {
+    r.skills.sort( (a,b) => a.name > b.name ? 1 : -1 )
+})
+
 export default RULESETS;
