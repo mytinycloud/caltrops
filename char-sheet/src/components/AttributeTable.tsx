@@ -87,6 +87,7 @@ function AttributeTable({attributes, scores, setScores, level, editable=EditMode
                           setValue={v => setScores(modifyObject(scores, aspect.name, v))}
                           editable={editable >= EditMode.Full}
                           min={base}
+                          max={caltrops.aspectMax(base)}
                           isCapped={aspectTotal >= aspectMax}
                           encourageUp={true}
                         /></td>
