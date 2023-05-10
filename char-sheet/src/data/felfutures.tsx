@@ -31,6 +31,9 @@ const felfuturesRuleset: Rules = {
             name: 'Stealth',
         },
         {
+            name: 'Heavy weapons',
+        },
+        {
             name: 'Warp Touched',
             trained: true,
         },
@@ -55,15 +58,19 @@ const felfuturesRuleset: Rules = {
     equipment: [
         {
             name: 'Combat Slot 1',
+            custom: true,
         },
         {
             name: 'Combat Slot 2',
+            custom: true,
         },
         {
             name: 'Combat Slot 3',
+            custom: true,
         },
         {
             name: 'Combat Slot 4',
+            custom: true,
         },
         {
             name: 'Light Ammo',
@@ -108,11 +115,11 @@ const felfuturesRuleset: Rules = {
         },
         {
             name: 'Stealth',
-            tag: 'armour', 
+            tag: 'armour',
         },
         {
             name: 'Dark Mechanicum',
-            tag: 'armour', 
+            tag: 'armour',
         },
    
         ...DEFAULT_RULES.equipment,
@@ -122,7 +129,7 @@ const felfuturesRuleset: Rules = {
     containers: [
         {
             name: "Personal",
-            size: 5,
+            size: 7,
             tags: [ '.' ],
         },
         {
