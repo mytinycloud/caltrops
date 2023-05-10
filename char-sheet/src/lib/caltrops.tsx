@@ -16,8 +16,9 @@ const SKILL_COST_ONGOING = 3
 
 const ATTRIBUTE_MIN = 1
 const ATTRIBUTE_MAX = 3
-const ASPECT_MAX = 9
 const ATTRIBUTE_TOTAL_MAX = 8
+const ASPECT_MAX = 3
+
 
 function skillCost(score: number): number {
     if (score < SKILL_COST.length) {
@@ -69,6 +70,10 @@ function aspectTotal(attributes: Attribute[], scores: Dictionary<number>): numbe
         }
     }
     return sum;
+}
+
+function aspectMax(attribute: number): number {
+    return attribute + ASPECT_MAX;
 }
 
 /*
@@ -242,7 +247,7 @@ const caltrops = {
     attributeMin: ATTRIBUTE_MIN,
     attributeMax: ATTRIBUTE_MAX,
     attributeTotalMax: ATTRIBUTE_TOTAL_MAX,
-    aspectMax: ASPECT_MAX,
+    aspectMax: aspectMax,
     attributeTotal: attributeTotal,
     attributeModify: attributeModify,
     aspectTotal: aspectTotal,
