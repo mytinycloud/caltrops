@@ -36,7 +36,7 @@ function SkillTable({skills, scores, setScores, level, editable = EditMode.Live,
     }))
   }
 
-  if (!editable) {
+  if (editable !== EditMode.Full) {
     skills = skills.filter(s => caltrops.skillIsRollable(s, scores))
   }
 
