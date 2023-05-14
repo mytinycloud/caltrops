@@ -6,6 +6,7 @@ import NewSheetModal from './NewSheetModal';
 import LoadSheetModal from './LoadSheetModal'
 import { BsPerson, BsShare, BsCloudArrowDown,
   BsCloudArrowUp, BsFileEarmarkPlus, BsDownload,
+  BsJournalText,
  } from 'react-icons/bs'
 import { ImCheckmark, ImPencil } from 'react-icons/im';
 
@@ -113,6 +114,17 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
       Share
     </button>
   </li>,
+  <li key='rules'>
+  <button
+    className='btn btn-ghost'
+    onClick={ () => {
+      window.open("caltrops_doc.pdf", '_blank');
+      }}
+    >
+    <BsJournalText size={25}/>
+    Rules
+  </button>
+</li>,
   <li key='login'>
     <button
       className='btn btn-ghost'
