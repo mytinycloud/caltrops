@@ -24,7 +24,8 @@ const airlockRuleset: Rules = {
             name: 'Gunnary',
         },
         {
-            name: 'Bludgeoning',
+            name: 'Melee',
+            aka: 'Bludgeoning',
         },
         {
             name: 'Explosives',

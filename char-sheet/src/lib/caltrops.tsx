@@ -58,7 +58,7 @@ function attributeTotal(attributes: Attribute[], scores: Dictionary<number>): nu
 }
 
 function aspectTotalMax(level: number): number {
-    return level;
+    return Math.ceil(level / 2);
 }
 
 function aspectTotal(attributes: Attribute[], scores: Dictionary<number>): number {
@@ -159,15 +159,18 @@ function loadSheet(obj: any = {}): Sheet {
 }
 
 function importSheet(obj: any): Sheet {
-    if (obj.wounds && obj.wounds[0]) {
-        // TODO: Delete this.
-        // This is a hack for migrating old data structures
-        obj.wounds = {
-            "Body": obj.wounds
+    return loadSheet(obj);
+}
+
+function updateSheet(rules: Rules, sheet: Sheet): Sheet {
+    for (let skill of rules.skills) {
+        if (skill.aka && sheet.skills[skill.aka]) {
+            sheet.skills[skill.name] = sheet.skills[skill.aka]
+            delete sheet.skills[skill.aka]
         }
     }
-    return loadSheet(obj);
-} 
+    return sheet
+}
 
 function cleanSheet(sheet: Sheet): Sheet {
     return loadSheet(sheet)
@@ -257,6 +260,7 @@ const caltrops = {
     equipmentFilter: equipmentFilter,
     newSheet: newSheet,
     importSheet: importSheet,
+    updateSheet: updateSheet,
     cleanSheet: cleanSheet,
     woundCreate: woundCreate,
     woundTotal: woundTotal,

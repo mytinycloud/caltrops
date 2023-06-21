@@ -102,6 +102,9 @@ function MainPage(): JSX.Element {
         sheet.rules = newRules.name
       }
     }
+    if (sheet) {
+      sheet = caltrops.updateSheet(rules, sheet)
+    }
     if (sheet && remember) {
       localStorage.setItem('caltrops-sheet', sheet.id)
     }
