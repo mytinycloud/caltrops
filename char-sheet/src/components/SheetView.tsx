@@ -63,10 +63,10 @@ function SheetView( { rules, sheet, setSheet, editable=EditMode.Live }: {
             skills={rules.skills}
             scores={sheet.skills}
             setScores={scores => {setSheet(modifyObject(sheet, 'skills', scores))}}
+            maxCostTotal={caltrops.skillCostMax(rules, sheet.info.level)}
             editable={editable}
             roll={roll}
             setRoll={setRoll}
-            maxCost={caltrops.skillCostMax(rules, sheet.info.level)}
           />
         </section>
         
