@@ -13,11 +13,11 @@ import { Attribute, Dictionary, RollInfo } from '../lib/rules'
  *    out: setScores -> sheet.attributes
  *    in: level <- sheet.info.level
  */
-function AttributeTable({attributes, scores, setScores, level, editable=EditMode.Live, roll, setRoll}: {
+function AttributeTable({attributes, scores, setScores, aspectMax, editable=EditMode.Live, roll, setRoll}: {
     attributes: Attribute[],
     scores: Dictionary<number>,
     setScores(scores: Dictionary<number>): void,
-    level: number,
+    aspectMax: number,
     editable?: EditMode,
     roll: RollInfo,
     setRoll(roll: RollInfo): void,
@@ -25,7 +25,6 @@ function AttributeTable({attributes, scores, setScores, level, editable=EditMode
   const attributeTotal = caltrops.attributeTotal(attributes, scores)
   const attributeMax = caltrops.attributeTotalMax
   const aspectTotal = caltrops.aspectTotal(attributes, scores)
-  const aspectMax = caltrops.aspectTotalMax(level)
 
   function selectAspect(aspect: string) {
     setRoll(modifyObject(roll, "aspect", {

@@ -5,7 +5,6 @@ import PointEntryBox from './PointEntryBox'
 import { modifyObject, EditMode } from '../lib/util'
 import caltrops from '../lib/caltrops'
 import { Skill, Dictionary, RollInfo } from '../lib/rules'
-import IconButton from './IconButton'
 
 /* 
  * Skill table.
@@ -15,19 +14,17 @@ import IconButton from './IconButton'
  *    in: level <- sheet.level
  */
 
-function SkillTable({skills, scores, setScores, level, editable = EditMode.Live, roll, setRoll}: {
+function SkillTable({skills, scores, setScores, maxCostTotal, editable = EditMode.Live, roll, setRoll}: {
     skills: Skill[],
     scores: Dictionary<number>,
     setScores(scores: Dictionary<number>): void,
-    level: number,
+    maxCostTotal: number,
     editable?: EditMode,
     roll: RollInfo,
     setRoll(info: RollInfo): void,
   }): JSX.Element {
   let totalCost = caltrops.skillCostTotal(scores)
-  let maxCost = caltrops.skillCostMax(level)
-  let sparePoints = maxCost - totalCost;
-
+  let sparePoints = maxCostTotal - totalCost;
 
   function startRoll(skill: string): void {
     setRoll( modifyObject( roll, "skill", {
@@ -73,7 +70,7 @@ function SkillTable({skills, scores, setScores, level, editable = EditMode.Live,
         <tfoot>
           <tr className='px-2 text-center'>
             <th>Skill cost</th>
-            <th>{totalCost} / {maxCost}</th>
+            <th>{totalCost} / {maxCostTotal}</th>
           </tr>
         </tfoot>
       </table>

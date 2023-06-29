@@ -50,7 +50,7 @@ function SheetView( { rules, sheet, setSheet, editable=EditMode.Live }: {
             attributes={rules.attributes}
             scores={sheet.attributes}
             setScores={scores => {setSheet(modifyObject(sheet, 'attributes', scores))}}
-            level={sheet.info.level}
+            aspectMax={caltrops.aspectTotalMax(rules, sheet.info.level)}
             editable={editable}
             roll={roll}
             setRoll={setRoll}
@@ -63,10 +63,10 @@ function SheetView( { rules, sheet, setSheet, editable=EditMode.Live }: {
             skills={rules.skills}
             scores={sheet.skills}
             setScores={scores => {setSheet(modifyObject(sheet, 'skills', scores))}}
-            level={sheet.info.level}
             editable={editable}
             roll={roll}
             setRoll={setRoll}
+            maxCost={caltrops.skillCostMax(rules, sheet.info.level)}
           />
         </section>
         

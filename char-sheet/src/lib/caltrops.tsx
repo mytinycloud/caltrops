@@ -41,8 +41,8 @@ function skillCostTotal(scores: Dictionary<number>): number {
     return sum;
 }
 
-function skillCostMax(level: number): number {
-    return level * 3;
+function skillCostMax(rules: Rules, level: number): number {
+    return level * rules.levelup.skills;
 }
 
 function skillIsRollable(skill: Skill, scores: Dictionary<number>): boolean {
@@ -57,8 +57,8 @@ function attributeTotal(attributes: Attribute[], scores: Dictionary<number>): nu
     return sum;
 }
 
-function aspectTotalMax(level: number): number {
-    return Math.ceil(level / 2);
+function aspectTotalMax(rules: Rules, level: number): number {
+    return Math.ceil(level * rules.levelup.aspects);
 }
 
 function aspectTotal(attributes: Attribute[], scores: Dictionary<number>): number {

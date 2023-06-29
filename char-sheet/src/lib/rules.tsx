@@ -62,6 +62,10 @@ export interface Rules {
     wounds: Container[],
     currency: Currency[],
     woundSizeLimit: number,
+    levelup: {
+        aspects: number,
+        skills: number,
+    }
 }
 
 export interface SheetEquipment {
@@ -115,6 +119,10 @@ export const DEFAULT_RULES: Rules = {
     name: 'default',
     theme: 'light',
     woundSizeLimit: 2,
+    levelup: {
+        aspects: 0.5,
+        skills: 3,
+    },
     skills: [
         {
             name: 'Default skill',
