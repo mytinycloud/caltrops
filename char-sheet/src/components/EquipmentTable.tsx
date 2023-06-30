@@ -1,5 +1,6 @@
 // External imports
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd'
 
 // Components
 import PointEntryBox from './PointEntryBox'
@@ -11,6 +12,7 @@ import TextEntryBox from './TextEntryBox'
 import { Equipment, Container, SheetEquipment, Sheet } from '../lib/rules'
 import caltrops from '../lib/caltrops'
 import { EditMode, modifyObject } from '../lib/util'
+import { EquipmentRow } from './EquipmentRow'
 
 /* 
  * Equipment table.
@@ -28,7 +30,8 @@ function EquipmentTable({equipment, container, items, setItems, editable=EditMod
   }): JSX.Element {
 
   const freeCapacity = container.size ? (container.size - items.length) : 1
-  const [modalOpen, setModalOpen] = useState(false)
+  const capacityUnlocked = freeCapacity < 0
+  const [modalOpen, setModalOpen] = useState(false);
 
   function addItem(equipment: Equipment) {
     let item: SheetEquipment = {
@@ -56,8 +59,29 @@ function EquipmentTable({equipment, container, items, setItems, editable=EditMod
     setItems(new_items)
   }
 
+  function handleDrop(item: SheetEquipment) {
+    const itemCount = item.count || 1
+    const amountToAdd = capacityUnlocked ? itemCount : Math.min(itemCount, item.stack || 1)
+    const newItem = modifyObject(item, 'count', amountToAdd)
+    const oldItem = modifyObject(item, 'count', itemCount - amountToAdd)
+
+    setItems([...items, newItem]);
+
+    return oldItem
+  }
+
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: 'equipment',
+    drop: handleDrop,
+    canDrop: () => freeCapacity > 0,
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  }, [])
+
   return (
-    <div>
+    <div ref={drop}>
       <table className="table table-compact w-64">
         <thead>
           <tr>
@@ -67,28 +91,14 @@ function EquipmentTable({equipment, container, items, setItems, editable=EditMod
         <tbody>
         {
           items.map((item, i) => {
-            return <tr className='hover' key={i}>
-              <td className='w-full'>
-                { item.name }
-              </td>
-              <td>
-                <PointEntryBox
-                  value={item.count ?? 0}
-                  setValue={ v => { editItem(i, modifyObject(item, 'count', v)) } }
-                  max={item.stack ?? 1}
-                  visible={(item.stack ?? 1) > 1}
-                  editable={editable >= EditMode.Live}
-                />
-              </td>
-              <td>
-                <IconButton
-                  icon='cross'
-                  onClick={() => { removeItem(i) }}
-                  btnStyle='btn-outline btn-error'
-                  enabled={editable >= EditMode.Live}
-                />
-              </td>
-            </tr>
+            return <EquipmentRow
+              sheetEquipment={item}
+              onEdit={(item) => { editItem(i, item) }}
+              onRemove={() => { removeItem(i) }}
+              editable={editable}
+              unlockStackSize={container.size === -1}
+              key={i}
+            />
           })
         }
         </tbody>
@@ -98,7 +108,7 @@ function EquipmentTable({equipment, container, items, setItems, editable=EditMod
               <div className='flex justify-center'>
               <IconButton
                 icon='plus'
-                enabled={editable >= EditMode.Live && freeCapacity > 0}
+                  enabled={editable >= EditMode.Live && freeCapacity !== 0}
                 onClick={() => {setModalOpen(true)}}
               />
               </div>
@@ -110,7 +120,7 @@ function EquipmentTable({equipment, container, items, setItems, editable=EditMod
       <EquipmentSelectModal
         open={modalOpen}
         close={() => setModalOpen(false)}
-        enabled={editable >= EditMode.Live && freeCapacity > 0}
+        enabled={editable >= EditMode.Live && freeCapacity !== 0}
         equipment={modalOpen ? caltrops.equipmentFilter(equipment, container.tags) : []}
         addEquipment={addItem}
       />

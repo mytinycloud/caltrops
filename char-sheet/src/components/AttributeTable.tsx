@@ -34,7 +34,7 @@ function AttributeTable({attributes, scores, setScores, aspectMax, editable=Edit
   }
 
   function clearAspect() {
-    setRoll(modifyObject(roll, "aspect", null))
+    setRoll(modifyObject(roll, "aspect", undefined))
   }
 
   return (

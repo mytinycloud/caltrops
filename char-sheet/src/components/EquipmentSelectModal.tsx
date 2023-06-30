@@ -105,7 +105,7 @@ function EquipmentSelectModal({equipment, addEquipment, open, close, enabled=tru
           </label>
           <TextEntryBox
             value={customEquipment?.name ?? ""}
-            setValue={ v => setCustomEquipment(modifyObject(customEquipment, "name", v)) }
+            setValue={v => setCustomEquipment(modifyObject(customEquipment as Equipment, "name", v))}
             limit={32}
             inputSize='input-md'
             placeholder='Item name'

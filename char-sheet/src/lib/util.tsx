@@ -15,7 +15,7 @@ export enum EditMode {
 /*
  * Returns a new object by cloning the source object and then inserting the specified key
  */
-export function modifyObject<t>(obj: t, key: string, value: any): t {
+export function modifyObject<T, Key extends keyof T>(obj: T, key: Key, value: T[Key]): T {
     return { ...obj, [key]: value }
 }
 
