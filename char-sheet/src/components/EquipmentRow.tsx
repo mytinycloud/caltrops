@@ -6,7 +6,13 @@ import { EditMode, modifyObject } from '../lib/util';
 
 type ModifierFunction = (sheetEquipment: SheetEquipment) => void;
 
-export function EquipmentRow({ sheetEquipment, onEdit, onRemove, unlockStackSize = false, editable = EditMode.Live }: { sheetEquipment: SheetEquipment, onEdit: ModifierFunction, onRemove: ModifierFunction, unlockStackSize: boolean, editable?: EditMode }) {
+export function EquipmentRow({ sheetEquipment, onEdit, onRemove, unlockStackSize = false, editable = EditMode.Live }: {
+    sheetEquipment: SheetEquipment,
+    onEdit: ModifierFunction,
+    onRemove: ModifierFunction,
+    unlockStackSize: boolean,
+    editable?: EditMode
+  }) {
 
   const [{ opacity }, dragRef] = useDrag(
     () => ({
