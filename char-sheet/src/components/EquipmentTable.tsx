@@ -78,7 +78,7 @@ function EquipmentTable({equipment, container, items, setItems, editable=EditMod
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
     }),
-  }, [items])
+  }, [setItems])
 
   return (
     <div ref={drop}>

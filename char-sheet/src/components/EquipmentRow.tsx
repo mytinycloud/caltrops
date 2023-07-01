@@ -31,7 +31,7 @@ export function EquipmentRow({ sheetEquipment, onEdit, onRemove, unlockStackSize
         opacity: monitor.isDragging() ? 0.5 : 1
       })
     }),
-    [sheetEquipment]
+    [onEdit, onRemove]
   )
 
   return (<tr ref={dragRef} style={{ opacity }} className='hover' >
