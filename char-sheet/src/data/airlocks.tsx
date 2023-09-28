@@ -167,6 +167,30 @@ const airlockRuleset: Rules = {
             description: 'This grenade explodes into a shower of bright magnesium fire and aliumium foil strips. This defeats a wide range of optical and electromagnetic sensors.',
         },
         {
+            name: 'Grenade',
+            stack: 3,
+            description: 'Does what it says in the tin. Explodes.',
+        },
+        {
+            name: 'Smoke grenade',
+            stack: 3,
+            description: 'Emits a thick cloud of white smoke.',
+        },
+        {
+            name: 'Rocket',
+            stack: 3,
+            description: 'Ammunition for the missile launcher. This has no guidance system.',
+        },
+        {
+            name: 'Seeking missile',
+            stack: 3,
+            description: 'Ammunition for the missile launcher. This can adjust its course mid flight, and be used to target distant foes.',
+        },
+        {
+            name: 'Missile launcher',
+            description: 'A shoulder mounted weapon for firing a range of missiles.',
+        },
+        {
             name: 'Laser',
             description: 'A man portable laser - its blinding orange beam is capable of cutting through doors as easily as humans. Consumes one battery per round.',
         },
