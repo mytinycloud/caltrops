@@ -79,6 +79,10 @@ const airlockRuleset: Rules = {
         {
             name: 'Bio',
             trained: true,
+        },
+        {
+            name: 'Robotics',
+            trained: true,
         }
     ],
     equipment: [
@@ -279,6 +283,15 @@ const airlockRuleset: Rules = {
             name: 'Bio',
             description: '',
             source: 'Bio',
+            dice: {
+                base: 2,
+                level: 2,
+            }
+        },
+        {
+            name: 'Robotics',
+            description: '',
+            source: 'Robotics',
             dice: {
                 base: 2,
                 level: 2,
