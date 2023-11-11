@@ -5,6 +5,7 @@ const bludgeonRuleset: Rules = {
 
     name: 'Bludgeon',
     theme: 'darkest',
+    woundSizeLimit: 3,
     skills: [
         {
             name: 'Athletics',
@@ -50,6 +51,10 @@ const bludgeonRuleset: Rules = {
         },
         {
             name: 'Divine',
+            trained: true,
+        },
+        {
+            name: 'Rage',
             trained: true,
         },
     ],
@@ -162,6 +167,14 @@ const bludgeonRuleset: Rules = {
         {
             name: 'Divine',
             source: 'Divine',
+            dice: {
+                base: 2,
+                level: 2,
+            }
+        },
+        {
+            name: 'Rage',
+            source: 'Rage',
             dice: {
                 base: 2,
                 level: 2,
