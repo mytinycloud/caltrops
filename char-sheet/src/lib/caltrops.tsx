@@ -158,6 +158,18 @@ function loadSheet(obj: any = {}): Sheet {
     return result;
 }
 
+/*
+ * Clones a sheet, removing the unique identifying information
+ */
+function cloneSheet(sheet: Sheet): Sheet {
+    const result: Sheet = {
+        ...sheet,
+        owner: null,
+        id: uuidv4(),
+    }
+    return result
+}
+
 function importSheet(obj: any): Sheet {
     return loadSheet(obj);
 }
@@ -270,5 +282,6 @@ const caltrops = {
     rollDice: rollDice,
     rollDiceCount: rollDiceCount,
     rollDescribe: rollDescribe,
+    cloneSheet: cloneSheet,
 }
 export default caltrops;

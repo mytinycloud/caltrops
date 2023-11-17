@@ -6,12 +6,12 @@ import NewSheetModal from './NewSheetModal';
 import LoadSheetModal from './LoadSheetModal'
 import { BsPerson, BsShare, BsCloudArrowDown,
   BsCloudArrowUp, BsFileEarmarkPlus, BsDownload,
-  BsJournalText,
+  BsJournalText, BsCopy,
  } from 'react-icons/bs'
 import { ImCheckmark, ImPencil } from 'react-icons/im';
 
 // Internal imports
-import { downloadObject, copyToClipboard, EditMode } from '../lib/util'
+import { downloadObject, copyToClipboard, EditMode, modifyObject } from '../lib/util'
 import { Sheet } from '../lib/rules'
 import server, { ServerItem } from '../lib/server'
 import UserLoginModal from './UserLoginModal';
@@ -44,60 +44,74 @@ function MenuRibbon( {editable, setEditable, sheet, setSheet, token, setToken, c
       New
     </button>
   </li>,
-    <li key='load'>
-      <button
-        className='btn btn-ghost'
-        onClick={() => {
-          if (token) {
-            setSheetList(null)
-            server.list(token)
-              .then( s => setSheetList(s))
-              .catch(e => alertError(`Error listing sheets: ${e.message}`))
-            setIsLoadSheetOpen(true)
+  <li key='load'>
+    <button
+      className='btn btn-ghost'
+      onClick={() => {
+        if (token) {
+          setSheetList(null)
+          server.list(token)
+            .then( s => setSheetList(s))
+            .catch(e => alertError(`Error listing sheets: ${e.message}`))
+          setIsLoadSheetOpen(true)
+        }
+      }}
+      disabled={!token}
+    >
+      <BsCloudArrowDown size={27}/>
+      Load
+    </button>
+  </li>,
+  <li key='save'>
+    <button
+      className='btn btn-ghost'
+      onClick={() => {
+        if (token && sheet) {
+          const username = server.parseToken(token)
+          if (username && sheet.owner !== username) {
+            sheet.owner = username
           }
-        }}
-        disabled={!token}
-      >
-        <BsCloudArrowDown size={27}/>
-        Load
-      </button>
-    </li>,
-    <li key='save'>
-      <button
-        className='btn btn-ghost'
-        onClick={() => {
-          if (token && sheet) {
-            const username = server.parseToken(token)
-            if (username && sheet.owner !== username) {
-              sheet.owner = username
-            }
-            server.write(token, sheet.id, sheet.info.name, caltrops.cleanSheet(sheet))
-              .then( s => alertSuccess("Sheet saved") )
-              .catch(e => alertError(`Error saving sheet: ${e.message}`))
-          }
-        }}
-        disabled={!(sheet && token && editable > EditMode.None)}
-      >
-        <BsCloudArrowUp size={27}/>
-        Save
-      </button>
-    </li>,
-    <li key='download'>
-      <button
-        className='btn btn-ghost'
-        onClick={() => {
-            if (sheet) {
-            downloadObject(sheet,
-              `caltrops-${sheet.info.name.replace(' ', '-').toLowerCase()}.json`,
-              true
-            )
-          }
-        }}
-        disabled={!sheet}
-      >
-        <BsDownload size={25}/>
-        Download
-      </button>
+          server.write(token, sheet.id, sheet.info.name, caltrops.cleanSheet(sheet))
+            .then( s => alertSuccess("Sheet saved") )
+            .catch(e => alertError(`Error saving sheet: ${e.message}`))
+        }
+      }}
+      disabled={!(sheet && token && editable > EditMode.None)}
+    >
+      <BsCloudArrowUp size={27}/>
+      Save
+    </button>
+  </li>,
+  <li key='clone'>
+    <button
+      className='btn btn-ghost'
+      onClick={() => {
+        if (sheet) {
+          setSheet(caltrops.cloneSheet(sheet))
+        }
+      }}
+      disabled={!sheet}
+    >
+    <BsCopy size={25}/>
+    Clone
+  </button>
+  </li>,
+  <li key='download'>
+    <button
+      className='btn btn-ghost'
+      onClick={() => {
+          if (sheet) {
+          downloadObject(sheet,
+            `caltrops-${sheet.info.name.replace(' ', '-').toLowerCase()}.json`,
+            true
+          )
+        }
+      }}
+      disabled={!sheet}
+    >
+      <BsDownload size={25}/>
+      Download
+    </button>
   </li>,
   <li key='share'>
     <button
