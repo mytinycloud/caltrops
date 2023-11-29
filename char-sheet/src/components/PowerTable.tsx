@@ -38,7 +38,7 @@ function PowerTable({powers, skillScores, powerDice, setPowerDice, editable=Edit
             let diceMax = caltrops.powerDiceMax(power, skillScores)
             return <tr>
               <td>{power.name}</td>
-              <td>{skillScores[power.source] ?? 0}</td>
+              <td>{skillScores[power.source ?? power.name] ?? 0}</td>
               <td> <PointEntryBox
                 value={powerDice[power.name] ?? 0}
                 setValue={v => {setPowerDice(modifyObject(powerDice, power.name, v))}}

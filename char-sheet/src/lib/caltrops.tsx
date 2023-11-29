@@ -19,6 +19,7 @@ const ATTRIBUTE_MAX = 3
 const ATTRIBUTE_TOTAL_MAX = 8
 const ASPECT_MAX = 3
 
+const POWER_DICE_DEFAULT = 2
 
 function skillCost(score: number): number {
     if (score < SKILL_COST.length) {
@@ -91,12 +92,15 @@ function attributeModify(scores: Dictionary<number>, attribute: Attribute, value
 }
 
 function powerDiceMax(power: Power, scores: Dictionary<number>): number {
-    const score = scores[power.source] ?? 0
-    return power.dice.base + (power.dice.level * (score - 1));
+    const score = scores[power.source ?? power.name] ?? 0
+    if (power.dice) {
+        return power.dice.base + (power.dice.level * (score - 1));
+    }
+    return POWER_DICE_DEFAULT * score;
 }
 
 function powerIsAvailable(power: Power, scores: Dictionary<number>): boolean {
-    return (scores[power.source] ?? 0) > 0;
+    return (scores[power.source ?? power.name] ?? 0) > 0;
 }
 
 function woundCreate(size: number, name: string = ""): SheetWound {

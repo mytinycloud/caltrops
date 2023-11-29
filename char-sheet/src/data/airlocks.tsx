@@ -253,49 +253,19 @@ const airlockRuleset: Rules = {
     ],
     powers: [
         {
-            name: 'Jacked',
-            description: '',
-            source: 'Jacked',
-            dice: {
-                base: 2,
-                level: 2,
-            }
+            name: 'Jacked'
         },
         {
-            name: 'Mech',
-            description: '',
-            source: 'Mech',
-            dice: {
-                base: 2,
-                level: 2,
-            }
+            name: 'Mech'
         },
         {
-            name: 'Wirehead',
-            description: '',
-            source: 'Wirehead',
-            dice: {
-                base: 2,
-                level: 2,
-            }
+            name: 'Wirehead'
         },
         {
-            name: 'Bio',
-            description: '',
-            source: 'Bio',
-            dice: {
-                base: 2,
-                level: 2,
-            }
+            name: 'Bio'
         },
         {
-            name: 'Robotics',
-            description: '',
-            source: 'Robotics',
-            dice: {
-                base: 2,
-                level: 2,
-            }
+            name: 'Robotics'
         }
     ]
 }

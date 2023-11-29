@@ -140,44 +140,19 @@ const felfuturesRuleset: Rules = {
     ],
     powers: [
         {
-            name: 'Warp Touched',
-            source: 'Warp Touched',
-            dice: {
-                base: 2,
-                level: 2,
-            }
+            name: 'Warp Touched'
         },
         {
-            name: 'Stimmed',
-            source: 'Stimmed',
-            dice: {
-                base: 2,
-                level: 2,
-            }
+            name: 'Stimmed'
         },
         {
-            name: 'Possessed',
-            source: 'Possessed',
-            dice: {
-                base: 2,
-                level: 2,
-            }
+            name: 'Possessed'
         },
         {
-            name: 'Chosen',
-            source: 'Chosen',
-            dice: {
-                base: 2,
-                level: 2,
-            }
+            name: 'Chosen'
         },
         {
-            name: 'Undivided',
-            source: 'Undivided',
-            dice: {
-                base: 2,
-                level: 2,
-            }
+            name: 'Undivided'
         }
     ],
     currency: [

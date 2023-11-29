@@ -44,8 +44,8 @@ export interface Container {
 export interface Power {
     name: string,
     description?: string,
-    source: string, // name of skill to use as level source
-    dice: {
+    source?: string, // name of skill to use as level source
+    dice?: {
         base: number, // dice at lvl 1
         level: number, // dice per level.
     }

@@ -141,44 +141,19 @@ const bludgeonRuleset: Rules = {
     ],
     powers: [
         {
-            name: 'Pyromancy',
-            source: 'Pyromancy',
-            dice: {
-                base: 2,
-                level: 2,
-            }
+            name: 'Pyromancy'
         },
         {
-            name: 'Cryomancy',
-            source: 'Cryomancy',
-            dice: {
-                base: 2,
-                level: 2,
-            }
+            name: 'Cryomancy'
         },
         {
-            name: 'Occult',
-            source: 'Occult',
-            dice: {
-                base: 2,
-                level: 2,
-            }
+            name: 'Occult'
         },
         {
-            name: 'Divine',
-            source: 'Divine',
-            dice: {
-                base: 2,
-                level: 2,
-            }
+            name: 'Divine'
         },
         {
-            name: 'Rage',
-            source: 'Rage',
-            dice: {
-                base: 2,
-                level: 2,
-            }
+            name: 'Rage'
         }
     ],
     currency: [
