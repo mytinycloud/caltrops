@@ -263,7 +263,7 @@ const lancerRuleset: Rules = {
             tag: 'bulk',
         },
 
-
+        // Lancer: Weapons
         {
             name: 'Rotary cannon',
             description: 'Dex-Gunnary. Mid range. One charge per shot (10u). +2 per extra charge (max 1).',
@@ -291,7 +291,13 @@ const lancerRuleset: Rules = {
         {
             name: 'Seeker pod',
             stack: 6,
-            description: 'Long range. One success per fired charge (25u). Target must be locked.',
+            description: 'Long range. One success per fired charge (25u). Indirect fire. Target must be locked.',
+            tag: 'lancer',
+        },
+        {
+            name: 'Barrage Seeker pod',
+            stack: 10,
+            description: 'Long range. One success per fired charge (25u). Indirect fire. Target must be locked.',
             tag: 'lancer',
         },
         {
@@ -301,14 +307,24 @@ const lancerRuleset: Rules = {
             tag: 'lancer',
         },
         {
-            name: 'Autoloader',
+            name: 'Stiletto missile',
             stack: 1,
-            description: 'Rearms a weapon in the field. The weapon to be rearmed must be declared when autoloader is installed.',
+            description: 'Dex-Gunnary. Extremely long range. Indirect fire. +2 in zero gravity. +3 successes if target locked.',
             tag: 'lancer',
         },
         {
-            name: 'Scrap claw',
+            name: 'Hydraulic claw',
             description: 'Control-Melee.',
+            tag: 'lancer',
+        },
+        {
+            name: 'Lancet',
+            description: 'Dex-Melee. -2 vs machines.',
+            tag: 'lancer',
+        },
+        {
+            name: 'Rotary saw',
+            description: 'Control-Melee. Gains +1 per round on the same target. -1 vs machines.',
             tag: 'lancer',
         },
         {
@@ -318,24 +334,42 @@ const lancerRuleset: Rules = {
         },
         {
             name: 'Flamethrower',
-            description: 'Control-Gunnary. Short range. One charge per shot (10u). +2 vs flesh. -2 vs machine.',
+            description: 'Control-Gunnary. Short range. One charge per shot (10u). Powerful vs flesh. -2 vs machine.',
             stack: 4,
             tag: 'lancer',
         },
         {
             name: 'Laser',
-            description: 'Dex-Gunnary. Medium range. No limit to overcharge. Required for in-field repairs.',
-            stack: 8,
+            description: 'Dex-Gunnary. Medium range. Overcharge powered. Required for in-field repairs.',
+            stack: 6,
             tag: 'lancer',
         },
-
         {
-            name: 'Grenade launcher',
-            description: 'Dex-Gunnary. Long range. Fires over cover if target locked.',
+            name: 'Arc lance',
+            description: 'Presence-Gunnary. Short range. Overcharge powered. Cannot be blocked.',
+            stack: 6,
+            tag: 'lancer',
+        },
+        {
+            name: 'Mortar',
+            description: 'Dex-Gunnary. Long range. -4 in short range. Indirect fire. Radius 2. One charge per shot (15u)',
+            stack: 8,
+            tag: 'lancer',
+        },
+        {
+            name: 'Ballistic cannon',
+            description: 'Dex-Gunnary. Long range. -2 in short range. Indirect fire. Radius 2. Powerful. One charge per shot (25u)',
             stack: 8,
             tag: 'lancer',
         },
 
+        // Lancer: Utility
+        {
+            name: 'Autoloader',
+            stack: 1,
+            description: 'Rearms a weapon in the field. The weapon to be rearmed must be declared when autoloader is installed.',
+            tag: 'lancer',
+        },
         {
             name: 'Sensor array',
             description: 'Intellect-Computing. Gets a target lock per success. May share a target lock using one success.',
