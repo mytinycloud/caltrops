@@ -372,7 +372,7 @@ const lancerRuleset: Rules = {
         },
         {
             name: 'Sensor array',
-            description: 'Intellect-Computing. Gets a target lock per success. May share a target lock using one success.',
+            description: 'Intellect-Computing. Gets a target lock per success. May share a target lock using one success. Target locks provide +1 when attacking, and indirect weapons may hit these targets with no penalty.',
             tag: 'lancer',
         },
         {
@@ -402,7 +402,13 @@ const lancerRuleset: Rules = {
             tag: 'lancer',
         },
         {
-            name: 'Fusion reactor',
+            name: 'Dipole Fusion reactor',
+            stack: 4,
+            description: 'Provides extra power, which may be used like overcharge. Recharged with fusion fuels.',
+            tag: 'lancer',
+        },
+        {
+            name: 'Arc-point Fusion reactor',
             stack: 6,
             description: 'Provides extra power, which may be used like overcharge. Recharged with fusion fuels.',
             tag: 'lancer',
@@ -430,9 +436,23 @@ const lancerRuleset: Rules = {
             description: 'Enables short distance flight. +2 to melee attacks if used to enter fight.',
             tag: 'lancer',
         },
-
+        {
+            name: 'Entrenching Shield',
+            description: 'Provides armored in a 90 degree arc. May use Control-Melee reaction to thwart incoming damage.',
+            tag: 'lancer',
+        },
 
         ...DEFAULT_RULES.equipment,
+    ],
+    wounds: [
+        {
+            name: "Body",
+            size: 3
+        },
+        {
+            name: "Lancer",
+            size: 5,
+        }
     ],
     containers: [
         {
@@ -441,13 +461,13 @@ const lancerRuleset: Rules = {
             tags: [ "handheld" ]
         },
         {
-            name: "Pack",
-            size: 5,
-        },
-        {
             name: "Lancer",
             size: 5,
             tags: [ "lancer" ]
+        },
+        {
+            name: "Stowage",
+            size: 5,
         }
     ],
     powers: [

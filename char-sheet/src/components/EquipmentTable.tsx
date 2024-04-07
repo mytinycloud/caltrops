@@ -56,6 +56,15 @@ function EquipmentTable({equipment, container, items, setItems, editable=EditMod
     setItems(new_items)
   }
 
+  function lookupDescription(name: string): string {
+    for (let item of equipment) {
+      if (item.name === name) {
+        return item.description ?? name;
+      }
+    }
+    return name;
+  }
+
   return (
     <div>
       <table className="table table-compact w-64">
@@ -67,8 +76,8 @@ function EquipmentTable({equipment, container, items, setItems, editable=EditMod
         <tbody>
         {
           items.map((item, i) => {
-            return <tr className='hover' key={i}>
-              <td className='w-full'>
+            return <tr className='hover tooltip tooltip-left w-full' data-tip={lookupDescription(item.name)} key={i}>
+              <td className='w-full text-left'>
                 { item.name }
               </td>
               <td>
