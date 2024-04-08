@@ -5,6 +5,24 @@ const lancerRuleset: Rules = {
 
     name: 'Lancer',
     theme: 'lancers',
+    attributes: [
+        {
+            name: 'Control',
+            aspects: []
+        },
+        {
+            name: 'Dexterity',
+            aspects: []
+        },
+        {
+            name: 'Intellect',
+            aspects: []
+        },
+        {
+            name: 'Presence',
+            aspects: []
+        },
+    ],
     currency: [
         {
             name: "Solari",
@@ -35,9 +53,6 @@ const lancerRuleset: Rules = {
             name: 'Diplomacy',
         },
         {
-            name: 'Maneuvering',
-        },
-        {
             name: 'History',
         },
         {
@@ -59,6 +74,9 @@ const lancerRuleset: Rules = {
             name: 'Repair',
         },
         {
+            name: 'Athletics',
+        },
+        {
             name: 'Overload',
             trained: true,
         },
@@ -74,22 +92,22 @@ const lancerRuleset: Rules = {
     equipment: [
         {
             name: 'Pistol',
-            description: 'A common sidearm. Easily concealed and quickly drawn. Consumes a clip per encounter.',
+            description: 'Dex-Gunnary. -2 at long range. 1 Ammo per encounter. No penalty in melee.',
             tag: 'handheld',
         },
         {
             name: 'Rifle',
-            description: 'An assault rifle. For precision shooting at moderate range. Consumes a clip per encounter.',
+            description: 'Dex-Gunnary. 1 Ammo per encounter. -1 at short range.',
             tag: 'handheld',
         },
         {
             name: 'Submachine gun',
-            description: 'A short weapon, intended to send a withering quantity of lead downrange. Consumes a clip per encounter. May consume an clip per round to lay down supressing fire.',
+            description: 'Dex-Gunnary. 1 Ammo per encounter. -2 at long range. May spend 1 additional ammo for +1.',
             tag: 'handheld',
         },
         {
             name: 'Shotgun',
-            description: '',
+            description: 'Dex-Gunnary. 1 Ammo per encounter. +1 at short range.',
             tag: 'handheld',
         },
         {
@@ -118,17 +136,17 @@ const lancerRuleset: Rules = {
         },
         {
             name: 'Crowbar',
-            description: 'A long piece of metal with a hookey thing at the end.',
+            description: 'Control-Melee. A long piece of metal with a hookey thing at the end.',
             tag: 'handheld',
         },
         {
             name: 'Wrench',
-            description: 'A large adjustable wrench perfect for general shipboard maintenence.',
+            description: 'Control-Melee. A large adjustable wrench perfect for general maintenence.',
             tag: 'handheld',
         },
         {
             name: 'Machete',
-            description: 'A broad cutting implement - as effective for intimidation as it is for agriculture.',
+            description: 'Control-Melee. A broad cutting implement - as effective for intimidation as it is for agriculture.',
             tag: 'handheld',
         },
         {
@@ -161,52 +179,46 @@ const lancerRuleset: Rules = {
         {
             name: 'Explosves',
             stack: 3,
-            description: 'Sticks of plastic explosive with remotely triggered detonation caps. Until the detonation caps are armed, the compound is extremely inert.',
+            description: 'Dex-Athletics. Sticks of plastic explosive with remotely triggered detonation caps. Until the detonation caps are armed, the compound is extremely inert.',
             tag: 'handheld',
         },
         {
             name: 'Chaff grenade',
             stack: 3,
-            description: 'This grenade explodes into a shower of bright magnesium fire and aliumium foil strips. This defeats a wide range of optical and electromagnetic sensors.',
+            description: 'Dex-Athletics. This grenade explodes into a shower of bright magnesium fire and aliumium foil strips. This defeats a wide range of optical and electromagnetic sensors.',
             tag: 'handheld',
         },
         {
             name: 'Grenade',
             stack: 3,
-            description: 'Does what it says in the tin. Explodes.',
+            description: 'Dex-Athletics. Does what it says in the tin. Explodes.',
             tag: 'handheld',
         },
         {
             name: 'Smoke grenade',
             stack: 3,
-            description: 'Emits a thick cloud of white smoke.',
+            description: 'Dex-Athletics. Emits a thick cloud of white smoke.',
             tag: 'handheld',
         },
         {
             name: 'Rocket',
             stack: 3,
-            description: 'Ammunition for the missile launcher. This has no guidance system.',
-            tag: 'handheld',
-        },
-        {
-            name: 'Seeking missile',
-            stack: 3,
-            description: 'Ammunition for the missile launcher. This can adjust its course mid flight, and be used to target distant foes.',
+            description: 'Ammunition for the handheld missile launcher.',
             tag: 'handheld',
         },
         {
             name: 'Missile launcher',
-            description: 'A shoulder mounted weapon for firing a range of missiles.',
+            description: 'Dex-Gunnary. A shoulder mounted weapon for firing a range of missiles.',
             tag: 'handheld',
         },
         {
-            name: 'Laser',
-            description: 'A man portable laser - its blinding orange beam is capable of cutting through doors as easily as humans. Consumes one battery per round.',
+            name: 'Handheld Laser',
+            description: 'Dex-Gunnary. One battery per shot. Powerful. A man portable laser - its blinding orange beam is capable of cutting through doors as easily as humans.',
             tag: 'handheld',
         },
         {
-            name: 'Flame thrower',
-            description: 'This can project a jet of burning liquid fuel some 15 meters. With the addition of plasticiser sachets, any traditional heavy fuel can be used. Consumes one fuel canister per encounter.',
+            name: 'Handheld Flamethrower',
+            description: 'Control-Gunnary.  This can project a jet of burning liquid fuel some 15 meters.',
             tag: 'handheld',
         },
         {
