@@ -5,6 +5,14 @@ const lancerRuleset: Rules = {
 
     name: 'Lancer',
     theme: 'lancers',
+    useAspects: false,
+    useIndexedWounds: true,
+    woundSizeLimit: 1,
+    levelup: {
+        aspects: 0,
+        attributes: 0.5,
+        skills: 2.5,
+    },
     attributes: [
         {
             name: 'Control',
@@ -179,25 +187,25 @@ const lancerRuleset: Rules = {
         {
             name: 'Explosves',
             stack: 3,
-            description: 'Dex-Athletics. Sticks of plastic explosive with remotely triggered detonation caps. Until the detonation caps are armed, the compound is extremely inert.',
+            description: 'Control-Athletics. Sticks of plastic explosive with remotely triggered detonation caps. Until the detonation caps are armed, the compound is extremely inert.',
             tag: 'handheld',
         },
         {
             name: 'Chaff grenade',
             stack: 3,
-            description: 'Dex-Athletics. This grenade explodes into a shower of bright magnesium fire and aliumium foil strips. This defeats a wide range of optical and electromagnetic sensors.',
+            description: 'Control-Athletics. This grenade explodes into a shower of bright magnesium fire and aliumium foil strips. This defeats a wide range of optical and electromagnetic sensors.',
             tag: 'handheld',
         },
         {
             name: 'Grenade',
             stack: 3,
-            description: 'Dex-Athletics. Does what it says in the tin. Explodes.',
+            description: 'Control-Athletics. Does what it says in the tin. Explodes.',
             tag: 'handheld',
         },
         {
             name: 'Smoke grenade',
             stack: 3,
-            description: 'Dex-Athletics. Emits a thick cloud of white smoke.',
+            description: 'Control-Athletics. Emits a thick cloud of white smoke.',
             tag: 'handheld',
         },
         {
@@ -208,7 +216,7 @@ const lancerRuleset: Rules = {
         },
         {
             name: 'Missile launcher',
-            description: 'Dex-Gunnary. A shoulder mounted weapon for firing a range of missiles.',
+            description: 'Dex-Gunnary. Powerful. A shoulder mounted weapon for firing a range of missiles.',
             tag: 'handheld',
         },
         {
@@ -218,7 +226,7 @@ const lancerRuleset: Rules = {
         },
         {
             name: 'Handheld Flamethrower',
-            description: 'Control-Gunnary.  This can project a jet of burning liquid fuel some 15 meters.',
+            description: 'Control-Gunnary. Powerful vs flesh. Short range. This can project a jet of burning liquid fuel some 15 meters.',
             tag: 'handheld',
         },
         {
@@ -245,7 +253,7 @@ const lancerRuleset: Rules = {
         },
         {
             name: 'Injector',
-            description: 'A injector for in-field application of toxins or medicines.',
+            description: 'Dex-Medicine. A injector for in-field application of toxins or medicines.',
             tag: 'handheld',
         },
         {
@@ -257,7 +265,7 @@ const lancerRuleset: Rules = {
         {
             name: 'Cherry',
             stack: 4,
-            description: 'A small vial full of a bright red liquid. This provides a brief burst of power at the expense of organ damage. Highly addictive.',
+            description: 'Causes 1 wound. +3 to next roll. A small vial full of a bright red liquid. Highly addictive.',
             tag: 'handheld',
         },
         {
@@ -267,11 +275,10 @@ const lancerRuleset: Rules = {
             tag: 'handheld',
         },
 
-
         {
             name: 'Scrap',
             stack: 4,
-            description: 'Scrap materials, used for repairs or ',
+            description: 'Scrap materials, used for repairs or trade.',
             tag: 'bulk',
         },
 

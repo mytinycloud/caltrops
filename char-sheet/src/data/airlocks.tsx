@@ -8,6 +8,7 @@ const airlockRuleset: Rules = {
     levelup: {
         skills: 3,
         aspects: 1,
+        attributes: 0,
     },
     currency: [
         {

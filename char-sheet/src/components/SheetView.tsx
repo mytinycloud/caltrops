@@ -47,10 +47,10 @@ function SheetView( { rules, sheet, setSheet, editable=EditMode.Live }: {
             editable={editable}
           />
           <AttributeTable
-            attributes={rules.attributes}
+            rules={rules}
+            level={sheet.info.level}
             scores={sheet.attributes}
             setScores={scores => {setSheet(modifyObject(sheet, 'attributes', scores))}}
-            aspectMax={caltrops.aspectTotalMax(rules, sheet.info.level)}
             editable={editable}
             roll={roll}
             setRoll={setRoll}
@@ -128,6 +128,7 @@ function SheetView( { rules, sheet, setSheet, editable=EditMode.Live }: {
         <RollCreateModal
           roll={roll}
           setRoll={setRoll}
+          useAspects={rules.useAspects}
           attributes={rules.attributes}
           scores={sheet.attributes}
         />

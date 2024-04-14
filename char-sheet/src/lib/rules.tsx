@@ -62,9 +62,12 @@ export interface Rules {
     wounds: Container[],
     currency: Currency[],
     woundSizeLimit: number,
+    useIndexedWounds: boolean,
+    useAspects: boolean,
     levelup: {
         aspects: number,
         skills: number,
+        attributes: number,
     }
 }
 
@@ -108,7 +111,7 @@ export interface RollInfo {
         name: string,
         score: number,
     },
-    aspect?: {
+    attribute?: {
         name: string,
         score: number,
     }
@@ -119,9 +122,12 @@ export const DEFAULT_RULES: Rules = {
     name: 'default',
     theme: 'light',
     woundSizeLimit: 2,
+    useAspects: true,
+    useIndexedWounds: false,
     levelup: {
         aspects: 0.5,
         skills: 3,
+        attributes: 0,
     },
     skills: [
         {

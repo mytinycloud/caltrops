@@ -8,13 +8,14 @@ import ActionModal, {ModalActionInfo} from './ActionModal'
 import { Attribute, RollInfo, Dictionary } from '../lib/rules'
 import PointEntryBox from './PointEntryBox';
 import caltrops from '../lib/caltrops';
-import { modifyObject } from '../lib/util';
+import { modifyObject, chunkArray } from '../lib/util';
 import foundry from '../lib/foundry';
 
 
-function RollCreateModal({attributes, scores, roll, setRoll}: {
+function RollCreateModal({attributes, scores, useAspects, roll, setRoll}: {
     attributes: Attribute[],
     scores: Dictionary<number>,
+    useAspects: boolean,
     roll: RollInfo,
     setRoll(roll: RollInfo): void,
   }): JSX.Element | null {
@@ -83,8 +84,8 @@ function RollCreateModal({attributes, scores, roll, setRoll}: {
       setRoll(modifyObject(roll, 'bonus', bonus))
     }
   
-    function setAspect(name: string, score: number): void {
-      setRoll(modifyObject(roll, 'aspect', {
+    function setAttribute(name: string, score: number): void {
+      setRoll(modifyObject(roll, 'attribute', {
         name: name,
         score: score,
       }))
@@ -109,7 +110,7 @@ function RollCreateModal({attributes, scores, roll, setRoll}: {
       {
         name: `Roll ${caltrops.rollDiceCount(roll)} Dice`,
         type: isFoundryPresent ? undefined : 'primary',
-        disabled: !roll.aspect,
+        disabled: !roll.attribute,
         callback: () => rollDiceLocal(),
         stayOpen: true,
       }
@@ -119,9 +120,16 @@ function RollCreateModal({attributes, scores, roll, setRoll}: {
       actions.push({
         name: "Send to VTT",
         type: 'primary',
-        disabled: !roll.aspect,
+        disabled: !roll.attribute,
         callback: () => rollDiceFoundry(),
       })
+    }
+
+    let attribute_grid = null;
+    if (useAspects) {
+      attribute_grid = attributes.map( attr => attr.aspects )
+    } else {
+      attribute_grid = [...chunkArray(attributes, 2)]
     }
 
     return <ActionModal
@@ -131,20 +139,20 @@ function RollCreateModal({attributes, scores, roll, setRoll}: {
       actions={actions}
     >
       <label className="label">
-          <span className="label-text">Select aspect</span>
+          <span className="label-text">{ useAspects ? "Select aspect" : "Select attribute"}</span>
       </label>
       <div className='flex justify-center'>
         <div className='grid grid-cols-1 gap-2'>
           {
-            attributes.map( attr => 
-              <div className="btn-group" key={attr.name}>
+            attribute_grid.map( attr_pairs => 
+              <div className="btn-group" key={attr_pairs[0].name}>
               {
-                attr.aspects.map( a => {
-                  let selected = roll.aspect?.name === a.name
+                attr_pairs.map( a => {
+                  let selected = roll.attribute?.name === a.name
                   return <button
                     key={a.name}
                     className={ `btn btn-sm w-24 ${ selected ? 'btn-active' : '' }`}
-                    onClick={() => {setAspect(a.name, scores[a.name] ?? 0)}}
+                    onClick={() => {setAttribute(a.name, scores[a.name] ?? 0)}}
                   >{a.name}</button>
                   }
                 )

@@ -15,8 +15,8 @@ const SKILL_COST = [
 const SKILL_COST_ONGOING = 3
 
 const ATTRIBUTE_MIN = 1
-const ATTRIBUTE_MAX = 3
-const ATTRIBUTE_TOTAL_MAX = 8
+const ATTRIBUTE_STARTING_MAX = 3
+const ATTRIBUTE_STARTING_TOTAL = 8
 const ASPECT_MAX = 3
 
 const POWER_DICE_DEFAULT = 2
@@ -43,7 +43,7 @@ function skillCostTotal(scores: Dictionary<number>): number {
 }
 
 function skillCostMax(rules: Rules, level: number): number {
-    return level * rules.levelup.skills;
+    return Math.ceil(level * rules.levelup.skills);
 }
 
 function skillIsRollable(skill: Skill, scores: Dictionary<number>): boolean {
@@ -75,6 +75,14 @@ function aspectTotal(attributes: Attribute[], scores: Dictionary<number>): numbe
 
 function aspectMax(attribute: number): number {
     return attribute + ASPECT_MAX;
+}
+
+function attributeMax(rules: Rules, level: number): number {
+    return ATTRIBUTE_STARTING_MAX + Math.floor(level * rules.levelup.attributes);
+}
+
+function attributeTotalMax(rules: Rules, level: number): number {
+    return ATTRIBUTE_STARTING_TOTAL + Math.floor(level * rules.levelup.attributes);
 }
 
 /*
@@ -228,7 +236,7 @@ function equipmentFilter(equipment: Equipment[], tags?: string[]): Equipment[] {
 }
 
 function rollDiceCount(info: RollInfo): number {
-    return (info.skill?.score ?? 0) + (info.aspect?.score ?? 0) + (info.bonus ?? 0);
+    return (info.skill?.score ?? 0) + (info.attribute?.score ?? 0) + (info.bonus ?? 0);
 }
 
 function rollD4(): number {
@@ -245,7 +253,7 @@ function rollDice(info: RollInfo): number[] {
 }
 
 function rollDescribe(info: RollInfo): string {
-    let text = `${info.skill?.name}: ${info.aspect?.name}`
+    let text = `${info.skill?.name}: ${info.attribute?.name}`
     if (info.bonus) {
         if (info.bonus > 0) {
             text = `${text} +${info.bonus}`
@@ -264,8 +272,8 @@ const caltrops = {
     skillCostMax: skillCostMax,
     skillIsRollable: skillIsRollable,
     attributeMin: ATTRIBUTE_MIN,
-    attributeMax: ATTRIBUTE_MAX,
-    attributeTotalMax: ATTRIBUTE_TOTAL_MAX,
+    attributeMax: attributeMax,
+    attributeTotalMax: attributeTotalMax,
     aspectMax: aspectMax,
     attributeTotal: attributeTotal,
     attributeModify: attributeModify,

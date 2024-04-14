@@ -45,6 +45,12 @@ export function loadObject(name: string): any | null {
     return null;
 }
 
+export function * chunkArray<T>(src: T[], chunk_size: number): Generator<T[]> {
+    for (let i = 0; i < src.length; i += chunk_size) {
+      yield src.slice(i, i + chunk_size)
+    }
+}
+
 export function copyToClipboard(text: string): void {
     navigator.clipboard.writeText(text)
 }
