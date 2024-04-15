@@ -50,7 +50,7 @@ function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, useIndexed
   }
 
   function removeWound(index: number) {
-    if (index == wounds.length - 1) {
+    if (index === wounds.length - 1) {
       // Last wound. Just take everything before it.
       setWounds(wounds.slice(0, index))
     } else {
