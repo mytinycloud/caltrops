@@ -79,7 +79,7 @@ export interface SheetEquipment {
 }
 
 export interface SheetWound {
-    name: string,
+    name?: string,
     size: number,
     locked: boolean,
 }

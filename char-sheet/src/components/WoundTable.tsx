@@ -20,26 +20,54 @@ import { EditMode } from '../lib/util'
  *    in: woundMaxSize <- sheet.wounds.
  *    out: setWounds -> sheet.wounds
  */
-function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, editable=EditMode.Live}: {
+function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, useIndexedWounds=false, editable=EditMode.Live}: {
     wounds: SheetWound[],
     setWounds(wounds: SheetWound[]): void,
     container: Container,
     woundSizeLimit?: number,
-    editable?: EditMode
+    editable?: EditMode,
+    useIndexedWounds: boolean,
   }): JSX.Element | null {
 
   const [newWoundOpen, setNewWoundOpen] = useState(false)
   const [selected, setSelected] = useState(-1)
 
+  function findFreeWoundSlot(wounds: SheetWound[]): number {
+    for (let i = 0; i < wounds.length; i++) {
+      if (!wounds[i].name) {
+        return i;
+      }
+    }
+    return wounds.length;
+  }
+
+  const freeSlot = findFreeWoundSlot(wounds)
+  
   function addWound(wound: SheetWound) {
-    let new_wounds = [...wounds, wound]
+    let new_wounds = [...wounds]
+    new_wounds[freeSlot] = wound
     setWounds(new_wounds)
   }
 
   function removeWound(index: number) {
-    let new_wounds = [...wounds]
-    new_wounds.splice(index, 1)
-    setWounds(new_wounds)
+    if (index == wounds.length - 1) {
+      // Last wound. Just take everything before it.
+      setWounds(wounds.slice(0, index))
+    } else {
+      // Not the last wound.
+      if (useIndexedWounds) {
+        // Replace with an unnamed wound.
+        editWound(index, {
+          size: wounds[index].size,
+          locked: false,
+        })
+      } else {
+        // Just delete the wound.
+        let new_wounds = [...wounds]
+        new_wounds.splice(index, 1)
+        setWounds(new_wounds)
+      }
+    }
   }
 
   function editWound(index: number, wound: SheetWound) {
