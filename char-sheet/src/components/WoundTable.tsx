@@ -50,23 +50,24 @@ function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, useIndexed
   }
 
   function removeWound(index: number) {
-    if (index === wounds.length - 1) {
-      // Last wound. Just take everything before it.
-      setWounds(wounds.slice(0, index))
-    } else {
-      // Not the last wound.
-      if (useIndexedWounds) {
+    if (useIndexedWounds) {
+      if (index === wounds.length - 1) {
+        // This is the last wound. We may need to trim the list.
+        let remaining_wounds = wounds.length - 1;
+        while (remaining_wounds > 0 && !wounds[remaining_wounds-1].name) { remaining_wounds-- }
+        setWounds(wounds.slice(0, remaining_wounds))
+      } else {
         // Replace with an unnamed wound.
         editWound(index, {
           size: wounds[index].size,
           locked: false,
         })
-      } else {
-        // Just delete the wound.
-        let new_wounds = [...wounds]
-        new_wounds.splice(index, 1)
-        setWounds(new_wounds)
       }
+    } else {
+      // Just delete the wound.
+      let new_wounds = [...wounds]
+      new_wounds.splice(index, 1)
+      setWounds(new_wounds)
     }
   }
 
