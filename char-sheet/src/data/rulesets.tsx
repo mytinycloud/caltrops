@@ -3,6 +3,7 @@ import bludgeonRuleset from "./bludgeon";
 import felfuturesRuleset from "./felfutures";
 import turnipRuleset from "./turnip28";
 import lancerRuleset from "./lancer"
+import vermisRuleset from "./vermis";
 
 // List additional rules here
 const RULESETS = [
@@ -11,6 +12,7 @@ const RULESETS = [
     airlockRuleset,
     turnipRuleset,
     felfuturesRuleset,
+    vermisRuleset,
 ];
 
 RULESETS.forEach(r => {
