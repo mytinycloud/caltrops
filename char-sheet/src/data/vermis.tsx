@@ -96,7 +96,8 @@ const vermisRuleset: Rules = {
         },
         {
             name: "Wicker basket",
-            description: "Used to carry the ingredients she gather for her meals."
+            description: "Used to carry the ingredients she gather for her meals.",
+            stack: 3,
         },
         {
             name: "Broken badge",
@@ -112,7 +113,8 @@ const vermisRuleset: Rules = {
         },
         {
             name: "Snake fang",
-            description: "The angels pierce themselves with the fang to release a poison the makes them go beserk."
+            description: "The angels pierce themselves with the fang to release a poison the makes them go beserk.",
+            stack: 3,
         },
         {
             name: "Devotion symbol",
@@ -120,7 +122,8 @@ const vermisRuleset: Rules = {
         },
         {
             name: "Bone fermenter",
-            description: "A potion that makes ones bones extremely fragile."
+            description: "A potion that makes ones bones extremely fragile.",
+            stack: 3,
         },
         {
             name: "Pricklehelm",
@@ -133,11 +136,13 @@ const vermisRuleset: Rules = {
         },
         {
             name: "Scented oil",
-            description: "Fuel for the miners lamp, slightly alleviates the smell of death."
+            description: "Fuel for the miners lamp, slightly alleviates the smell of death.",
+            stack: 3,
         },
         {
             name: "Glowing spores",
-            description: "Used in the mines to mark forbidden paths."
+            description: "Used in the mines to mark forbidden paths.",
+            stack: 3,
         },
         {
             name: "Beast eye",
@@ -161,7 +166,8 @@ const vermisRuleset: Rules = {
         },
         {
             name: "Incense bag",
-            description: "Contains incense used in prayers and purifying rituals."
+            description: "Contains incense used in prayers and purifying rituals.",
+            stack: 3,
         },
         {
             name: "Whistling death",
@@ -224,27 +230,35 @@ const vermisRuleset: Rules = {
         },
         {
             name: "Brittle bone",
-            stack: 4,
+            stack: 3,
         },
         {
             name: "Red vial",
             description: "The red fluid within tastes metallic, but is said to restore ones strength.",
-            stack: 4,
+            stack: 3,
         },
         {
             name: "Bitter herb",
             description: "These herbs are poisonous unless prepared correctly.",
-            stack: 4,
+            stack: 3,
         },
         {
             name: "Brittle bone",
-            stack: 4,
+            stack: 3,
         },
         {
             name: "Morsel",
-            stack: 4,
+            stack: 3,
         },
-        
+        {
+            name: "Pitch torch",
+            description: "Burns to release black smoke acompanied by meager light.",
+            stack: 3,
+        },
+        {
+            name: "Tattered cloth",
+            stack: 3,
+        },
         ...DEFAULT_RULES.equipment,
     ],
     containers: [
