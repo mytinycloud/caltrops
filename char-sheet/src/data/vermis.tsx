@@ -72,7 +72,7 @@ const vermisRuleset: Rules = {
         },
         {
             name: "Stone bone",
-            description: "Shaped like a vertebra, this stopne is inserted inside their backs as a sign of devotion."
+            description: "Shaped like a vertebra, this stone is inserted inside their backs as a sign of devotion."
         },
         {
             name: "Beloved necklace",
@@ -240,10 +240,6 @@ const vermisRuleset: Rules = {
         {
             name: "Bitter herb",
             description: "These herbs are poisonous unless prepared correctly.",
-            stack: 3,
-        },
-        {
-            name: "Brittle bone",
             stack: 3,
         },
         {
