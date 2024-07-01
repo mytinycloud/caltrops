@@ -255,6 +255,10 @@ const vermisRuleset: Rules = {
             name: "Tattered cloth",
             stack: 3,
         },
+        {
+            name: "Unbreakable Path",
+            description: "Its blade shines in various colors like oil, feels oddly light for its size."
+        },
         ...DEFAULT_RULES.equipment,
     ],
     containers: [
