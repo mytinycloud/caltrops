@@ -476,12 +476,12 @@ const lancerRuleset: Rules = {
         {
             name: "Personal",
             size: 5,
-            tags: [ "handheld" ]
+            tags: [ "handheld", "custom" ]
         },
         {
             name: "Lancer",
             size: 5,
-            tags: [ "lancer" ]
+            tags: [ "lancer", "custom" ]
         },
         {
             name: "Stowage",

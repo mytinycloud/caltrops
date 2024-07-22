@@ -146,6 +146,7 @@ export const DEFAULT_RULES: Rules = {
             name: 'Custom item',
             stack: 10,
             custom: true,
+            tag: 'custom',
         },
     ],
     containers: [
