@@ -5,28 +5,22 @@ import { useState } from 'react'
 import PointEntryBox from './PointEntryBox'
 import IconButton from './IconButton'
 import EquipmentSelectModal from './EquipmentSelectModal'
-import TextEntryBox from './TextEntryBox'
 
 // Internal imports
-import { Equipment, Container, SheetEquipment, Sheet } from '../lib/rules'
+import { Equipment, Container, SheetEquipment } from '../lib/rules'
 import caltrops from '../lib/caltrops'
-import { EditMode, modifyObject } from '../lib/util'
+import { EditMode } from '../lib/util'
+import ObjectService from '../lib/objectservice'
 
-/* 
- * Equipment table.
- *    in: equipment <- rules.equipment
- *    in: container <- rules.containers[n]
- *    in: items <- sheet.equipment[container.name]
- *    out: setItems -> sheet.equipment[container.name]
- */
-function EquipmentTable({equipment, container, items, setItems, editable=EditMode.Live}: {
+
+function EquipmentTable({equipment, container, service, editable=EditMode.Live}: {
     equipment: Equipment[],
     container: Container,
-    items: SheetEquipment[],
-    setItems(items: SheetEquipment[]): void,
+    service: ObjectService,
     editable?: EditMode
   }): JSX.Element {
-
+  
+  const items: SheetEquipment[] = service.subscribe([])
   const freeCapacity = container.size ? (container.size - items.length) : 1
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -41,19 +35,7 @@ function EquipmentTable({equipment, container, items, setItems, editable=EditMod
       item.count = 1
       item.stack = equipment.stack
     }
-    setItems([...items, item])
-  }
-
-  function editItem(index: number, item: SheetEquipment) {
-    let new_items = [...items]
-    new_items[index] = item
-    setItems(new_items)
-  }
-
-  function removeItem(index: number) {
-    let new_items = [...items]
-    new_items.splice(index, 1)
-    setItems(new_items)
+    service.append_index(item)
   }
 
   function lookupDescription(name: string): string {
@@ -83,7 +65,7 @@ function EquipmentTable({equipment, container, items, setItems, editable=EditMod
               <td>
                 <PointEntryBox
                   value={item.count ?? 0}
-                  setValue={ v => { editItem(i, modifyObject(item, 'count', v)) } }
+                  setValue={ v => { service.set_index(i, {...item, count: v}) } }
                   max={item.stack ?? 1}
                   visible={(item.stack ?? 1) > 1}
                   editable={editable >= EditMode.Live}
@@ -92,7 +74,7 @@ function EquipmentTable({equipment, container, items, setItems, editable=EditMod
               <td>
                 <IconButton
                   icon='cross'
-                  onClick={() => { removeItem(i) }}
+                  onClick={() => { service.remove_index(i) }}
                   btnStyle='btn-outline btn-error'
                   enabled={editable >= EditMode.Live}
                 />

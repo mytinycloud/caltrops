@@ -2,33 +2,15 @@
 import IconButton from './IconButton'
 
 // Internal imports
-import { EditMode, modifyObject } from '../lib/util'
+import { EditMode } from '../lib/util'
+import ObjectService from '../lib/objectservice'
 
-/* 
- * Power table.
- *   in: notes <- sheet.notes
- *   out: setNotes -> sheet.notes
- */
-
-function NotesTable({notes, setNotes, editable=EditMode.Live}: {
-    notes: string[],
-    setNotes(notes: string[]): void,
+function NotesTable({service, editable=EditMode.Live}: {
+    service: ObjectService,
     editable?: EditMode,
   }): JSX.Element {
 
-  function createNote() {
-    setNotes([...notes, ""])
-  }
-
-  function editNote(index: number, content: string) {
-    let new_notes = [...notes]
-    new_notes[index] = content
-    setNotes(new_notes)
-  }
-
-  function deleteNote(index: number) {
-    setNotes(notes.filter( (_, i) => i !== index ))
-  }
+  const notes: string[] = service.subscribe()
 
   return (
     <div>
@@ -48,7 +30,7 @@ function NotesTable({notes, setNotes, editable=EditMode.Live}: {
                   className='textarea textarea-bordered leading-tight w-full scrollbar scrollbar-neutral p-2'
                   placeholder='Enter notes here'
                   value={note}
-                  onChange={ evt => editNote(i, evt.target.value) }
+                  onChange={ evt => service.set_index(i, evt.target.value) }
                   disabled={!(editable >= EditMode.Live)}
                 />
               </td>
@@ -56,7 +38,7 @@ function NotesTable({notes, setNotes, editable=EditMode.Live}: {
                 <IconButton
                   icon="cross"
                   btnStyle="btn-outline btn-error"
-                  onClick={() => deleteNote(i)}
+                  onClick={() => service.remove_index(i)}
                   enabled={editable >= EditMode.Live}
                 />
               </td>
@@ -70,7 +52,7 @@ function NotesTable({notes, setNotes, editable=EditMode.Live}: {
               <div className='flex justify-center'>
               <IconButton
                 icon='plus'
-                onClick={() => {createNote()}}
+                onClick={() => {service.append_index("")}}
                 enabled={editable >= EditMode.Live}
               />
               </div>

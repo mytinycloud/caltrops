@@ -14,6 +14,7 @@ import { Sheet, Rules } from '../lib/rules'
 import LoadingSpinner from '../components/LoadingSpinner'
 import server from '../lib/server'
 import { alertSuccess, alertError, alertWarning } from '../lib/alerts'
+import ObjectService from '../lib/objectservice'
 
 const AUTO_SAVE_TIMEOUT = 5.0
 let SAVE_TIMEOUT_ID: any = -1
@@ -156,8 +157,7 @@ function MainPage(): JSX.Element {
           sheet ?
           <SheetView
             rules={rules}
-            sheet={sheet}
-            setSheet={editSheet}
+            service={new ObjectService(sheet, editSheet)}
             editable={editable}
           /> :
           <LoadingSpinner size={100}/>

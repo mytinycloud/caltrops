@@ -5,26 +5,21 @@ import PointEntryBox from './PointEntryBox'
 import { modifyObject, EditMode } from '../lib/util'
 import caltrops from '../lib/caltrops'
 import { Skill, Dictionary, RollInfo } from '../lib/rules'
+import ObjectService from '../lib/objectservice'
 
-/* 
- * Skill table.
- *    in: skills <- rules.skills
- *    in: scores <- sheet.skills
- *    out: setScores -> sheet.skills
- *    in: level <- sheet.level
- */
 
-function SkillTable({skills, scores, setScores, maxCostTotal, editable = EditMode.Live, roll, setRoll}: {
+function SkillTable({skills, service, maxCostTotal, editable = EditMode.Live, roll, setRoll}: {
     skills: Skill[],
-    scores: Dictionary<number>,
-    setScores(scores: Dictionary<number>): void,
+    service: ObjectService,
     maxCostTotal: number,
     editable?: EditMode,
     roll: RollInfo,
     setRoll(info: RollInfo): void,
   }): JSX.Element {
-  let totalCost = caltrops.skillCostTotal(scores)
-  let sparePoints = maxCostTotal - totalCost;
+
+  const scores: Dictionary<number> = service.subscribe()
+  const totalCost = caltrops.skillCostTotal(scores)
+  const sparePoints = maxCostTotal - totalCost;
 
   function startRoll(skill: string): void {
     setRoll( modifyObject( roll, "skill", {
@@ -58,7 +53,7 @@ function SkillTable({skills, scores, setScores, maxCostTotal, editable = EditMod
                 <td className='text-center'>
                   <PointEntryBox
                     value={value}
-                    setValue={(v) => {setScores(modifyObject(scores, s.name, v))}}
+                    setValue={(v) => { service.set_key(s.name, v) }}
                     editable={editable >= EditMode.Full}
                     isCapped={caltrops.skillIncrementCost(value) > sparePoints}
                     encourageUp={true}

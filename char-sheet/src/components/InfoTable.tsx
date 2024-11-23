@@ -3,19 +3,18 @@ import PointEntryBox from './PointEntryBox'
 import TextEntryBox from './TextEntryBox'
 
 // Internal imports
-import { modifyObject, EditMode } from '../lib/util'
+import { EditMode } from '../lib/util'
 import { SheetInfo } from '../lib/rules'
+import ObjectService from '../lib/objectservice'
 
-/* 
- * Info table.
- *    in: info <- sheet.info
- *    out: setInfo -> sheet.info
- */
-function InfoTable({info, setInfo, editable=EditMode.Live}: {
-    info: SheetInfo,
-    setInfo(info: SheetInfo): void,
+
+
+function InfoTable({service, editable=EditMode.Live}: {
+    service: ObjectService
     editable?:EditMode
   }): JSX.Element {
+
+  const info: SheetInfo = service.subscribe()
 
   return (
     <div>
@@ -31,7 +30,7 @@ function InfoTable({info, setInfo, editable=EditMode.Live}: {
             <td>Name</td>
             <td className='py-0'><TextEntryBox
               value={info.name}
-              setValue={v => { setInfo(modifyObject(info, 'name', v)) }}
+              setValue={v => { service.set_key('name', v) }}
               editable={editable >= EditMode.Full}
               placeholder='enter name'
               />
@@ -41,7 +40,7 @@ function InfoTable({info, setInfo, editable=EditMode.Live}: {
             <td>Level</td>
             <td><PointEntryBox
               value={info.level}
-              setValue={v => { setInfo(modifyObject(info, 'level', v)) }}
+              setValue={v => { service.set_key('level', v) }}
               editable={editable >= EditMode.Full}
             /></td>
           </tr>
@@ -49,7 +48,7 @@ function InfoTable({info, setInfo, editable=EditMode.Live}: {
             <td>Background</td>
             <td className='py-0'><TextEntryBox
               value={info.background}
-              setValue={v => { setInfo(modifyObject(info, 'background', v)) }}
+              setValue={v => { service.set_key('background', v) }}
               editable={editable >= EditMode.Full}
               placeholder='enter background'
               />

@@ -3,21 +3,22 @@ import PointEntryBox from './PointEntryBox'
 
 // Internal imports
 import caltrops from '../lib/caltrops'
+import ObjectService from '../lib/objectservice'
 import { modifyObject, EditMode } from '../lib/util'
-import { Attribute, Dictionary, RollInfo, Rules } from '../lib/rules'
+import { Dictionary, RollInfo, Rules } from '../lib/rules'
 
 
 
-function AspectTable({rules, level, scores, setScores, editable, roll, setRoll}: {
+function AspectTable({rules, level, service, editable, roll, setRoll}: {
     rules: Rules,
     level: number,
-    scores: Dictionary<number>,
-    setScores(scores: Dictionary<number>): void,
+    service: ObjectService,
     editable: EditMode,
     roll: RollInfo,
     setRoll(roll: RollInfo): void,
   }): JSX.Element {
 
+  const scores: Dictionary<number> = service.subscribe()
   const attributes = rules.attributes
   // Total from the sheets
   const attributeTotal = caltrops.attributeTotal(attributes, scores)
@@ -60,7 +61,7 @@ function AspectTable({rules, level, scores, setScores, editable, roll, setRoll}:
                   <div className='text-center'>{attribute.name}</div>
                   <PointEntryBox
                     value={base}
-                    setValue={v => { setScores(caltrops.attributeModify(scores, attribute, v)) }}
+                    setValue={v => { service.publish(caltrops.attributeModify(scores, attribute, v)) }}
                     editable={editable >= EditMode.Full}
                     min={caltrops.attributeMin}
                     max={attributeMax}
@@ -85,7 +86,7 @@ function AspectTable({rules, level, scores, setScores, editable, roll, setRoll}:
                         <td className={`w-24 ${bg}`}>{aspect.name}</td>
                         <td className={bg}><PointEntryBox
                           value={scores[aspect.name] ?? 0}
-                          setValue={v => setScores(modifyObject(scores, aspect.name, v))}
+                          setValue={v => service.set_key(aspect.name, v)}
                           editable={editable >= EditMode.Full}
                           min={base}
                           max={caltrops.aspectMax(base)}
@@ -113,91 +114,86 @@ function AspectTable({rules, level, scores, setScores, editable, roll, setRoll}:
   )
 }
 
-function AttributeOnlyTable({rules, level, scores, setScores, editable, roll, setRoll}: {
+
+function AttributeOnlyTable({rules, level, service, editable, roll, setRoll}: {
   rules: Rules,
   level: number,
-  scores: Dictionary<number>,
-  setScores(scores: Dictionary<number>): void,
+  service: ObjectService,
   editable: EditMode,
   roll: RollInfo,
   setRoll(roll: RollInfo): void,
 }): JSX.Element {
 
-const attributes = rules.attributes
-// Total from the sheets
-const attributeTotal = caltrops.attributeTotal(attributes, scores)
-// Rules defined limits
-const attributeTotalMax = caltrops.attributeTotalMax(rules, level)
-const attributeMax = caltrops.attributeMax(rules, level)
+  const scores: Dictionary<number> = service.subscribe()
+  const attributes = rules.attributes
+  // Total from the sheets
+  const attributeTotal = caltrops.attributeTotal(attributes, scores)
+  // Rules defined limits
+  const attributeTotalMax = caltrops.attributeTotalMax(rules, level)
+  const attributeMax = caltrops.attributeMax(rules, level)
 
-function selectAspect(aspect: string) {
-  setRoll(modifyObject(roll, "attribute", {
-    name: aspect,
-    score: scores[aspect] ?? 0
-  }))
+
+  function selectAspect(aspect: string) {
+    setRoll(modifyObject(roll, "attribute", {
+      name: aspect,
+      score: scores[aspect] ?? 0
+    }))
+  }
+
+  function clearAspect() {
+    setRoll(modifyObject(roll, "attribute", null))
+  }
+
+  return (
+    <div>
+      <table className="table table-compact">
+        <thead>
+          <tr>
+            <th>Attributes</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        {
+          attributes.map( attribute => {
+            let base = scores[attribute.name] ?? 0
+            const selected = attribute.name === roll.attribute?.name
+            const bg = selected ? "bg-base-200" : ""
+            return <tr className='hover cursor-pointer'
+              onClick={() => selected ? clearAspect() : selectAspect(attribute.name)}
+              key={attribute.name}
+              >
+              <td className={bg}>{attribute.name}</td>
+              <td className={bg}>
+                <PointEntryBox
+                    value={base}
+                    setValue={v => { service.publish(caltrops.attributeModify(scores, attribute, v)) }}
+                    editable={editable >= EditMode.Full}
+                    min={caltrops.attributeMin}
+                    max={attributeMax}
+                    isCapped={attributeTotal >= attributeTotalMax}
+                    encourageUp={true}
+                  />
+              </td>
+              </tr>
+            })
+        }
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>ATTRIBUTE COST</td>
+            <td className='text-center'>{attributeTotal} / {attributeTotalMax}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  )
 }
 
-function clearAspect() {
-  setRoll(modifyObject(roll, "attribute", null))
-}
-
-return (
-  <div>
-    <table className="table table-compact">
-      <thead>
-        <tr>
-          <th>Attributes</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-      {
-        attributes.map( attribute => {
-          let base = scores[attribute.name] ?? 0
-          const selected = attribute.name === roll.attribute?.name
-          const bg = selected ? "bg-base-200" : ""
-          return <tr className='hover cursor-pointer'
-            onClick={() => selected ? clearAspect() : selectAspect(attribute.name)}
-            key={attribute.name}
-            >
-            <td className={bg}>{attribute.name}</td>
-            <td className={bg}>
-              <PointEntryBox
-                  value={base}
-                  setValue={v => { setScores(caltrops.attributeModify(scores, attribute, v)) }}
-                  editable={editable >= EditMode.Full}
-                  min={caltrops.attributeMin}
-                  max={attributeMax}
-                  isCapped={attributeTotal >= attributeTotalMax}
-                  encourageUp={true}
-                />
-            </td>
-            </tr>
-          })
-      }
-      </tbody>
-      <tfoot>
-        <tr>
-          <td>ATTRIBUTE COST</td>
-          <td className='text-center'>{attributeTotal} / {attributeTotalMax}</td>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
-)
-}
-
-/* 
- * Aspect table.
- *    in: attriutes <- rules.attributes
- *    in: scores <- sheet.attributes
- *    out: setScores -> sheet.attributes
- */
-function AttributeTable({rules, level, scores, setScores, editable=EditMode.Live, roll, setRoll}: {
+function AttributeTable({rules, level, service, editable=EditMode.Live, roll, setRoll}: {
     rules: Rules,
     level: number,
-    scores: Dictionary<number>,
-    setScores(scores: Dictionary<number>): void,
+    service: ObjectService,
     editable?: EditMode,
     roll: RollInfo,
     setRoll(roll: RollInfo): void,
@@ -207,8 +203,7 @@ function AttributeTable({rules, level, scores, setScores, editable=EditMode.Live
       return AspectTable( {
         rules: rules,
         level: level,
-        scores: scores,
-        setScores: setScores,
+        service: service,
         editable: editable,
         roll: roll,
         setRoll: setRoll,
@@ -217,8 +212,7 @@ function AttributeTable({rules, level, scores, setScores, editable=EditMode.Live
       return AttributeOnlyTable( {
         rules: rules,
         level: level,
-        scores: scores,
-        setScores: setScores,
+        service: service,
         editable: editable,
         roll: roll,
         setRoll: setRoll,

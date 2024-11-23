@@ -11,18 +11,11 @@ import { ImHeartBroken, ImHeart } from 'react-icons/im'
 import caltrops from '../lib/caltrops'
 import { SheetWound, Container } from '../lib/rules'
 import { EditMode } from '../lib/util'
+import ObjectService from '../lib/objectservice'
 
 
-/* 
- * Equipment table.
- *    in: slots <- rules.wounds
- *    in: woundSlots <- sheet.wounds.count
- *    in: woundMaxSize <- sheet.wounds.
- *    out: setWounds -> sheet.wounds
- */
-function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, useIndexedWounds=false, editable=EditMode.Live}: {
-    wounds: SheetWound[],
-    setWounds(wounds: SheetWound[]): void,
+function WoundTable( {service, container, woundSizeLimit=2, useIndexedWounds=false, editable=EditMode.Live}: {
+    service: ObjectService,
     container: Container,
     woundSizeLimit?: number,
     editable?: EditMode,
@@ -31,23 +24,7 @@ function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, useIndexed
 
   const [newWoundOpen, setNewWoundOpen] = useState(false)
   const [selected, setSelected] = useState(-1)
-
-  function findFreeWoundSlot(wounds: SheetWound[]): number {
-    for (let i = 0; i < wounds.length; i++) {
-      if (!wounds[i].name) {
-        return i;
-      }
-    }
-    return wounds.length;
-  }
-
-  const freeSlot = findFreeWoundSlot(wounds)
-  
-  function addWound(wound: SheetWound) {
-    let new_wounds = [...wounds]
-    new_wounds[freeSlot] = wound
-    setWounds(new_wounds)
-  }
+  const wounds: SheetWound[] = service.subscribe([])
 
   function removeWound(index: number) {
     if (useIndexedWounds) {
@@ -55,26 +32,17 @@ function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, useIndexed
         // This is the last wound. We may need to trim the list.
         let remaining_wounds = wounds.length - 1;
         while (remaining_wounds > 0 && !wounds[remaining_wounds-1].name) { remaining_wounds-- }
-        setWounds(wounds.slice(0, remaining_wounds))
+        service.publish(wounds.slice(0, remaining_wounds))
       } else {
         // Replace with an unnamed wound.
-        editWound(index, {
+        service.set_index(index, {
           size: wounds[index].size,
           locked: false,
         })
       }
     } else {
-      // Just delete the wound.
-      let new_wounds = [...wounds]
-      new_wounds.splice(index, 1)
-      setWounds(new_wounds)
+      service.remove_index(index)
     }
-  }
-
-  function editWound(index: number, wound: SheetWound) {
-    let new_wounds = [...wounds]
-    new_wounds[index] = wound
-    setWounds(new_wounds)
   }
 
   function treatWound(success: boolean) {
@@ -84,7 +52,7 @@ function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, useIndexed
       removeWound(index)
     }
     else{
-      editWound(index, wound)
+      service.set_index(index, wound)
     }
   }
 
@@ -155,7 +123,7 @@ function WoundTable( {wounds, setWounds, container, woundSizeLimit=2, useIndexed
       <NewWoundModal
         open={newWoundOpen}
         close={() => setNewWoundOpen(false)}
-        addWound={addWound}
+        addWound={wound => service.append_index(wound)}
         maxSize={woundSizeLimit}
       />
 
