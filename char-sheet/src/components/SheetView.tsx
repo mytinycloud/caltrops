@@ -105,7 +105,6 @@ function SheetView( { rules, sheetService, editable=EditMode.Live }: {
               container={w}
               woundSizeLimit={rules.woundSizeLimit}
               editable={editable}
-              useIndexedWounds={rules.useIndexedWounds}
             />
           )})()}
         </section>

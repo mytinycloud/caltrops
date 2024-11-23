@@ -14,42 +14,22 @@ import { EditMode } from '../lib/util'
 import ObjectService from '../lib/objectservice'
 
 
-function WoundTable( {service, container, woundSizeLimit=2, useIndexedWounds=false, editable=EditMode.Live}: {
+function WoundTable( {service, container, woundSizeLimit=2, editable=EditMode.Live}: {
     service: ObjectService,
     container: Container,
     woundSizeLimit?: number,
     editable?: EditMode,
-    useIndexedWounds: boolean,
   }): JSX.Element | null {
 
   const [newWoundOpen, setNewWoundOpen] = useState(false)
   const [selected, setSelected] = useState(-1)
   const wounds: SheetWound[] = service.subscribe([])
 
-  function removeWound(index: number) {
-    if (useIndexedWounds) {
-      if (index === wounds.length - 1) {
-        // This is the last wound. We may need to trim the list.
-        let remaining_wounds = wounds.length - 1;
-        while (remaining_wounds > 0 && !wounds[remaining_wounds-1].name) { remaining_wounds-- }
-        service.publish(wounds.slice(0, remaining_wounds))
-      } else {
-        // Replace with an unnamed wound.
-        service.set_index(index, {
-          size: wounds[index].size,
-          locked: false,
-        })
-      }
-    } else {
-      service.remove_index(index)
-    }
-  }
-
   function treatWound(success: boolean) {
     let index = selected
     let wound = caltrops.woundTreat(wounds[index], success)
     if (wound == null) {
-      removeWound(index)
+      service.remove_index(index)
     }
     else{
       service.set_index(index, wound)
@@ -91,7 +71,7 @@ function WoundTable( {service, container, woundSizeLimit=2, useIndexedWounds=fal
                   editable >= EditMode.Full ? 
                 <IconButton
                   icon='cross'
-                  onClick={() => removeWound(n)}
+                  onClick={() => service.remove_index(n)}
                   btnStyle='btn-outline btn-error'
                 /> :
                 <IconButton

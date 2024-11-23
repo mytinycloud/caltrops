@@ -6,7 +6,6 @@ const lancerRuleset: Rules = {
     name: 'Lancer',
     theme: 'lancers',
     useAspects: false,
-    useIndexedWounds: false,
     levelup: {
         aspects: 0,
         attributes: 0.5,
