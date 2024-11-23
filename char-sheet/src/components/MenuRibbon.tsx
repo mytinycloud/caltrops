@@ -11,7 +11,7 @@ import { BsPerson, BsShare, BsCloudArrowDown,
 import { ImCheckmark, ImPencil } from 'react-icons/im';
 
 // Internal imports
-import { downloadObject, copyToClipboard, EditMode, modifyObject } from '../lib/util'
+import { downloadObject, copyToClipboard, EditMode } from '../lib/util'
 import { Sheet } from '../lib/rules'
 import server, { ServerItem } from '../lib/server'
 import UserLoginModal from './UserLoginModal';

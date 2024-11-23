@@ -10,7 +10,6 @@ import ActionModal from './ActionModal'
 
 // Interal imports
 import { Equipment, SheetEquipment } from '../lib/rules'
-import { modifyObject } from '../lib/util'
 
 function EquipmentSelectModal({equipment, addEquipment, open, close, enabled=true}: {
     equipment: Equipment[],
@@ -74,7 +73,7 @@ function EquipmentSelectModal({equipment, addEquipment, open, close, enabled=tru
                   <td><IconButton
                     icon='plus'
                     enabled={enabled}
-                    onClick={() => { item.custom ? setCustomEquipment(modifyObject(item, "name", "")) : addEquipment(item) } }
+                    onClick={() => { item.custom ? setCustomEquipment( {...item, name: ""} ) : addEquipment(item) } }
                   /></td>
                   <td>{item.name}</td>
                   <td>{item.stack ?? ""}</td>
@@ -105,7 +104,7 @@ function EquipmentSelectModal({equipment, addEquipment, open, close, enabled=tru
           </label>
           <TextEntryBox
             value={customEquipment?.name ?? ""}
-            setValue={ v => setCustomEquipment(modifyObject(customEquipment, "name", v)) }
+            setValue={ v => setCustomEquipment( {...customEquipment, name: v} ) }
             limit={32}
             inputSize='input-md'
             placeholder='Item name'

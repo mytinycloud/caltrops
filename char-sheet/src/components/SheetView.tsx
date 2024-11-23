@@ -22,14 +22,15 @@ import { RollInfo, Rules, Sheet } from '../lib/rules'
  * Sheet view. Contains all other sheet displaying components.
  */
 
-function SheetView( { rules, service, editable=EditMode.Live }: {
+function SheetView( { rules, sheetService, editable=EditMode.Live }: {
     rules: Rules,
-    service: ObjectService,
+    sheetService: ObjectService,
     editable?: EditMode
   }): JSX.Element {
 
   const [roll, setRoll] = useState({} as RollInfo)
-  const sheet: Sheet = service.subscribe()
+  const rollService = new ObjectService(roll, setRoll)
+  const sheet: Sheet = sheetService.subscribe()
 
   return (
     <div className='flex flex-wrap justify-center flex-row gap-4 basis-full p-4 scrollbar scrollbar-neutral'>
@@ -37,21 +38,20 @@ function SheetView( { rules, service, editable=EditMode.Live }: {
         {/* Info & Attributes */}
         <section className='flex gap-4 flex-col'>
           <InfoTable
-            service={service.child('info')}
+            service={sheetService.child('info')}
             editable={editable}
           />
           <CurrencyTable
             currencies={rules.currency}
-            service={service.child('currency')}
+            service={sheetService.child('currency')}
             editable={editable}
           />
           <AttributeTable
             rules={rules}
             level={sheet.info.level}
-            service={service.child('attributes')}
+            service={sheetService.child('attributes')}
             editable={editable}
-            roll={roll}
-            setRoll={setRoll}
+            rollService={rollService}
           />
         </section>
 
@@ -59,11 +59,10 @@ function SheetView( { rules, service, editable=EditMode.Live }: {
         <section className='flex gap-4 flex-col'>
           <SkillTable
             skills={rules.skills}
-            service={service.child('skills')}
+            service={sheetService.child('skills')}
             maxCostTotal={caltrops.skillCostMax(rules, sheet.info.level)}
             editable={editable}
-            roll={roll}
-            setRoll={setRoll}
+            rollService={rollService}
           />
         </section>
         
@@ -74,7 +73,7 @@ function SheetView( { rules, service, editable=EditMode.Live }: {
             return <EquipmentTable
               equipment={rules.equipment}
               container={container}
-              service={service.navigate(['equipment', container.name])}
+              service={sheetService.navigate(['equipment', container.name])}
               editable={editable}
               key={`equipment-${container.name}-table`}
           />
@@ -91,7 +90,7 @@ function SheetView( { rules, service, editable=EditMode.Live }: {
               <PowerTable
                 powers={availablePowers}
                 skillScores={sheet.skills}
-                service={service.child('powers')}
+                service={sheetService.child('powers')}
                 editable={editable}
                 key='power-table'
               /> :
@@ -102,7 +101,7 @@ function SheetView( { rules, service, editable=EditMode.Live }: {
             return rules.wounds.map( w =>
             <WoundTable
               key={w.name}
-              service={service.navigate(['wounds', w.name])}
+              service={sheetService.navigate(['wounds', w.name])}
               container={w}
               woundSizeLimit={rules.woundSizeLimit}
               editable={editable}
@@ -114,14 +113,13 @@ function SheetView( { rules, service, editable=EditMode.Live }: {
         {/* Notes */}
         <section className='flex gap-4 flex-col'>
           <NotesTable
-            service={service.child('notes')}
+            service={sheetService.child('notes')}
             editable={editable}
           />
         </section>
 
         <RollCreateModal
-          roll={roll}
-          setRoll={setRoll}
+          rollService={rollService}
           useAspects={rules.useAspects}
           attributes={rules.attributes}
           scores={sheet.attributes}

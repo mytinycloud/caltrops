@@ -157,7 +157,7 @@ function MainPage(): JSX.Element {
           sheet ?
           <SheetView
             rules={rules}
-            service={new ObjectService(sheet, editSheet)}
+            sheetService={new ObjectService(sheet, editSheet)}
             editable={editable}
           /> :
           <LoadingSpinner size={100}/>

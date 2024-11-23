@@ -2,19 +2,18 @@
 import PointEntryBox from './PointEntryBox'
 
 // Internal imports
-import { modifyObject, EditMode } from '../lib/util'
+import { EditMode } from '../lib/util'
 import caltrops from '../lib/caltrops'
-import { Skill, Dictionary, RollInfo } from '../lib/rules'
+import { Skill, Dictionary } from '../lib/rules'
 import ObjectService from '../lib/objectservice'
 
 
-function SkillTable({skills, service, maxCostTotal, editable = EditMode.Live, roll, setRoll}: {
+function SkillTable({skills, service, maxCostTotal, editable = EditMode.Live, rollService}: {
     skills: Skill[],
     service: ObjectService,
     maxCostTotal: number,
     editable?: EditMode,
-    roll: RollInfo,
-    setRoll(info: RollInfo): void,
+    rollService: ObjectService,
   }): JSX.Element {
 
   const scores: Dictionary<number> = service.subscribe()
@@ -22,10 +21,10 @@ function SkillTable({skills, service, maxCostTotal, editable = EditMode.Live, ro
   const sparePoints = maxCostTotal - totalCost;
 
   function startRoll(skill: string): void {
-    setRoll( modifyObject( roll, "skill", {
+    rollService.set_key("skill", {
       name: skill,
       score: scores[skill] ?? 0,
-    }))
+    })
   }
 
   if (editable !== EditMode.Full) {

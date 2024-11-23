@@ -42,21 +42,28 @@ class ObjectService {
     // Note: If we plant to rely on memoization, then we should replace all modified objects - treating them as immutable.
     // Replaces the referenced object with a new object, then invokes the setter (republishing the root)
     publish(obj: any) {
-        // Traverse the object
-        let node = this.root_obj
-        for (let i = 0; i < this.path.length - 1; i++) {
-            let child = node[this.path[i]]
-            // We may be referencing a branch that doesnt exist. Build it as we go.
-            if (child === undefined) {
-                child = {}
-                node[this.path[i]] = child
+        const path_length = this.path.length
+        if (path_length)
+        {
+            // Traverse the object
+            let node = this.root_obj
+            for (let i = 0; i < path_length - 1; i++) {
+                let child = node[this.path[i]]
+                // We may be referencing a branch that doesnt exist. Build it as we go.
+                if (child === undefined) {
+                    child = {}
+                    node[this.path[i]] = child
+                }
+                node = child
             }
-            node = child
+            // Set the final item
+            node[this.path[path_length - 1]] = obj
+            // Notify subscribers. The object must be regenerated, otherwise react ignores the change.
+            this.setter( { ...this.root_obj } )
         }
-        // Set the final item
-        node[this.path[this.path.length - 1]] = obj
-        // Notify subscribers. The object must be regenerated, otherwise react ignores the change.
-        this.setter( { ...this.root_obj } )
+        else {
+            this.setter( { ...obj} )
+        }
     }
 
     // Sets a key in the targeted object

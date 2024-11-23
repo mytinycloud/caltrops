@@ -12,13 +12,6 @@ export enum EditMode {
   Full = 2,
 }
 
-/*
- * Returns a new object by cloning the source object and then inserting the specified key
- */
-export function modifyObject<t>(obj: t, key: string, value: any): t {
-    return { ...obj, [key]: value }
-}
-
 export function downloadObject(obj: any, filename: string, pretty: boolean = false) {
     // Could instead look at https://github.com/eligrey/FileSaver.js
 

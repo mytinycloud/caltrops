@@ -8,26 +8,27 @@ import ActionModal, {ModalActionInfo} from './ActionModal'
 import { Attribute, RollInfo, Dictionary } from '../lib/rules'
 import PointEntryBox from './PointEntryBox';
 import caltrops from '../lib/caltrops';
-import { modifyObject, chunkArray } from '../lib/util';
+import { chunkArray } from '../lib/util';
+import ObjectService from '../lib/objectservice';
 import foundry from '../lib/foundry';
 
 
-function RollCreateModal({attributes, scores, useAspects, roll, setRoll}: {
+function RollCreateModal({attributes, scores, useAspects, rollService}: {
     attributes: Attribute[],
     scores: Dictionary<number>,
     useAspects: boolean,
-    roll: RollInfo,
-    setRoll(roll: RollInfo): void,
+    rollService: ObjectService,
   }): JSX.Element | null {
 
   const [result, setResult] = useState(null as number[] | null)
 
-  if (roll == null || !roll.skill) {
+  const roll: RollInfo = rollService.subscribe()
+  if (!roll.skill) {
     return null
   }
 
   function closeModal() {
-    setRoll({})
+    rollService.publish({})
     setResult(null)
   }
 
@@ -80,15 +81,11 @@ function RollCreateModal({attributes, scores, useAspects, roll, setRoll}: {
 
   } else {
 
-    function setBonus(bonus: number): void {
-      setRoll(modifyObject(roll, 'bonus', bonus))
-    }
-  
     function setAttribute(name: string, score: number): void {
-      setRoll(modifyObject(roll, 'attribute', {
+      rollService.set_key('attribute', {
         name: name,
         score: score,
-      }))
+      })
     }
   
     function rollDiceLocal() {
@@ -168,7 +165,7 @@ function RollCreateModal({attributes, scores, useAspects, roll, setRoll}: {
       </label>
       <PointEntryBox
         value={roll.bonus ?? 0}
-        setValue={setBonus}
+        setValue={v => rollService.set_key('bonus', v)}
         min={-9}
         max={9}
       />

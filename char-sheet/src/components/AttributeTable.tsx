@@ -4,18 +4,17 @@ import PointEntryBox from './PointEntryBox'
 // Internal imports
 import caltrops from '../lib/caltrops'
 import ObjectService from '../lib/objectservice'
-import { modifyObject, EditMode } from '../lib/util'
+import { EditMode } from '../lib/util'
 import { Dictionary, RollInfo, Rules } from '../lib/rules'
 
 
 
-function AspectTable({rules, level, service, editable, roll, setRoll}: {
+function AspectTable({rules, level, service, editable, rollService}: {
     rules: Rules,
     level: number,
     service: ObjectService,
     editable: EditMode,
-    roll: RollInfo,
-    setRoll(roll: RollInfo): void,
+    rollService: ObjectService,
   }): JSX.Element {
 
   const scores: Dictionary<number> = service.subscribe()
@@ -29,15 +28,12 @@ function AspectTable({rules, level, service, editable, roll, setRoll}: {
   const attributeMax = caltrops.attributeMax(rules, level)
   const aspectTotalMax = caltrops.aspectTotalMax(rules, level)
 
-  function selectAspect(aspect: string) {
-    setRoll(modifyObject(roll, "attribute", {
-      name: aspect,
-      score: scores[aspect] ?? 0
-    }))
-  }
+  const roll = rollService.subscribe()
 
-  function clearAspect() {
-    setRoll(modifyObject(roll, "attribute", null))
+  function selectRollAspect(aspect: string, selected: boolean) {
+    rollService.set_key( "attribute", selected ? null : {
+      name: aspect, score: scores[aspect] ?? 0
+    })
   }
 
   return (
@@ -81,7 +77,7 @@ function AspectTable({rules, level, service, editable, roll, setRoll}: {
                       return <tr 
                           className={ 'hover cursor-pointer'}
                           key={aspect.name}
-                          onClick={() => selected ? clearAspect() : selectAspect(aspect.name)}
+                          onClick={() => selectRollAspect(aspect.name, selected)}
                           >
                         <td className={`w-24 ${bg}`}>{aspect.name}</td>
                         <td className={bg}><PointEntryBox
@@ -115,13 +111,12 @@ function AspectTable({rules, level, service, editable, roll, setRoll}: {
 }
 
 
-function AttributeOnlyTable({rules, level, service, editable, roll, setRoll}: {
+function AttributeOnlyTable({rules, level, service, editable, rollService}: {
   rules: Rules,
   level: number,
   service: ObjectService,
   editable: EditMode,
-  roll: RollInfo,
-  setRoll(roll: RollInfo): void,
+  rollService: ObjectService,
 }): JSX.Element {
 
   const scores: Dictionary<number> = service.subscribe()
@@ -132,16 +127,12 @@ function AttributeOnlyTable({rules, level, service, editable, roll, setRoll}: {
   const attributeTotalMax = caltrops.attributeTotalMax(rules, level)
   const attributeMax = caltrops.attributeMax(rules, level)
 
+  const roll: RollInfo = rollService.subscribe()
 
-  function selectAspect(aspect: string) {
-    setRoll(modifyObject(roll, "attribute", {
-      name: aspect,
-      score: scores[aspect] ?? 0
-    }))
-  }
-
-  function clearAspect() {
-    setRoll(modifyObject(roll, "attribute", null))
+  function selectRollAttribute(attribute: string, selected: boolean) {
+    rollService.set_key( "attribute", selected ? null : {
+      name: attribute, score: scores[attribute] ?? 0
+    })
   }
 
   return (
@@ -160,7 +151,7 @@ function AttributeOnlyTable({rules, level, service, editable, roll, setRoll}: {
             const selected = attribute.name === roll.attribute?.name
             const bg = selected ? "bg-base-200" : ""
             return <tr className='hover cursor-pointer'
-              onClick={() => selected ? clearAspect() : selectAspect(attribute.name)}
+              onClick={() => selectRollAttribute(attribute.name, selected) }
               key={attribute.name}
               >
               <td className={bg}>{attribute.name}</td>
@@ -190,13 +181,12 @@ function AttributeOnlyTable({rules, level, service, editable, roll, setRoll}: {
   )
 }
 
-function AttributeTable({rules, level, service, editable=EditMode.Live, roll, setRoll}: {
+function AttributeTable({rules, level, service, editable=EditMode.Live, rollService}: {
     rules: Rules,
     level: number,
     service: ObjectService,
     editable?: EditMode,
-    roll: RollInfo,
-    setRoll(roll: RollInfo): void,
+    rollService: ObjectService,
   }): JSX.Element {
   
     if (rules.useAspects) {
@@ -205,8 +195,7 @@ function AttributeTable({rules, level, service, editable=EditMode.Live, roll, se
         level: level,
         service: service,
         editable: editable,
-        roll: roll,
-        setRoll: setRoll,
+        rollService: rollService,
       } )
     } else {
       return AttributeOnlyTable( {
@@ -214,8 +203,7 @@ function AttributeTable({rules, level, service, editable=EditMode.Live, roll, se
         level: level,
         service: service,
         editable: editable,
-        roll: roll,
-        setRoll: setRoll,
+        rollService: rollService,
       } )
     }
 }
