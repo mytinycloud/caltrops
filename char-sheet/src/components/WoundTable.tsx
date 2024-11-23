@@ -5,7 +5,8 @@ import { useState } from 'react'
 import IconButton from './IconButton'
 import NewWoundModal from './NewWoundModal'
 import ActionModal from './ActionModal'
-import { ImHeartBroken, ImHeart } from 'react-icons/im'
+import { ImHeartBroken, ImHeart, ImCross } from 'react-icons/im'
+import { PiSkullFill, PiWarningFill } from 'react-icons/pi'
 
 // Internal imports
 import caltrops from '../lib/caltrops'
@@ -28,7 +29,7 @@ function WoundTable( {service, container, woundSizeLimit=2, editable=EditMode.Li
   function treatWound(success: boolean) {
     let index = selected
     let wound = caltrops.woundTreat(wounds[index], success)
-    if (wound == null) {
+    if (wound === null) {
       service.remove_index(index)
     }
     else{
@@ -36,10 +37,21 @@ function WoundTable( {service, container, woundSizeLimit=2, editable=EditMode.Li
     }
   }
 
-  const woundTotal = caltrops.woundTotal(wounds)
+  const status = caltrops.woundStatus(wounds, container)
 
   return (
-    <div>
+    <div className='relative'>
+      {
+        (status.isUnconcious) ? 
+          <div className='absolute w-full h-full z-20 grid place-items-center pointer-events-none'>
+            { status.isDead
+              ? <PiSkullFill size={150} color='hsl(var(--er))' className='opacity-50'></PiSkullFill>
+              : <PiWarningFill size={150} color='hsl(var(--wa))' className='opacity-15'></PiWarningFill>
+            }
+          </div>
+        : null
+      }
+
       <table className="table table-compact w-64">
         <thead>
           <tr>
@@ -92,7 +104,7 @@ function WoundTable( {service, container, woundSizeLimit=2, editable=EditMode.Li
               <IconButton
                 icon='plus'
                 onClick={() => setNewWoundOpen(true)}
-                enabled={editable >= EditMode.Live}
+                enabled={editable >= EditMode.Live && !status.isDead}
               />
               </div>
             </th>

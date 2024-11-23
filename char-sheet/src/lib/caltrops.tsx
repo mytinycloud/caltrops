@@ -1,4 +1,4 @@
-import { Attribute, Rules, Sheet, Power, SheetWound, Dictionary, Equipment, RollInfo, Skill } from './rules'
+import { Attribute, Rules, Sheet, Power, SheetWound, Dictionary, Equipment, RollInfo, Skill, Container } from './rules'
 import RULESETS from '../data/rulesets'
 import { v4 as uuidv4 } from 'uuid';
 import { filterObject } from './util';
@@ -141,6 +141,28 @@ function woundTreat(wound: SheetWound, success: boolean): SheetWound | null {
     return {
         ...wound,
         locked: true,
+    }
+}
+
+function woundStatus(wounds: SheetWound[], body: Container): { isDead: boolean, isUnconcious: boolean } {
+    if (!body.size) {
+        return {
+            isDead: false,
+            isUnconcious: false,
+        }
+    }
+
+    let wound_total = 0
+    let locked_wounds = 0
+    for (let wound of wounds) {
+        if (wound.locked) {
+            locked_wounds += wound.size
+        }
+        wound_total += wound.size
+    }
+    return {
+        isUnconcious: wound_total >= body.size,
+        isDead: (wound_total > body.size) || (locked_wounds >= body.size)
     }
 }
 
@@ -289,6 +311,7 @@ const caltrops = {
     woundCreate: woundCreate,
     woundTotal: woundTotal,
     woundTreat: woundTreat,
+    woundStatus: woundStatus,
     loadRules: loadRules,
     listRules: listRules,
     rollDice: rollDice,
