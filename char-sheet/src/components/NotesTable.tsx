@@ -17,7 +17,7 @@ function NotesTable({service, editable=EditMode.Live}: {
       textarea.style.height = 'auto'
       textarea.style.height = `${textarea.scrollHeight}px`
     }
-  };
+  }
 
   return (
     <div>
@@ -34,19 +34,11 @@ function NotesTable({service, editable=EditMode.Live}: {
             return <tr key={i}>
               <td className='p-1 pb-0 w-full'>
                 <textarea
-                  className='textarea textarea-bordered leading-tight w-full scrollbar scrollbar-neutral p-2'
+                  className='textarea textarea-bordered leading-tight w-full overflow-hidden resize-none scrollbar-neutral p-2'
                   placeholder='Enter notes here'
                   value={note}
-                  onChange={ evt => {
-                    service.set_index(i, evt.target.value)
-                    adjustHeight(evt.target)
-                  }}
+                  onChange={ evt => {service.set_index(i, evt.target.value)}}
                   wrap='soft'
-                  style={{
-                    overflow: 'hidden',
-                    minHeight: '1em',
-                    maxHeight: '100%'
-                  }}
                   ref={(textarea) => adjustHeight(textarea)}
                   rows={1}
                   disabled={!(editable >= EditMode.Live)}
